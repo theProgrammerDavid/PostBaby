@@ -10,5 +10,11 @@ set(XP_VERSION ${XP_VERSION_MAJOR}.${XP_VERSION_MINOR} CACHE STRING "version" FO
 add_subdirectory(src)
 add_subdirectory(extern)
 
+set(GLFW_BUILD_DOCS OFF CACHE BOOL "" FORCE)
+set(GLFW_BUILD_TESTS OFF CACHE BOOL "" FORCE)
+set(GLFW_BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
+
+
+add_subdirectory("${XP_SOURCE_DIR}/ext/glfw")
 
 set(CMAKE_INSTALL_PREFIX /usr/local/bin)

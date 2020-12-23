@@ -1,37 +1,110 @@
 #include "main.hpp"
 #include "imgui.h"
+//========================================================================
+// Simple multi-window example
+// Copyright (c) Camilla Löwy <elmindreda@glfw.org>
+//
+// This software is provided 'as-is', without any express or implied
+// warranty. In no event will the authors be held liable for any damages
+// arising from the use of this software.
+//
+// Permission is granted to anyone to use this software for any purpose,
+// including commercial applications, and to alter it and redistribute it
+// freely, subject to the following restrictions:
+//
+// 1. The origin of this software must not be misrepresented; you must not
+//    claim that you wrote the original software. If you use this software
+//    in a product, an acknowledgment in the product documentation would
+//    be appreciated but is not required.
+//
+// 2. Altered source versions must be plainly marked as such, and must not
+//    be misrepresented as being the original software.
+//
+// 3. This notice may not be removed or altered from any source
+//    distribution.
+//
+//========================================================================
 
-int main()
+#include <glad/glad.h>
+#define GLFW_INCLUDE_NONE
+#include <GLFW/glfw3.h>
+
+#include <stdio.h>
+#include <stdlib.h>
+
+int main(int argc, char** argv)
 {
-    say_something();
+    int xpos, ypos, height;
+    const char* description;
+    GLFWwindow* windows[4];
 
-      IMGUI_CHECKVERSION();
-    ImGui::CreateContext();
-    ImGuiIO& io = ImGui::GetIO();
-
-    // Build atlas
-    unsigned char* tex_pixels = NULL;
-    int tex_w, tex_h;
-    io.Fonts->GetTexDataAsRGBA32(&tex_pixels, &tex_w, &tex_h);
-
-    for (int n = 0; n < 20; n++)
+    if (!glfwInit())
     {
-        printf("NewFrame() %d\n", n);
-        io.DisplaySize = ImVec2(1920, 1080);
-        io.DeltaTime = 1.0f / 60.0f;
-        ImGui::NewFrame();
-
-        static float f = 0.0f;
-        ImGui::Text("Hello, world!");
-        ImGui::SliderFloat("float", &f, 0.0f, 1.0f);
-        ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / io.Framerate, io.Framerate);
-        ImGui::ShowDemoWindow(NULL);
-
-        ImGui::Render();
+        glfwGetError(&description);
+        printf("Error: %s\n", description);
+        exit(EXIT_FAILURE);
     }
 
-    printf("DestroyContext()\n");
-    ImGui::DestroyContext();
-    return 0;
-    return 0;
+    glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE);
+    glfwWindowHint(GLFW_DECORATED, GLFW_FALSE);
+
+    glfwGetMonitorWorkarea(glfwGetPrimaryMonitor(), &xpos, &ypos, NULL, &height);
+
+    for (int i = 0;  i < 4;  i++)
+    {
+        const int size = height / 5;
+        const struct
+        {
+            float r, g, b;
+        } colors[] =
+        {
+            { 0.95f, 0.32f, 0.11f },
+            { 0.50f, 0.80f, 0.16f },
+            {   0.f, 0.68f, 0.94f },
+            { 0.98f, 0.74f, 0.04f }
+        };
+
+        if (i > 0)
+            glfwWindowHint(GLFW_FOCUS_ON_SHOW, GLFW_FALSE);
+
+        windows[i] = glfwCreateWindow(size, size, "Multi-Window Example", NULL, NULL);
+        if (!windows[i])
+        {
+            glfwGetError(&description);
+            printf("Error: %s\n", description);
+            glfwTerminate();
+            exit(EXIT_FAILURE);
+        }
+
+        glfwSetWindowPos(windows[i],
+                         xpos + size * (1 + (i & 1)),
+                         ypos + size * (1 + (i >> 1)));
+        glfwSetInputMode(windows[i], GLFW_STICKY_KEYS, GLFW_TRUE);
+
+        glfwMakeContextCurrent(windows[i]);
+        gladLoadGL();
+        glClearColor(colors[i].r, colors[i].g, colors[i].b, 1.f);
+    }
+
+    for (int i = 0;  i < 4;  i++)
+        glfwShowWindow(windows[i]);
+
+    for (;;)
+    {
+        for (int i = 0;  i < 4;  i++)
+        {
+            glfwMakeContextCurrent(windows[i]);
+            glClear(GL_COLOR_BUFFER_BIT);
+            glfwSwapBuffers(windows[i]);
+
+            if (glfwWindowShouldClose(windows[i]) ||
+                glfwGetKey(windows[i], GLFW_KEY_ESCAPE))
+            {
+                glfwTerminate();
+                exit(EXIT_SUCCESS);
+            }
+        }
+
+        glfwWaitEvents();
+    }
 }
