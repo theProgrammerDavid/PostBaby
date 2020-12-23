@@ -3,10 +3,6 @@ set(extern_header_path "../extern")
 
 include_directories("../include")
 
-# include_directories("../extern/glad")
-# include_directories("../extern/KHR")
-include_directories("../extern")
-
 include_directories("${XP_SOURCE_DIR}/ext/imgui")	
 file(GLOB SOURCES "*.cpp")	
 file(GLOB IMGUI_SOURCES "${XP_SOURCE_DIR}/ext/imgui/*.cpp")
