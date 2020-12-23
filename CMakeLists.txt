@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.0)
+cmake_minimum_required(VERSION 3.14)
 project(XP)
 
 
@@ -8,5 +8,7 @@ set(XP_VERSION ${XP_VERSION_MAJOR}.${XP_VERSION_MINOR} CACHE STRING "version" FO
 
 # add subdiretories
 add_subdirectory(src)
+add_subdirectory(extern)
+
 
 set(CMAKE_INSTALL_PREFIX /usr/local/bin)

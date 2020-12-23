@@ -13,6 +13,13 @@ target_include_directories(XP PUBLIC ${XP_SOURCE_DIR}/include${CMAKE_CURRENT_BIN
 
 set(CMAKE_INSTALL_PREFIX /usr/local/bin)
 
+# target_link_libraries(the_target_you_want_to_link_agains_glad
+#   PUBLIC
+#   glad
+
+#   PRIVATE
+#   ${CMAKE_DL_LIBS})
+
 install(TARGETS XP 
     RUNTIME DESTINATION ${CMAKE_INSTALL_PREFIX}
 )
