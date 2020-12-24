@@ -20,17 +20,17 @@ include_directories("${XP_SOURCE_DIR}/extern/glew/include")
 file(GLOB GLEW_SOURCES "${XP_SOURCE_DIR}/extern/glew/src")
 
 # define library target
-add_executable(XP 
+add_executable(xP 
 ${GLEW_SOURCES} 
 ${SOURCES} 
 ${IMGUI_SOURCES} 
 ${IMGUI_BACKEND}
 )
-target_include_directories(XP PUBLIC ${XP_SOURCE_DIR}/include${CMAKE_CURRENT_BINARY_DIR})
+target_include_directories(xP PUBLIC ${XP_SOURCE_DIR}/include${CMAKE_CURRENT_BINARY_DIR})
 
 set(CMAKE_INSTALL_PREFIX /usr/local/bin)
 
-target_link_libraries(XP
+target_link_libraries(xP
   PUBLIC
   glad
   glfw
@@ -40,6 +40,6 @@ target_link_libraries(XP
   ${CMAKE_DL_LIBS})
 
 
-install(TARGETS XP 
+install(TARGETS xP 
     RUNTIME DESTINATION ${CMAKE_INSTALL_PREFIX}
 )

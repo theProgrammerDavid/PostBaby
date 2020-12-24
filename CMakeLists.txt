@@ -1,6 +1,12 @@
 cmake_minimum_required(VERSION 3.14)
 project(XP)
 
+if(UNIX)
+
+find_package(X11 REQUIRED)
+
+endif()
+
 
 set(XP_VERSION_MAJOR 1 CACHE STRING "major version" FORCE)
 set(XP_VERSION_MINOR 0 CACHE STRING "minor version" FORCE)
