@@ -1,5 +1,5 @@
-# set headers
-set(extern_header_path "../extern")
+find_package(OpenGL REQUIRED)
+include_directories( ${OPENGL_INCLUDE_DIRS}  )
 
 include_directories("../include")
 
@@ -8,9 +8,24 @@ file(GLOB SOURCES "*.cpp")
 file(GLOB IMGUI_SOURCES "${XP_SOURCE_DIR}/ext/imgui/*.cpp")
 # configure config.hpp.in
 configure_file("config.hpp.in" "${CMAKE_CURRENT_BINARY_DIR}/config_impl.hpp")
+include_directories("${XP_SOURCE_DIR}/ext/imgui/backends")
+file(GLOB IMGUI_BACKEND "${XP_SOURCE_DIR}/ext/imgui/backends/imgui_impl_glfw.cpp" "${XP_SOURCE_DIR}/ext/imgui/backends/imgui_impl_opengl3.cpp")
+
+# gl3w
+# include_directories("${XP_SOURCE_DIR}/ext/imgui/examples/libs/gl3w")
+# file(GLOB GL3W_SOURCE "${XP_SOURCE_DIR}/ext/imgui/examples/libs/gl3w/GL/gl3w.c")
+
+#glew
+include_directories("${XP_SOURCE_DIR}/extern/glew/include")	
+file(GLOB GLEW_SOURCES "${XP_SOURCE_DIR}/extern/glew/src")
 
 # define library target
-add_executable(XP ${SOURCES} ${IMGUI_SOURCES})
+add_executable(XP 
+${GLEW_SOURCES} 
+${SOURCES} 
+${IMGUI_SOURCES} 
+${IMGUI_BACKEND}
+)
 target_include_directories(XP PUBLIC ${XP_SOURCE_DIR}/include${CMAKE_CURRENT_BINARY_DIR})
 
 set(CMAKE_INSTALL_PREFIX /usr/local/bin)
@@ -19,6 +34,8 @@ target_link_libraries(XP
   PUBLIC
   glad
   glfw
+  ${OPENGL_LIBRARIES}
+  glew
   PRIVATE
   ${CMAKE_DL_LIBS})
 

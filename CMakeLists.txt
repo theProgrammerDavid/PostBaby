@@ -16,5 +16,5 @@ set(GLFW_BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
 
 
 add_subdirectory("${XP_SOURCE_DIR}/ext/glfw")
-
+add_subdirectory("${XP_SOURCE_DIR}/ext/glew-cmake/build/cmake")
 set(CMAKE_INSTALL_PREFIX /usr/local/bin)
