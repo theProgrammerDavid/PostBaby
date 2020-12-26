@@ -5,7 +5,8 @@
 #include "imgui.h"
 #include "tab.hpp"
 #include "constants.hpp"
-#include "threadPool.hpp"
+#include "ThreadPool.h"
+
 
 extern Constants *constants;
 

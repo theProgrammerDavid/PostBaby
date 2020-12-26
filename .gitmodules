@@ -7,3 +7,6 @@
 [submodule "ext/glew-cmake"]
 	path = ext/glew-cmake
 	url = https://github.com/Perlmint/glew-cmake.git
+[submodule "ext/ThreadPool"]
+	path = ext/ThreadPool
+	url = https://github.com/progschj/ThreadPool.git
