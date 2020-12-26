@@ -1,6 +1,7 @@
 cmake_minimum_required(VERSION 3.14 FATAL_ERROR)
 # Multi-Language Vulkan/GL/GLES/EGL/GLX/WGL Loader-Generator based on
 # the official specs. http://glad.dav1d.de/
+#https://github.com/Dav1dde/glad/issues/174
 include(FetchContent)
 
 
