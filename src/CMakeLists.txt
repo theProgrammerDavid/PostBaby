@@ -3,6 +3,13 @@ include_directories( ${OPENGL_INCLUDE_DIRS}  )
 
 include_directories("../include")
 
+# set application icon
+if (WIN32)
+    set(ICON "${XP_SOURCE_DIR}/assets/xP.ico")
+elseif (APPLE)
+    set(ICON "${XP_SOURCE_DIR}/assets/xP.ico")
+endif()
+
 include_directories("${XP_SOURCE_DIR}/ext/imgui")	
 file(GLOB SOURCES "*.cpp")	
 file(GLOB IMGUI_SOURCES "${XP_SOURCE_DIR}/ext/imgui/*.cpp")
@@ -21,6 +28,7 @@ file(GLOB GLEW_SOURCES "${XP_SOURCE_DIR}/extern/glew/src")
 
 # define library target
 add_executable(xP 
+${ICON}
 ${GLEW_SOURCES} 
 ${SOURCES} 
 ${IMGUI_SOURCES} 
