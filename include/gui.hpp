@@ -22,6 +22,8 @@ private:
     void workspaceArea();
     void settingsArea();
     void workspaceBar();
+    
+    void centerModal();
 
     void settingsPopup();
 
