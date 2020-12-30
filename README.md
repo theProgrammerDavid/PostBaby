@@ -11,6 +11,11 @@ C++ native app to test HTTP endpoints
 sudo apt-get install libx11-dev xorg-dev libglu1-mesa-dev
 ```
 
+* Windows systems need the Visual Studio environment setup with the necessary files for C++ development. If required, you need to run 
+```powershell
+vcvarsall.bat x64
+```
+
 ### Get Started
 - This project contains submodules, so clone recursively
 ```bash
