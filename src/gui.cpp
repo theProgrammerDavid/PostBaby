@@ -13,6 +13,33 @@ GUI::GUI()
 void GUI::responseArea()
 {
     ImGui::Begin("Response");
+
+    if (ImGui::BeginTabBar("ResponseBar"))
+    {
+        if (ImGui::BeginTabItem("Body"))
+        {
+
+            ImGui::EndTabItem();
+        }
+        if (ImGui::BeginTabItem("Headers"))
+        {
+
+            ImGui::EndTabItem();
+        }
+        if (ImGui::BeginTabItem("Cookies"))
+        {
+
+            ImGui::EndTabItem();
+        }
+        if (ImGui::BeginTabItem("Test Results"))
+        {
+
+            ImGui::EndTabItem();
+        }
+
+        ImGui::EndTabBar();
+    }
+
     ImGui::TextWrapped("%s", active_response.c_str());
     ImGui::End();
 }
@@ -37,6 +64,9 @@ void GUI::settingsPopup()
         ImGui::Text("Changes will be saved automatically");
         ImGui::Separator();
 
+        ImGui::InputInt("URL Max Size", &constants->MAX_URL_SIZE);
+
+        ImGui::Separator();
         if (ImGui::Button("OK", ImVec2(120, 0)))
         {
             ImGui::CloseCurrentPopup();
@@ -94,7 +124,7 @@ void GUI::workspaceArea()
 
     ImGui::SameLine();
 
-    if (ImGui::BeginTabBar("MyTabBar"))
+    if (ImGui::BeginTabBar("TabItem"))
     {
         for (int n = 0; n < tabs.size(); n++)
             if (ImGui::BeginTabItem(tabs.at(n).title.c_str(), &tabs.at(n).isOpen, ImGuiTabItemFlags_None))
@@ -105,6 +135,42 @@ void GUI::workspaceArea()
                 if (ImGui::Button("Send"))
                 {
                 }
+
+                if (ImGui::BeginTabBar("TabItemConfig"))
+                {
+
+                    if (ImGui::BeginTabItem("Params"))
+                    {
+                        ImGui::EndTabItem();
+                    }
+                    if (ImGui::BeginTabItem("Authorization"))
+                    {
+                        ImGui::EndTabItem();
+                    }
+                    if (ImGui::BeginTabItem("Headers"))
+                    {
+                        ImGui::EndTabItem();
+                    }
+                    if (ImGui::BeginTabItem("Body"))
+                    {
+                        ImGui::EndTabItem();
+                    }
+                    if (ImGui::BeginTabItem("Pre-Request Script"))
+                    {
+                        ImGui::EndTabItem();
+                    }
+                    if (ImGui::BeginTabItem("Tests"))
+                    {
+                        ImGui::EndTabItem();
+                    }
+                    if (ImGui::BeginTabItem("Settings"))
+                    {
+                        ImGui::EndTabItem();
+                    }
+
+                    ImGui::EndTabBar();
+                }
+
                 ImGui::EndTabItem();
             }
         ImGui::EndTabBar();
