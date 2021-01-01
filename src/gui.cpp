@@ -107,12 +107,144 @@ void GUI::settingsArea()
 
 void GUI::render()
 {
-    pool.enqueue(&GUI::responseArea, this).get();
+    // Main Workspace
+    ImGui::BeginGroup();
+
+    // Left Vertical
+    ImGui::BeginGroup();
+    {
+        if (ImGui::Button("+", ImVec2(20, 20)))
+        {
+            Tab t;
+            tabs.push_back(t);
+        }
+        // ImGui::Separator();
+        ImGui::SameLine();
+
+        if (ImGui::BeginTabBar("TabItem"))
+        {
+
+            for (size_t n = 0; n < tabs.size(); n++)
+            {
+                if (ImGui::BeginTabItem(tabs.at(n).title.c_str(), &tabs.at(n).isOpen, ImGuiTabItemFlags_None))
+                {
+                    active_tab = n;
+                    ImGui::InputText("URL", (char *)tabs.at(n).getUrl(), constants->MAX_URL_SIZE);
+                    ImGui::SameLine();
+                    if (ImGui::Button("Send"))
+                    {
+                    }
+
+                    if (ImGui::BeginTabBar("TabItemConfig"))
+                    {
+
+                        if (ImGui::BeginTabItem("Params"))
+                        {
+                            ImGui::Text("Params go here");
+
+                            if (ImGui::BeginTable("##table1", 3))
+                            {
+                                // Display headers so we can inspect their interaction with borders.
+                                // (Headers are not the main purpose of this section of the demo, so we are not elaborating on them too much. See other sections for details)
+
+                                ImGui::TableSetupColumn("One");
+                                ImGui::TableSetupColumn("Two");
+                                ImGui::TableSetupColumn("Three");
+                                ImGui::TableHeadersRow();
+
+                                for (int row = 0; row < 5; row++)
+                                {
+                                    ImGui::TableNextRow();
+                                    for (int column = 0; column < 3; column++)
+                                    {
+                                        ImGui::TableSetColumnIndex(column);
+                                        char buf[32];
+                                        sprintf(buf, "Hello %d,%d", column, row);
+                                        // if (contents_type == CT_Text)
+                                        ImGui::TextUnformatted(buf);
+                                        ImGui::Separator();
+                                        // else if (contents_type)
+                                        // ImGui::Button(buf, ImVec2(-FLT_MIN, 0.0f));
+                                    }
+                                }
+                                ImGui::EndTable();
+                            }
+                            ImGui::EndTabItem();
+                        }
+                        if (ImGui::BeginTabItem("Authorization"))
+                        {
+                            ImGui::Text("Authorization goes here");
+                            ImGui::EndTabItem();
+                        }
+                        if (ImGui::BeginTabItem("Headers"))
+                        {
+                            ImGui::Text("headers go here");
+                            ImGui::EndTabItem();
+                        }
+                        if (ImGui::BeginTabItem("Body"))
+                        {
+                            ImGui::Text("Body goes here");
+                            ImGui::EndTabItem();
+                        }
+                        if (ImGui::BeginTabItem("Pre-Request Script"))
+                        {
+                            ImGui::Text("Pre-Requests Script goes here");
+                            ImGui::EndTabItem();
+                        }
+                        if (ImGui::BeginTabItem("Tests"))
+                        {
+                            ImGui::Text("Tests go here");
+                            ImGui::EndTabItem();
+                        }
+                        if (ImGui::BeginTabItem("Settings"))
+                        {
+                            ImGui::Text("Settings go here");
+                            ImGui::EndTabItem();
+                        }
+
+                        ImGui::EndTabBar();
+                    }
+
+                    ImGui::EndTabItem();
+                }
+
+                if (!tabs.at(n).isOpen)
+                {
+                    tabs.erase(tabs.begin() + n);
+                }
+            }
+            ImGui::EndTabBar();
+        }
+    }
+    ImGui::EndGroup();
+    
+    ImGui::SameLine();
+    // Right Vertical
+    ImGui::BeginGroup();
+    {
+        if (ImGui::Button("Preferences"))
+        {
+            ImGui::OpenPopup("Edit Preferences");
+        }
+        auto f_settings_popup = pool.enqueue(&GUI::settingsPopup, this);
+        // settingsPopup();
+
+        if (ImGui::Button("History"))
+        {
+        }
+
+        f_settings_popup.get();
+    }
+    ImGui::EndGroup();
+
+    ImGui::EndGroup();
+
+    // pool.enqueue(&GUI::responseArea, this).get();
 
     // responseArea();
-    workspaceBar();
-    workspaceArea();
-    settingsArea();
+    // workspaceBar();
+    // workspaceArea();
+    // settingsArea();
     // t.get();
     // for(int i=0;i<waiters.size();i++){
     // waiters.at(i).get();
@@ -121,12 +253,19 @@ void GUI::render()
 void GUI::workspaceArea()
 {
     ImGui::Begin("Workspace");
-
+    if (ImGui::Button("+", ImVec2(20, 20)))
+    {
+        Tab t;
+        tabs.push_back(t);
+    }
+    // ImGui::Separator();
     ImGui::SameLine();
 
     if (ImGui::BeginTabBar("TabItem"))
     {
-        for (int n = 0; n < tabs.size(); n++)
+
+        for (size_t n = 0; n < tabs.size(); n++)
+        {
             if (ImGui::BeginTabItem(tabs.at(n).title.c_str(), &tabs.at(n).isOpen, ImGuiTabItemFlags_None))
             {
                 active_tab = n;
@@ -141,30 +280,65 @@ void GUI::workspaceArea()
 
                     if (ImGui::BeginTabItem("Params"))
                     {
+                        ImGui::Text("Params go here");
+
+                        if (ImGui::BeginTable("##table1", 3))
+                        {
+                            // Display headers so we can inspect their interaction with borders.
+                            // (Headers are not the main purpose of this section of the demo, so we are not elaborating on them too much. See other sections for details)
+
+                            ImGui::TableSetupColumn("One");
+                            ImGui::TableSetupColumn("Two");
+                            ImGui::TableSetupColumn("Three");
+                            ImGui::TableHeadersRow();
+
+                            for (int row = 0; row < 5; row++)
+                            {
+                                ImGui::TableNextRow();
+                                for (int column = 0; column < 3; column++)
+                                {
+                                    ImGui::TableSetColumnIndex(column);
+                                    char buf[32];
+                                    sprintf(buf, "Hello %d,%d", column, row);
+                                    // if (contents_type == CT_Text)
+                                    ImGui::TextUnformatted(buf);
+                                    ImGui::Separator();
+                                    // else if (contents_type)
+                                    // ImGui::Button(buf, ImVec2(-FLT_MIN, 0.0f));
+                                }
+                            }
+                            ImGui::EndTable();
+                        }
                         ImGui::EndTabItem();
                     }
                     if (ImGui::BeginTabItem("Authorization"))
                     {
+                        ImGui::Text("Authorization goes here");
                         ImGui::EndTabItem();
                     }
                     if (ImGui::BeginTabItem("Headers"))
                     {
+                        ImGui::Text("headers go here");
                         ImGui::EndTabItem();
                     }
                     if (ImGui::BeginTabItem("Body"))
                     {
+                        ImGui::Text("Body goes here");
                         ImGui::EndTabItem();
                     }
                     if (ImGui::BeginTabItem("Pre-Request Script"))
                     {
+                        ImGui::Text("Pre-Requests Script goes here");
                         ImGui::EndTabItem();
                     }
                     if (ImGui::BeginTabItem("Tests"))
                     {
+                        ImGui::Text("Tests go here");
                         ImGui::EndTabItem();
                     }
                     if (ImGui::BeginTabItem("Settings"))
                     {
+                        ImGui::Text("Settings go here");
                         ImGui::EndTabItem();
                     }
 
@@ -173,6 +347,12 @@ void GUI::workspaceArea()
 
                 ImGui::EndTabItem();
             }
+
+            if (!tabs.at(n).isOpen)
+            {
+                tabs.erase(tabs.begin() + n);
+            }
+        }
         ImGui::EndTabBar();
     }
 
