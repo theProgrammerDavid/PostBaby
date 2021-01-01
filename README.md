@@ -32,3 +32,10 @@ git submodule update
 
 - Create a ``build`` folder and `cd` into that, and run ``cmake ..``
 - Configuring CMake might take a while initially as it is downloading dependencies
+
+
+### Credits
+* [ImGui](https://github.com/ocornut/imgui)
+* [Glew Cmake](https://github.com/Perlmint/glew-cmake.git)
+* [GLFW](https://github.com/glfw/glfw.git)
+* [C++ ThreadPool](https://github.com/progschj/ThreadPool.git)
