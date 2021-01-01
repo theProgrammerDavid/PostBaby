@@ -18,11 +18,12 @@ private:
     int active_tab;
     std::string active_response;
 
+    ImGuiTableFlags workspaceTableFlags;
+
     void responseArea();
     void workspaceArea();
-    void settingsArea();
     void workspaceBar();
-    
+    void tabConfig();
     void centerModal();
 
     void settingsPopup();
