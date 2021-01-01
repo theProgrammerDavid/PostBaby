@@ -211,5 +211,4 @@ void GUI::workspaceArea()
         }
         ImGui::EndTabBar();
     }
-    
 }

@@ -1,24 +1,36 @@
 #include "main.hpp"
 
-
-int main(int, char**)
+int main(int, char **)
 {
     // Setup window
     glfwSetErrorCallback(glfw_error_callback);
     if (!glfwInit())
         return 1;
-
+    float highDPIscaleFactor = 1.0;
     // Decide GL+GLSL versions
 #ifdef __APPLE__
     // GL 3.2 + GLSL 150
-    const char* glsl_version = "#version 150";
+    const char *glsl_version = "#version 150";
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 2);
-    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);  // 3.2+ only
-    glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);            // Required on Mac
+    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE); // 3.2+ only
+    glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);           // Required on Mac
+    // TODO: Test on Mac
+    glfwWindowHint(GLFW_COCOA_RETINA_FRAMEBUFFER, GLFW_FALSE);
+#elif _WIN32
+    // TODO: Test on Windows
+    GLFWmonitor *monitor = glfwGetPrimaryMonitor();
+    float xscale, yscale;
+    glfwGetMonitorContentScale(monitor, &xscale, &yscale);
+    if (xscale > 1 || yscale > 1)
+    {
+        highDPIscaleFactor = xscale;
+        glfwWindowHint(GLFW_SCALE_TO_MONITOR, GLFW_TRUE);
+    }
+
 #else
     // GL 3.0 + GLSL 130
-    const char* glsl_version = "#version 130";
+    const char *glsl_version = "#version 130";
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
     //glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);  // 3.2+ only
@@ -26,7 +38,7 @@ int main(int, char**)
 #endif
 
     // Create window with graphics context
-    GLFWwindow* window = glfwCreateWindow(1280, 720, "xP", NULL, NULL);
+    GLFWwindow *window = glfwCreateWindow(1280, 720, "xP", NULL, NULL);
     if (window == NULL)
         return 1;
     glfwMakeContextCurrent(window);
@@ -46,7 +58,7 @@ int main(int, char**)
     glbinding::Binding::initialize();
 #elif defined(IMGUI_IMPL_OPENGL_LOADER_GLBINDING3)
     bool err = false;
-    glbinding::initialize([](const char* name) { return (glbinding::ProcAddress)glfwGetProcAddress(name); });
+    glbinding::initialize([](const char *name) { return (glbinding::ProcAddress)glfwGetProcAddress(name); });
 #else
     bool err = false; // If you use IMGUI_IMPL_OPENGL_LOADER_CUSTOM, your loader is likely to requires some form of initialization.
 #endif
@@ -59,8 +71,9 @@ int main(int, char**)
     // Setup Dear ImGui context
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
-    ImGuiIO& io = ImGui::GetIO(); (void)io;
-    io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
+    ImGuiIO &io = ImGui::GetIO();
+    (void)io;
+    io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard; // Enable Keyboard Controls
     //io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
 
     // Setup Dear ImGui style
@@ -79,8 +92,10 @@ int main(int, char**)
     // - Read 'docs/FONTS.md' for more instructions and details.
     // - Remember that in C/C++ if you want to include a backslash \ in a string literal you need to write a double backslash \\ !
     // io.Fonts->AddFontDefault();
+    ImGuiStyle &style = ImGui::GetStyle();
+    style.ScaleAllSizes(highDPIscaleFactor);
 
-    io.Fonts->AddFontFromFileTTF("/usr/share/fonts/truetype/freefont/FreeMonoBold.ttf", 16.0f);
+    io.Fonts->AddFontFromFileTTF("/usr/share/fonts/truetype/freefont/FreeMonoBold.ttf", 16.0f * highDPIscaleFactor, NULL, NULL);
 
     //io.Fonts->AddFontFromFileTTF("../../misc/fonts/Roboto-Medium.ttf", 16.0f);
     //io.Fonts->AddFontFromFileTTF("../../misc/fonts/Cousine-Regular.ttf", 15.0f);
@@ -105,7 +120,6 @@ int main(int, char**)
         // Generally you may always pass all inputs to dear imgui, and hide them from your application based on those two flags.
         glfwPollEvents();
 
-
         // Start the Dear ImGui frame
         ImGui_ImplOpenGL3_NewFrame();
         ImGui_ImplGlfw_NewFrame();
@@ -113,10 +127,9 @@ int main(int, char**)
 
         // 1. Show the big demo window (Most of the sample code is in ImGui::ShowDemoWindow()! You can browse its code to learn more about Dear ImGui!).
         // if (show_demo_window)
-            ImGui::ShowDemoWindow(&show_demo_window);
+        ImGui::ShowDemoWindow(&show_demo_window);
 
         gui.render();
-        
 
         // Rendering
         ImGui::Render();
