@@ -21,6 +21,6 @@ public:
     const char *getTitle();
     const char *getUrl();
     const char *getResponse();
-
+    int current_http_method;
     Tab();
 };

@@ -2,7 +2,7 @@
 
 GUI::GUI()
 {
-    workspaceTableFlags = ImGuiTableFlags_RowBg | ImGuiTableFlags_Borders;
+    workspaceTableFlags = ImGuiTableFlags_RowBg | ImGuiTableFlags_Borders | ImGuiTableFlags_BordersV | ImGuiTableFlags_Resizable;
     active_tab = 0;
     active_response = "If no fonts are loaded, dear imgui will use the default font. You can also load multiple fonts and use ImGui::PushFont()/PopFont() to select them";
     Tab t;
@@ -95,26 +95,32 @@ void GUI::tabConfig()
 {
     if (ImGui::BeginTabBar("TabItemConfig"))
     {
-
+        static bool x = false;
         if (ImGui::BeginTabItem("Params"))
         {
-            if (ImGui::BeginTable("##table1", 3, workspaceTableFlags))
+            if (ImGui::BeginTable("##table1", 4, workspaceTableFlags))
             {
-                ImGui::TableSetupColumn("One");
-                ImGui::TableSetupColumn("Two");
-                ImGui::TableSetupColumn("Three");
+                ImGui::TableSetupColumn("Use");
+                ImGui::TableSetupColumn("Key");
+                ImGui::TableSetupColumn("Value");
+                ImGui::TableSetupColumn("Description");
                 ImGui::TableHeadersRow();
 
                 for (int row = 0; row < 5; row++)
                 {
                     ImGui::TableNextRow();
-                    for (int column = 0; column < 3; column++)
+                    ImGui::TableSetColumnIndex(0);
+                    ImGui::PushID(row);
+                    ImGui::Checkbox("", &x);
+                    ImGui::PopID();
+
+                    for (int column = 1; column < 4; column++)
                     {
                         ImGui::TableSetColumnIndex(column);
                         char buf[32];
                         sprintf(buf, "Hello %d,%d", column, row);
                         ImGui::TextUnformatted(buf);
-                        ImGui::Separator();
+                        // ImGui::Separator();
                     }
                 }
                 ImGui::EndTable();
@@ -194,6 +200,10 @@ void GUI::workspaceArea()
             if (ImGui::BeginTabItem(tabs.at(n).title.c_str(), &tabs.at(n).isOpen, ImGuiTabItemFlags_None))
             {
                 active_tab = n;
+                ImGui::Text("Method"); ImGui::SameLine();
+                ImGui::SetNextItemWidth(100);
+                ImGui::Combo("", &tabs.at(n).current_http_method, constants->request_type, IM_ARRAYSIZE(constants->request_type));
+                ImGui::SameLine();
                 ImGui::InputText("URL", (char *)tabs.at(n).getUrl(), constants->MAX_URL_SIZE);
                 ImGui::SameLine();
                 if (ImGui::Button("Send"))

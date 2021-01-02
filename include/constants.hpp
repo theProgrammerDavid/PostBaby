@@ -14,6 +14,8 @@ class Constants
 
     public:
         int MAX_URL_SIZE;
+        const char *request_type[6] = {"GET", "POST", "PUT", "DELETE", "HEAD", "OPTIONS"};
+
         /* Static access method. */
         static Constants* getInstance();
 };

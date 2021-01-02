@@ -22,4 +22,5 @@ Tab::Tab()
     this->url = "http://localhost:1234/api";
     this->response = "This is some response";
     isOpen = true;
+    current_http_method = 0;
 }
