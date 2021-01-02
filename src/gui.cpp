@@ -202,7 +202,7 @@ void GUI::workspaceArea()
                 active_tab = n;
                 ImGui::Text("Method"); ImGui::SameLine();
                 ImGui::SetNextItemWidth(100);
-                ImGui::Combo("", &tabs.at(n).current_http_method, constants->request_type, IM_ARRAYSIZE(constants->request_type));
+                ImGui::Combo(" ", &tabs.at(n).current_http_method, constants->request_type, IM_ARRAYSIZE(constants->request_type));
                 ImGui::SameLine();
                 ImGui::InputText("URL", (char *)tabs.at(n).getUrl(), constants->MAX_URL_SIZE);
                 ImGui::SameLine();
