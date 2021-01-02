@@ -1,6 +1,14 @@
 {
     "files.associations": {
         "iostream": "cpp",
-        "future": "cpp"
+        "future": "cpp",
+        "array": "cpp",
+        "*.tcc": "cpp",
+        "memory": "cpp",
+        "istream": "cpp",
+        "functional": "cpp",
+        "tuple": "cpp",
+        "utility": "cpp",
+        "variant": "cpp"
     }
 }
