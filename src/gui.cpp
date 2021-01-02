@@ -3,6 +3,7 @@
 GUI::GUI()
 {
     workspaceTableFlags = ImGuiTableFlags_RowBg | ImGuiTableFlags_Borders | ImGuiTableFlags_BordersV | ImGuiTableFlags_Resizable;
+    windowFlags = ImGuiWindowFlags_NoTitleBar;
     active_tab = 0;
     active_response = "If no fonts are loaded, dear imgui will use the default font. You can also load multiple fonts and use ImGui::PushFont()/PopFont() to select them";
     Tab t;
@@ -164,27 +165,31 @@ void GUI::tabConfig()
 
 void GUI::render()
 {
-    // Main Workspace
-    ImGui::BeginGroup();
-    this->workspaceBar();
-    ImGui::EndGroup();
+    if(ImGui::Begin("xP", NULL, windowFlags)){
+        ImGui::BeginGroup();
+        this->workspaceBar();
+        ImGui::EndGroup();
 
-    ImGui::NewLine();
-    // Left Vertical
-    ImGui::BeginGroup();
-    {
+        ImGui::NewLine();
+        // Left Vertical
+        ImGui::BeginGroup();
+        {
 
-        workspaceArea();
+            workspaceArea();
 
-        // ImGui::Separator();
-        // ImGui::SameLine();
+            // ImGui::Separator();
+            // ImGui::SameLine();
+        }
+
+        ImGui::EndGroup();
+
+        // pool.enqueue(&GUI::responseArea, this).get();
+        ImGui::NewLine();
+        responseArea();
+        ImGui::End();
     }
-
-    ImGui::EndGroup();
-
-    // pool.enqueue(&GUI::responseArea, this).get();
-    ImGui::NewLine();
-    responseArea();
+    // Main Workspace
+   
 }
 void GUI::workspaceArea()
 {
@@ -200,7 +205,8 @@ void GUI::workspaceArea()
             if (ImGui::BeginTabItem(tabs.at(n).title.c_str(), &tabs.at(n).isOpen, ImGuiTabItemFlags_None))
             {
                 active_tab = n;
-                ImGui::Text("Method"); ImGui::SameLine();
+                ImGui::Text("Method");
+                ImGui::SameLine();
                 ImGui::SetNextItemWidth(100);
                 ImGui::Combo(" ", &tabs.at(n).current_http_method, constants->request_type, IM_ARRAYSIZE(constants->request_type));
                 ImGui::SameLine();
