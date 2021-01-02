@@ -94,7 +94,7 @@ int main(int, char **)
     ImGuiStyle &style = ImGui::GetStyle();
     style.ScaleAllSizes(highDPIscaleFactor);
 
-    io.Fonts->AddFontFromFileTTF("/usr/share/fonts/truetype/freefont/FreeMonoBold.ttf", 16.0f * highDPIscaleFactor, NULL, NULL);
+    io.Fonts->AddFontFromFileTTF("../assets/JetBrainsMono-Medium.ttf", 18.0f * highDPIscaleFactor, NULL, NULL);
 
     //io.Fonts->AddFontFromFileTTF("../../misc/fonts/Roboto-Medium.ttf", 16.0f);
     //io.Fonts->AddFontFromFileTTF("../../misc/fonts/Cousine-Regular.ttf", 15.0f);
