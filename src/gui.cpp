@@ -50,14 +50,15 @@ void GUI::workspaceBar()
     {
         ImGui::OpenPopup("Edit Preferences");
     }
-    auto f_settings_popup = pool.enqueue(&GUI::settingsPopup, this);
+    // auto f_settings_popup = pool.enqueue(&GUI::settingsPopup, this);
+    this->settingsPopup();
     // settingsPopup();
     ImGui::SameLine();
     if (ImGui::Button("History"))
     {
     }
 
-    f_settings_popup.get();
+    // f_settings_popup.get();
 }
 
 void GUI::settingsPopup()
@@ -70,10 +71,29 @@ void GUI::settingsPopup()
         ImGui::Separator();
 
         ImGui::InputInt("URL Max Size", &constants->MAX_URL_SIZE);
-
+        //  THEMES
+        ImGui::Separator();
+        ImGui::Text("Theme");
+        
+        if (ImGui::Button("Dark"))
+        {
+            constants->CURRENT_THEME = constants->DARK;
+        }
+        ImGui::SameLine();
+        if (ImGui::Button("Classic"))
+        {
+            constants->CURRENT_THEME = constants->CLASSIC;
+        }
+        ImGui::SameLine();
+        if (ImGui::Button("Light"))
+        {
+            constants->CURRENT_THEME = constants->LIGHT;
+        }
+        // THEMES
         ImGui::Separator();
         if (ImGui::Button("OK", ImVec2(120, 0)))
         {
+            constants->setTheme();
             ImGui::CloseCurrentPopup();
         }
         ImGui::SetItemDefaultFocus();
@@ -164,7 +184,8 @@ void GUI::tabConfig()
 
 void GUI::render()
 {
-    if(ImGui::Begin("xP", NULL, windowFlags)){
+    if (ImGui::Begin("xP", NULL, windowFlags))
+    {
         ImGui::BeginGroup();
         this->workspaceBar();
         ImGui::EndGroup();
@@ -188,7 +209,6 @@ void GUI::render()
         ImGui::End();
     }
     // Main Workspace
-   
 }
 void GUI::workspaceArea()
 {
@@ -207,7 +227,7 @@ void GUI::workspaceArea()
                 ImGui::Text("Method");
                 ImGui::SameLine();
                 ImGui::SetNextItemWidth(100);
-                ImGui::Combo(" ", &tabs.at(n).current_http_method, constants->request_type, IM_ARRAYSIZE(constants->request_type));
+                ImGui::Combo(" ", &tabs.at(n).current_http_method, constants->REQUEST_TYPE, IM_ARRAYSIZE(constants->REQUEST_TYPE));
                 ImGui::SameLine();
                 ImGui::InputText("URL", (char *)tabs.at(n).getUrl(), constants->MAX_URL_SIZE);
                 ImGui::SameLine();

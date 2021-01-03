@@ -23,6 +23,17 @@ Constants::Constants()
     this->FONT_SIZE = 18.0f;
     this->WINDOW_HEIGHT = 720;
     this->WINDOW_WIDTH = 1280;
+    this->CURRENT_THEME = DARK;
+}
+
+void Constants::setTheme()
+{
+    if (this->CURRENT_THEME == this->DARK)
+        ImGui::StyleColorsDark();
+    else if (this->CURRENT_THEME == this->LIGHT)
+        ImGui::StyleColorsLight();
+    else
+        ImGui::StyleColorsClassic();
 }
 
 // Constants *constants = constants->getInstance();
