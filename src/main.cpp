@@ -37,7 +37,7 @@ int main(int, char **)
 #endif
 
     // Create window with graphics context
-    GLFWwindow *window = glfwCreateWindow(1280, 720, "xP", NULL, NULL);
+    GLFWwindow *window = glfwCreateWindow(constants->WINDOW_WIDTH, constants->WINDOW_HEIGHT, "xP", NULL, NULL);
     if (window == NULL)
         return 1;
     glfwMakeContextCurrent(window);
@@ -94,7 +94,7 @@ int main(int, char **)
     ImGuiStyle &style = ImGui::GetStyle();
     style.ScaleAllSizes(highDPIscaleFactor);
 
-    io.Fonts->AddFontFromFileTTF("../assets/JetBrainsMono-Medium.ttf", 18.0f * highDPIscaleFactor, NULL, NULL);
+    io.Fonts->AddFontFromFileTTF(constants->PATH_TO_FONT.c_str(), (constants->FONT_SIZE) * highDPIscaleFactor, NULL, NULL);
 
     //io.Fonts->AddFontFromFileTTF("../../misc/fonts/Roboto-Medium.ttf", 16.0f);
     //io.Fonts->AddFontFromFileTTF("../../misc/fonts/Cousine-Regular.ttf", 15.0f);

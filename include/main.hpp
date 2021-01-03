@@ -1,11 +1,14 @@
 #include "constants.hpp"
 #include "gui.hpp"
 #include "tab.hpp"
+#include "constants.hpp"
 #include "imgui.h"
 #include "imgui_impl_glfw.h"
 #include "imgui_impl_opengl3.h"
 #include <stdio.h>
 #include <iostream>
+
+extern std::unique_ptr<Constants> constants;
 
 // #include "gl3w.h"
 // About Desktop OpenGL function loaders:

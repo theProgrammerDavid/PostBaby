@@ -16,6 +16,10 @@ class Constants
     public:
         Constants();
         int MAX_URL_SIZE;
+        int WINDOW_WIDTH;
+        int WINDOW_HEIGHT;
+        float FONT_SIZE;
+        std::string PATH_TO_FONT;
         const char *request_type[6] = {"GET", "POST", "PUT", "DELETE", "HEAD", "OPTIONS"};
 
         /* Static access method. */
