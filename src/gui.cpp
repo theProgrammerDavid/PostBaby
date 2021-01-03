@@ -101,7 +101,7 @@ void GUI::tabConfig()
         {
             if (ImGui::BeginTable("##table1", 4, workspaceTableFlags))
             {
-                ImGui::TableSetupColumn("Use");
+                ImGui::TableSetupColumn("Use", ImGuiTableColumnFlags_WidthFixed);
                 ImGui::TableSetupColumn("Key");
                 ImGui::TableSetupColumn("Value");
                 ImGui::TableSetupColumn("Description");
@@ -121,7 +121,6 @@ void GUI::tabConfig()
                         char buf[32];
                         sprintf(buf, "Hello %d,%d", column, row);
                         ImGui::TextUnformatted(buf);
-                        // ImGui::Separator();
                     }
                 }
                 ImGui::EndTable();
