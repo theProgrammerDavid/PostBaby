@@ -74,20 +74,19 @@ void GUI::settingsPopup()
         //  THEMES
         ImGui::Separator();
         ImGui::Text("Theme");
-        
-        if (ImGui::Button("Dark"))
+        if (ImGui::BeginCombo("Theme", constants->THEMES[constants->CURRENT_THEME]))
         {
-            constants->CURRENT_THEME = constants->DARK;
-        }
-        ImGui::SameLine();
-        if (ImGui::Button("Classic"))
-        {
-            constants->CURRENT_THEME = constants->CLASSIC;
-        }
-        ImGui::SameLine();
-        if (ImGui::Button("Light"))
-        {
-            constants->CURRENT_THEME = constants->LIGHT;
+            for (int n = 0; n < IM_ARRAYSIZE(constants->THEMES); n++)
+            {
+                const bool is_selected = (constants->CURRENT_THEME == n);
+                if (ImGui::Selectable(constants->THEMES[n], is_selected))
+                    constants->CURRENT_THEME = n;
+
+                // Set the initial focus when opening the combo (scrolling + keyboard navigation focus)
+                if (is_selected)
+                    ImGui::SetItemDefaultFocus();
+            }
+            ImGui::EndCombo();
         }
         // THEMES
         ImGui::Separator();

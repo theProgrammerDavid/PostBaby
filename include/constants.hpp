@@ -18,8 +18,8 @@ public:
     Constants();
     enum 
     {
-        LIGHT,
         DARK,
+        LIGHT,
         CLASSIC
     };
     void setTheme();
