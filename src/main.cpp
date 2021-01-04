@@ -1,7 +1,9 @@
 #include "main.hpp"
-
+#include "util.hpp"
 int main(int, char **)
 {
+    // std::string sss = abs_exe_path();
+    // std::cout << sss + "/ssx" << "\n";
     // Setup window
     glfwSetErrorCallback(glfw_error_callback);
     if (!glfwInit())
@@ -73,12 +75,12 @@ int main(int, char **)
     ImGuiIO &io = ImGui::GetIO();
     (void)io;
     io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard; // Enable Keyboard Controls
-    //io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
+                                                          //io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
 
     // Setup Dear ImGui style
 
-        // Setup Platform/Renderer backends
-        ImGui_ImplGlfw_InitForOpenGL(window, true);
+    // Setup Platform/Renderer backends
+    ImGui_ImplGlfw_InitForOpenGL(window, true);
     ImGui_ImplOpenGL3_Init(glsl_version);
 
     // Load Fonts

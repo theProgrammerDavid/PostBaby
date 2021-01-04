@@ -52,3 +52,10 @@ target_link_libraries(xP
 install(TARGETS xP 
     RUNTIME DESTINATION ${CMAKE_INSTALL_PREFIX}
 )
+add_custom_command(TARGET xP POST_BUILD
+                   COMMAND ${CMAKE_COMMAND} -E copy_if_different
+                       ${XP_SOURCE_DIR}/assets/JetBrainsMono-Medium.ttf
+                       $<TARGET_FILE_DIR:xP>
+                   )
+
+install(FILES ${XP_SOURCE_DIR}/assets/JetBrainsMono-Medium.ttf DESTINATION ~)

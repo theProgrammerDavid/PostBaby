@@ -1,7 +1,12 @@
 #pragma once
 #include <iostream>
 #include <memory>
+#include "util.hpp"
 #include "imgui.h"
+
+#ifdef _Win32
+#include <Windows.h>
+#endif
 
 void glfw_error_callback(int error, const char *description);
 
