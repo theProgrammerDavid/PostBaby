@@ -57,7 +57,8 @@ void GUI::workspaceBar()
     if (ImGui::Button("History"))
     {
     }
-
+    ImGui::SameLine();
+    ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%.1fFPS", ImGui::GetIO().Framerate);
     // f_settings_popup.get();
 }
 
@@ -88,17 +89,20 @@ void GUI::settingsPopup()
             }
             ImGui::EndCombo();
         }
+        ImGui::ColorEdit3("Background", (float *)&constants->TEMP_BG_COLOR);
         // THEMES
         ImGui::Separator();
         if (ImGui::Button("OK", ImVec2(120, 0)))
         {
             constants->setTheme();
+            constants->clear_color = constants->TEMP_BG_COLOR;
             ImGui::CloseCurrentPopup();
         }
         ImGui::SetItemDefaultFocus();
         ImGui::SameLine();
         if (ImGui::Button("Cancel", ImVec2(120, 0)))
         {
+            constants->TEMP_BG_COLOR = constants->clear_color;
             ImGui::CloseCurrentPopup();
         }
         ImGui::EndPopup();

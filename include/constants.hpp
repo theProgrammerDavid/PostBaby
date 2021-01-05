@@ -21,7 +21,7 @@ private:
 
 public:
     Constants();
-    enum 
+    enum
     {
         DARK,
         LIGHT,
@@ -34,8 +34,10 @@ public:
     int CURRENT_THEME;
     float FONT_SIZE;
     std::string PATH_TO_FONT;
+    ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
     const char *REQUEST_TYPE[6] = {"GET", "POST", "PUT", "DELETE", "HEAD", "OPTIONS"};
     const char *THEMES[3] = {"DARK", "LIGHT", "CLASSIC"};
+    ImVec4 TEMP_BG_COLOR = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
 
     /* Static access method. */
     // static Constants* getInstance();
