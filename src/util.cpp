@@ -5,7 +5,8 @@ std::filesystem::path abs_exe_path()
 #if defined(_MSC_VER)
     wchar_t path[FILENAME_MAX] = {0};
     GetModuleFileNameW(nullptr, path, FILENAME_MAX);
-    return std::filesystem::path(path).string();
+    std::string tempString = std::filesystem::path(path).string();
+    return tempString.substr(0, tempString.length()-6);
 #else
     char path[FILENAME_MAX];
     ssize_t count = readlink("/proc/self/exe", path, FILENAME_MAX);
