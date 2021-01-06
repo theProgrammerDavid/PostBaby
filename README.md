@@ -38,4 +38,3 @@ git submodule update
 * [ImGui](https://github.com/ocornut/imgui)
 * [Glew Cmake](https://github.com/Perlmint/glew-cmake.git)
 * [GLFW](https://github.com/glfw/glfw.git)
-* [C++ ThreadPool](https://github.com/progschj/ThreadPool.git)
