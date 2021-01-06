@@ -45,6 +45,7 @@ target_link_libraries(xP
   ${OPENGL_LIBRARIES}
   glew
   PRIVATE
+  cpr::cpr
   ${CMAKE_DL_LIBS})
 
 

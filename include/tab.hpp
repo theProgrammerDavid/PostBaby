@@ -2,19 +2,43 @@
 #include <string>
 #include "imgui.h"
 #include <map>
+#include <cpr/cpr.h>
 
+class KeyValuePair
+{
+
+public:
+    KeyValuePair();
+
+    char* getKey();
+    bool* getEnableRef();
+    char* getValue();
+    char* getDescription();
+    int _id;
+
+    std::string key;
+    std::string value;
+    std::string description;
+    bool enable;
+};
 class Tab
 {
 
 private:
+    cpr::Url _url;
+    cpr::Parameters _param;
+    cpr::Response _resp;
+
+    void construct_request();
+
 public:
     std::string title;
     std::string url;
-    std::string response;
+    cpr::Response r;
+    // cpr::Payload();
+    // cpr::Parameters();
 
-    std::map<std::string, std::string> params;
-    std::map<std::string, std::string> headers;
-    std::map<std::string, std::string> body;
+    std::vector<KeyValuePair> queryParams;
 
     bool isOpen;
 

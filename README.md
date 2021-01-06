@@ -8,7 +8,13 @@ C++ native app to test HTTP endpoints
 - CMake supported C++ Compiler
 - Debian and Ubuntu systems might need some additional dependencies as given below: 
 ```bash
-sudo apt-get install libx11-dev xorg-dev libglu1-mesa-dev
+sudo apt-get install libx11-dev xorg-dev libglu1-mesa-dev 
+```
+
+You also need the dev libraries for `OpenSSL` installed
+```bash
+sudo apt-get install libssl-dev
+
 ```
 
 * Windows systems need the Visual Studio environment setup with the necessary files for C++ development. If required, you need to run 
