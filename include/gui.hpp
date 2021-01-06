@@ -6,7 +6,6 @@
 #include "imgui.h"
 #include "tab.hpp"
 #include "constants.hpp"
-#include "ThreadPool.h"
 
 
 // extern Constants *constants;
@@ -35,5 +34,3 @@ public:
     void render();
     GUI();
 };
-
-extern ThreadPool pool;

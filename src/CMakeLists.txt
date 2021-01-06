@@ -11,7 +11,6 @@ elseif (APPLE)
 endif()
 
 include_directories("${XP_SOURCE_DIR}/ext/imgui")	
-include_directories("${XP_SOURCE_DIR}/ext/ThreadPool")	
 file(GLOB SOURCES "*.cpp")	
 file(GLOB IMGUI_SOURCES "${XP_SOURCE_DIR}/ext/imgui/*.cpp")
 # configure config.hpp.in
