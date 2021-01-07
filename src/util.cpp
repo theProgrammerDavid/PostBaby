@@ -1,7 +1,7 @@
 #include "util.hpp"
 
-std::filesystem::path abs_exe_path()
-{//TODO: Test on Windows 
+std::string abs_exe_path()
+{
 #if defined(_MSC_VER)
     wchar_t path[FILENAME_MAX] = {0};
     GetModuleFileNameW(nullptr, path, FILENAME_MAX);
