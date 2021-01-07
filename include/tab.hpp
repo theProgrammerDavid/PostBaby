@@ -6,20 +6,22 @@
 
 class KeyValuePair
 {
-
-public:
-    KeyValuePair();
-
-    char* getKey();
-    bool* getEnableRef();
-    char* getValue();
-    char* getDescription();
-    int _id;
-
+private:
     std::string key;
     std::string value;
     std::string description;
     bool enable;
+
+public:
+    KeyValuePair();
+
+    char *getKey();
+    void setKey(const std::string &constKey);
+    void setKey(const char *constKey);
+    bool *getEnableRef();
+    char *getValue();
+    char *getDescription();
+    int _id;
 };
 class Tab
 {
@@ -39,6 +41,7 @@ public:
     // cpr::Parameters();
 
     std::vector<KeyValuePair> queryParams;
+    std::vector<KeyValuePair> headers;
 
     bool isOpen;
 

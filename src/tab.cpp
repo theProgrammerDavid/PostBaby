@@ -3,15 +3,25 @@
 KeyValuePair::KeyValuePair()
 {
     this->enable = true;
-    this->key = "";
-    this->value = "";
-    this->description = "";
+    this->key = "key";
+    this->value = "value";
+    this->description = "descp";
     this->_id = (int)rand();
 }
 
 char *KeyValuePair::getKey()
 {
     return (char *)this->key.c_str();
+}
+
+void KeyValuePair::setKey(const char *setKey)
+{
+    this->key = setKey;
+}
+
+void KeyValuePair::setKey(const std::string &setKey)
+{
+    this->key = setKey;
 }
 
 char *KeyValuePair::getValue()
@@ -52,8 +62,6 @@ Tab::Tab()
     // this->response = "This is some response";
     isOpen = true;
     current_http_method = 0;
-    KeyValuePair k,p,t;
-    queryParams.push_back(k);
-    queryParams.push_back(p);
-    queryParams.push_back(t);
+    // KeyValuePair t;
+    // queryParams.push_back(t);
 }

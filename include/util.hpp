@@ -8,4 +8,4 @@
 #include <unistd.h>
 #endif
 
-std::filesystem::path abs_exe_path();
+std::string abs_exe_path();

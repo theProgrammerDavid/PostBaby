@@ -30,6 +30,9 @@ private:
 
     void settingsPopup();
 
+    void drawParams();
+    void drawHeaders();
+
 public:
     void render();
     GUI();
