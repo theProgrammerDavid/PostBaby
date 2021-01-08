@@ -27,6 +27,7 @@ public:
         LIGHT,
         CLASSIC
     };
+    
     void setTheme();
     int MAX_URL_SIZE;
     int WINDOW_WIDTH;

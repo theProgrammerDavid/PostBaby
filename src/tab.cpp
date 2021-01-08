@@ -54,6 +54,21 @@ const char *Tab::getResponse()
     // return this->response.c_str();
 }
 
+char *Tab::getRawBodyRef()
+{
+    return (char *)this->rawBody.c_str();
+}
+
+int Tab::getBodyType()
+{
+    return currentBodyType;
+}
+
+int Tab::setBodyType(const int bodyType)
+{
+    this->currentBodyType = bodyType;
+}
+
 Tab::Tab()
 {
 
@@ -61,7 +76,8 @@ Tab::Tab()
     this->url = "http://localhost:1234/api";
     // this->response = "This is some response";
     isOpen = true;
-    current_http_method = 0;
+    currentHttpMethod = 0;
+    currentBodyType = 0;
     // KeyValuePair t;
     // queryParams.push_back(t);
 }

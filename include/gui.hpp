@@ -22,6 +22,8 @@ private:
     ImGuiTableFlags workspaceTableFlags;
     ImGuiWindowFlags windowFlags;
 
+    void HelpMarker(const char *desc);
+
     void responseArea();
     void workspaceArea();
     void workspaceBar();
@@ -31,7 +33,8 @@ private:
     void settingsPopup();
 
     void drawParams();
-    void drawHeaders();
+    void drawBody();
+    void drawKeyValueDesc(std::vector<KeyValuePair>& vec);
 
 public:
     void render();
