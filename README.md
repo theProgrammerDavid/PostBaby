@@ -11,12 +11,6 @@ C++ native app to test HTTP endpoints
 sudo apt-get install libx11-dev xorg-dev libglu1-mesa-dev 
 ```
 
-You also need the dev libraries for `OpenSSL` installed
-```bash
-sudo apt-get install libssl-dev
-
-```
-
 * Windows systems need the Visual Studio environment setup with the necessary files for C++ development. If required, you need to run 
 ```powershell
 vcvarsall.bat x64
@@ -42,5 +36,5 @@ git submodule update
 
 ### Credits
 * [ImGui](https://github.com/ocornut/imgui)
-* [Glew Cmake](https://github.com/Perlmint/glew-cmake.git)
-* [GLFW](https://github.com/glfw/glfw.git)
+* [Glew](http://glew.sourceforge.net/)
+* [GLFW](https://github.com/glfw/glfw)
