@@ -1,6 +1,3 @@
 [submodule "ext/imgui"]
 	path = ext/imgui
 	url = https://github.com/ocornut/imgui.git
-[submodule "ext/glew-cmake"]
-	path = ext/glew-cmake
-	url = https://github.com/Perlmint/glew-cmake.git

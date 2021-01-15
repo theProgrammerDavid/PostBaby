@@ -24,12 +24,12 @@ file(GLOB IMGUI_BACKEND "${XP_SOURCE_DIR}/ext/imgui/backends/imgui_impl_glfw.cpp
 
 #glew
 include_directories("${XP_SOURCE_DIR}/extern/glew/include")	
-file(GLOB GLEW_SOURCES "${XP_SOURCE_DIR}/extern/glew/src")
+# file(GLOB GLEW_SOURCES "${XP_SOURCE_DIR}/extern/glew/src")
 
 # define library target
 add_executable(xP 
 ${ICON}
-${GLEW_SOURCES} 
+# ${GLEW_SOURCES} 
 ${SOURCES} 
 ${IMGUI_SOURCES} 
 ${IMGUI_BACKEND}
@@ -43,8 +43,8 @@ target_link_libraries(xP
   glad
   glfw
   ${OPENGL_LIBRARIES}
-  glew
   PRIVATE
+  glew
   cpr::cpr
   ${CMAKE_DL_LIBS})
 

@@ -28,3 +28,14 @@ FetchContent_MakeAvailable(cpr)
 
 FetchContent_Declare(glfw GIT_REPOSITORY https://github.com/glfw/glfw.git GIT_TAG 0b9e48fa3df9c184ff1abfb2452fd1a4b696ecd8) 
 FetchContent_MakeAvailable(glfw)
+
+ FetchContent_Declare(
+      GLEW
+      URL            https://sourceforge.net/projects/glew/files/glew/2.1.0/glew-2.1.0.zip
+      SOURCE_DIR     ${CMAKE_SOURCE_DIR}/extern/glew
+    )
+    FetchContent_GetProperties(glew)
+    if(NOT glew_POPULATED)
+      FetchContent_Populate(glew)
+      add_subdirectory(${CMAKE_SOURCE_DIR}/extern/glew/build/cmake)
+    endif()
