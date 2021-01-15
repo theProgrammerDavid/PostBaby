@@ -64,15 +64,52 @@ int Tab::getBodyType()
     return currentBodyType;
 }
 
-int Tab::setBodyType(const int bodyType)
+void Tab::setBodyType(const int bodyType)
 {
     this->currentBodyType = bodyType;
 }
 
-Tab::Tab()
+void Tab::constructRequest()
 {
 
-    this->title = "Title" + std::to_string((int)rand());
+   
+    switch (currentHttpMethod)
+    {
+    case 0:
+        //    GET
+        break;
+    case 1:
+        // POST
+        break;
+    case 2:
+        // PUT
+        break;
+
+    case 3:
+        //  DELETE
+        break;
+
+    case 4:
+        // HEAD
+        break;
+
+    case 5:
+        // OPTIONS
+        break;
+        }
+    // fullUrl = std::move(cpr::Url{url.c_str()});
+}
+
+void Tab::sendRequest()
+{
+    this->constructRequest();
+}
+
+Tab::Tab(size_t index)
+{
+
+    // this->title = "Title" + std::to_string((int)rand());
+    this->title = "Untitled" + std::to_string(index);
     this->url = "http://localhost:1234/api";
     // this->response = "This is some response";
     isOpen = true;

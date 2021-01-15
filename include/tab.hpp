@@ -3,7 +3,7 @@
 #include "imgui.h"
 #include <map>
 #include <cpr/cpr.h>
-
+using namespace cpr;
 class KeyValuePair
 {
 private:
@@ -27,11 +27,11 @@ class Tab
 {
 
 private:
-    cpr::Url _url;
-    cpr::Parameters _param;
-    cpr::Response _resp;
+    cpr::Url fullUrl;
+    // cpr::Parameters param;
+    cpr::Response resp;
 
-    void construct_request();
+    void constructRequest();
 
 public:
     enum BodyType
@@ -43,8 +43,9 @@ public:
         BODY_BINARY,
         BODY_GRAPHQL
     };
+    void sendRequest();
     int getBodyType();
-    int setBodyType(const int bodyType);
+    void setBodyType(const int bodyType);
 
     std::string title;
     std::string url;
@@ -66,5 +67,5 @@ public:
     const char *getResponse();
     int currentHttpMethod;
     int currentBodyType;
-    Tab();
+    Tab(size_t index);
 };

@@ -6,10 +6,9 @@ GUI::GUI()
     windowFlags = ImGuiWindowFlags_NoTitleBar;
     active_tab = 0;
     active_response = "If no fonts are loaded, dear imgui will use the default font. You can also load multiple fonts and use ImGui::PushFont()/PopFont() to select them";
-    Tab t;
+    Tab t(tabs.size() + 1);
     tabs.push_back(t);
-    Tab t2;
-    t2.title = "Title2";
+    Tab t2(tabs.size() + 1);
     tabs.push_back(t2);
 }
 void GUI::responseArea()
@@ -385,7 +384,7 @@ void GUI::workspaceArea()
     {
         if (ImGui::TabItemButton("+", ImGuiTabItemFlags_Trailing | ImGuiTabItemFlags_NoTooltip))
         {
-            Tab t;
+            Tab t(tabs.size() + 1);
             tabs.push_back(t);
         }
         for (size_t n = 0; n < tabs.size(); n++)
@@ -402,6 +401,7 @@ void GUI::workspaceArea()
                 ImGui::SameLine();
                 if (ImGui::Button("Send"))
                 {
+                    tabs.at(active_tab).sendRequest();
                 }
                 ImGui::NewLine();
                 this->tabConfig();
