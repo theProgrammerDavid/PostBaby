@@ -10,21 +10,13 @@ elseif (APPLE)
     set(ICON "${XP_SOURCE_DIR}/assets/xP.ico")
 endif()
 
-include_directories("${XP_SOURCE_DIR}/ext/imgui")	
+include_directories("${XP_SOURCE_DIR}/extern/imgui")	
 file(GLOB SOURCES "*.cpp")	
-file(GLOB IMGUI_SOURCES "${XP_SOURCE_DIR}/ext/imgui/*.cpp")
+file(GLOB IMGUI_SOURCES "${XP_SOURCE_DIR}/extern/imgui/*.cpp")
 # configure config.hpp.in
 configure_file("config.hpp.in" "${CMAKE_CURRENT_BINARY_DIR}/config_impl.hpp")
-include_directories("${XP_SOURCE_DIR}/ext/imgui/backends")
-file(GLOB IMGUI_BACKEND "${XP_SOURCE_DIR}/ext/imgui/backends/imgui_impl_glfw.cpp" "${XP_SOURCE_DIR}/ext/imgui/backends/imgui_impl_opengl3.cpp")
-
-# gl3w
-# include_directories("${XP_SOURCE_DIR}/ext/imgui/examples/libs/gl3w")
-# file(GLOB GL3W_SOURCE "${XP_SOURCE_DIR}/ext/imgui/examples/libs/gl3w/GL/gl3w.c")
-
-#glew
-include_directories("${XP_SOURCE_DIR}/extern/glew/include")	
-# file(GLOB GLEW_SOURCES "${XP_SOURCE_DIR}/extern/glew/src")
+include_directories("${XP_SOURCE_DIR}/extern/imgui/backends")
+file(GLOB IMGUI_BACKEND "${XP_SOURCE_DIR}/extern/imgui/backends/imgui_impl_glfw.cpp" "${XP_SOURCE_DIR}/extern/imgui/backends/imgui_impl_opengl3.cpp")
 
 # define library target
 add_executable(xP 
@@ -45,7 +37,6 @@ target_link_libraries(xP
   ${OPENGL_LIBRARIES}
   PRIVATE
   glew
-  cpr::cpr
   ${CMAKE_DL_LIBS})
 
 

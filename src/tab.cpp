@@ -49,11 +49,6 @@ const char *Tab::getUrl()
     return this->url.c_str();
 }
 
-const char *Tab::getResponse()
-{
-    // return this->response.c_str();
-}
-
 char *Tab::getRawBodyRef()
 {
     return (char *)this->rawBody.c_str();

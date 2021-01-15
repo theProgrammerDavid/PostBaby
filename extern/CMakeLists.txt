@@ -23,19 +23,33 @@ if(NOT extern_glad_POPULATED)
 endif()
 
 # include(FetchContent) 
-FetchContent_Declare(cpr GIT_REPOSITORY https://github.com/whoshuu/cpr.git GIT_TAG c8d33915dbd88ad6c92b258869b03aba06587ff9) # the commit hash for 1.5.0
-FetchContent_MakeAvailable(cpr)
+# FetchContent_Declare(cpr GIT_REPOSITORY https://github.com/whoshuu/cpr.git GIT_TAG c8d33915dbd88ad6c92b258869b03aba06587ff9) # the commit hash for 1.5.0
+# FetchContent_MakeAvailable(cpr)
 
 FetchContent_Declare(glfw GIT_REPOSITORY https://github.com/glfw/glfw.git GIT_TAG 0b9e48fa3df9c184ff1abfb2452fd1a4b696ecd8) 
 FetchContent_MakeAvailable(glfw)
 
- FetchContent_Declare(
-      GLEW
-      URL            https://sourceforge.net/projects/glew/files/glew/2.1.0/glew-2.1.0.zip
-      SOURCE_DIR     ${CMAKE_SOURCE_DIR}/extern/glew
-    )
-    FetchContent_GetProperties(glew)
-    if(NOT glew_POPULATED)
-      FetchContent_Populate(glew)
-      add_subdirectory(${CMAKE_SOURCE_DIR}/extern/glew/build/cmake)
-    endif()
+# glew 
+FetchContent_Declare(
+  GLEW
+  URL            https://sourceforge.net/projects/glew/files/glew/2.1.0/glew-2.1.0.zip
+  SOURCE_DIR     ${CMAKE_SOURCE_DIR}/extern/glew
+)
+FetchContent_GetProperties(glew)
+if(NOT glew_POPULATED)
+  FetchContent_Populate(glew)
+  add_subdirectory(${CMAKE_SOURCE_DIR}/extern/glew/build/cmake)
+endif()
+
+    # imgui
+FetchContent_Declare(
+  imgui
+  GIT_REPOSITORY https://github.com/ocornut/imgui.git
+  SOURCE_DIR     ${CMAKE_SOURCE_DIR}/extern/imgui
+  GIT_TAG        626e3e2b3bc1d3802ef177b497b00c5da98e93ee
+
+)
+FetchContent_GetProperties(imgui)
+if(NOT imgui_POPULATED)
+  FetchContent_Populate(imgui)
+endif()

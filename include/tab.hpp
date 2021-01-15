@@ -2,8 +2,8 @@
 #include <string>
 #include "imgui.h"
 #include <map>
-#include <cpr/cpr.h>
-using namespace cpr;
+#include <vector>
+
 class KeyValuePair
 {
 private:
@@ -27,9 +27,7 @@ class Tab
 {
 
 private:
-    cpr::Url fullUrl;
-    // cpr::Parameters param;
-    cpr::Response resp;
+
 
     void constructRequest();
 
@@ -50,10 +48,7 @@ public:
     std::string title;
     std::string url;
     std::string rawBody;
-    
-    cpr::Response r;
-    // cpr::Payload();
-    // cpr::Parameters();
+
 
     std::vector<KeyValuePair> queryParams;
     std::vector<KeyValuePair> headers;
@@ -64,7 +59,7 @@ public:
     char* getRawBodyRef();
     const char *getTitle();
     const char *getUrl();
-    const char *getResponse();
+    
     int currentHttpMethod;
     int currentBodyType;
     Tab(size_t index);
