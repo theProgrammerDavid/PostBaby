@@ -18,7 +18,6 @@ configure_file("config.hpp.in" "${CMAKE_CURRENT_BINARY_DIR}/config_impl.hpp")
 include_directories("${XP_SOURCE_DIR}/extern/imgui/backends")
 file(GLOB IMGUI_BACKEND "${XP_SOURCE_DIR}/extern/imgui/backends/imgui_impl_glfw.cpp" "${XP_SOURCE_DIR}/extern/imgui/backends/imgui_impl_opengl3.cpp")
 
-include_directories("${XP_SOURCE_DIR}/extern/cpp-httplib")
 
 # define library target
 add_executable(xP 

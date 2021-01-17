@@ -1,11 +1,17 @@
 #pragma once
 #include <string>
-#include <cpr/cpr.h>
-#include "imgui.h"
 #include <iostream>
 #include <map>
+#include <future>
 #include <vector>
-using namespace cpr;
+#include <cpr/cpr.h>
+#include <cpr/ssl_options.h>
+#include "imgui.h"
+#include "util.hpp"
+#include "constants.hpp"
+    using namespace cpr;
+extern std::unique_ptr<Constants> constants;
+
 class KeyValuePair
 {
 private:
@@ -32,7 +38,13 @@ private:
 
 
     void constructRequest();
+    Url _url;
+    Parameters _params;
+    Response res;
 
+    std::string title;
+    std::string url;
+    std::string rawBody;
 public:
     enum BodyType
     {
@@ -44,18 +56,12 @@ public:
         BODY_GRAPHQL
     };
     //  networking stuff
-    Url _url;
-    Parameters _params;
-    Response res;
     // 
     void sendRequest();
     int getBodyType();
     const char* getResponse();
     void setBodyType(const int bodyType);
 
-    std::string title;
-    std::string url;
-    std::string rawBody;
 
 
     std::vector<KeyValuePair> queryParams;

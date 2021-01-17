@@ -66,6 +66,7 @@ void Tab::setBodyType(const int bodyType)
 const char *Tab::getResponse()
 {
     return this->res.text.c_str();
+    // return this->asyncRes.get().text.c_str();
 }
 
 void Tab::constructRequest()
@@ -75,31 +76,50 @@ void Tab::constructRequest()
     {
         this->_params.Add({i.getKey(), i.getValue()});
     }
-    switch (currentHttpMethod)
+    std::thread t;
+    // std::string baseDirPath = abs_exe_path();
+    // std::string serverCertPath = baseDirPath + "server.cer";
+    // std::string serverKeyPath = baseDirPath + "server.key";
+    // SslOptions sslOpts =
+    //     Ssl(ssl::CaPath{baseDirPath + "ca.cer"}, ssl::CertFile{baseDirPath + "client.cer"},
+    //         ssl::KeyFile{baseDirPath + "client.key"}, ssl::VerifyPeer{false},
+    //         ssl::VerifyHost{false}, ssl::VerifyStatus{false});
+
+    switch (this->currentHttpMethod)
     {
     case 0:
-        //    GET
-        this->res = std::move(cpr::Get(_url, _params));
+        t = std::thread([&] {
+            // res = cpr::Get(_url, sslOpts, Verbose{}, _params, Timeout{constants->REQUEST_TIMEOUT});
+            res = cpr::Get(_url, _params, Timeout{constants->REQUEST_TIMEOUT});
+        });
+        t.detach();
         break;
     case 1:
-        // POST
         break;
+
     case 2:
-        // PUT
         break;
 
     case 3:
-        //  DELETE
         break;
 
     case 4:
-        // HEAD
         break;
 
     case 5:
-        // OPTIONS
         break;
-    }
+    };
+
+    // if (this->currentHttpMethod == 0)
+    // {
+    //     std::cout << "starting\n";
+    //     std::thread t([&] {
+    //         res = cpr::Get(_url, _params);
+    //         std::cout << "done\n";
+    //     });
+    //     t.detach();
+    //     std::cout << "finished\n";
+    // }
 }
 
 void Tab::sendRequest()

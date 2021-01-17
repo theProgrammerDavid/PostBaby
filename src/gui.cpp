@@ -69,6 +69,7 @@ void GUI::settingsPopup()
         ImGui::Separator();
 
         ImGui::InputInt("URL Max Size", &constants->MAX_URL_SIZE);
+        ImGui::InputInt("Request Timeout (ms)", &constants->REQUEST_TIMEOUT);
         //  THEMES
         ImGui::Separator();
         ImGui::Text("Theme");
@@ -391,7 +392,7 @@ void GUI::workspaceArea()
         }
         for (size_t n = 0; n < tabs.size(); n++)
         {
-            if (ImGui::BeginTabItem(tabs.at(n).title.c_str(), &tabs.at(n).isOpen, ImGuiTabItemFlags_None))
+            if (ImGui::BeginTabItem(tabs.at(n).getTitle(), &tabs.at(n).isOpen, ImGuiTabItemFlags_None))
             {
                 active_tab = n;
                 this->active_response = tabs.at(active_tab).getResponse();

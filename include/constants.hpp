@@ -30,6 +30,7 @@ public:
     
     void setTheme();
     int MAX_URL_SIZE;
+    int REQUEST_TIMEOUT;
     int WINDOW_WIDTH;
     int WINDOW_HEIGHT;
     int CURRENT_THEME;
