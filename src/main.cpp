@@ -1,9 +1,8 @@
 #include "main.hpp"
 #include "util.hpp"
+
 int main(int, char **)
 {
-    // std::string sss = abs_exe_path();
-    // std::cout << sss + "/ssx" << "\n";
     // Setup window
     glfwSetErrorCallback(glfw_error_callback);
     if (!glfwInit())

@@ -16,16 +16,15 @@ sudo apt-get install libx11-dev xorg-dev libglu1-mesa-dev
 vcvarsall.bat x64
 ```
 
-### Get Started
-- This project contains submodules, so clone recursively
+You also need the dev libraries for `OpenSSL` installed
 ```bash
-git clone --recurse-submodules https://github.com/theProgrammerDavid/xP.git
-```
+sudo apt-get install libssl-dev
 
-- Or if you have it cloned without initialising submodules, you can 
+```
+### Get Started
+
 ```bash
-git submodule init
-git submodule update
+git clone https://github.com/theProgrammerDavid/xP.git
 ```
 
 ### Building

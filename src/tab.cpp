@@ -63,15 +63,23 @@ void Tab::setBodyType(const int bodyType)
 {
     this->currentBodyType = bodyType;
 }
+const char *Tab::getResponse()
+{
+    return this->res.text.c_str();
+}
 
 void Tab::constructRequest()
 {
-
-   
+    _url = std::move(Url{this->url});
+    for (auto i : this->queryParams)
+    {
+        this->_params.Add({i.getKey(), i.getValue()});
+    }
     switch (currentHttpMethod)
     {
     case 0:
         //    GET
+        this->res = std::move(cpr::Get(_url, _params));
         break;
     case 1:
         // POST
@@ -91,8 +99,7 @@ void Tab::constructRequest()
     case 5:
         // OPTIONS
         break;
-        }
-    // fullUrl = std::move(cpr::Url{url.c_str()});
+    }
 }
 
 void Tab::sendRequest()

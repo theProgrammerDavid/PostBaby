@@ -5,7 +5,7 @@ GUI::GUI()
     workspaceTableFlags = ImGuiTableFlags_RowBg | ImGuiTableFlags_Borders | ImGuiTableFlags_BordersV | ImGuiTableFlags_Resizable | ImGuiTableFlags_ScrollY;
     windowFlags = ImGuiWindowFlags_NoTitleBar;
     active_tab = 0;
-    active_response = "If no fonts are loaded, dear imgui will use the default font. You can also load multiple fonts and use ImGui::PushFont()/PopFont() to select them";
+    active_response = "";
     Tab t(tabs.size() + 1);
     tabs.push_back(t);
     Tab t2(tabs.size() + 1);
@@ -13,12 +13,14 @@ GUI::GUI()
 }
 void GUI::responseArea()
 {
-
     if (ImGui::BeginTabBar("ResponseBar"))
     {
         if (ImGui::BeginTabItem("Body"))
         {
-
+            ImGuiWindowFlags response_flags = ImGuiWindowFlags_HorizontalScrollbar;
+            ImGui::BeginChild("ResponseBar", ImVec2(ImGui::GetWindowContentRegionWidth(), ImGui::GetWindowHeight()), false, response_flags);
+            ImGui::TextWrapped("%s", active_response.c_str());
+            ImGui::EndChild();
             ImGui::EndTabItem();
         }
         if (ImGui::BeginTabItem("Headers"))
@@ -39,8 +41,6 @@ void GUI::responseArea()
 
         ImGui::EndTabBar();
     }
-
-    ImGui::TextWrapped("%s", active_response.c_str());
 }
 
 void GUI::workspaceBar()
@@ -373,7 +373,9 @@ void GUI::render()
 
         // pool.enqueue(&GUI::responseArea, this).get();
         ImGui::NewLine();
+
         responseArea();
+
         ImGui::End();
     }
     // Main Workspace
@@ -392,6 +394,7 @@ void GUI::workspaceArea()
             if (ImGui::BeginTabItem(tabs.at(n).title.c_str(), &tabs.at(n).isOpen, ImGuiTabItemFlags_None))
             {
                 active_tab = n;
+                this->active_response = tabs.at(active_tab).getResponse();
                 ImGui::Text("Method");
                 ImGui::SameLine();
                 ImGui::SetNextItemWidth(100);

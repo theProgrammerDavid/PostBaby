@@ -22,10 +22,6 @@ if(NOT extern_glad_POPULATED)
     EXCLUDE_FROM_ALL)
 endif()
 
-# include(FetchContent) 
-# FetchContent_Declare(cpr GIT_REPOSITORY https://github.com/whoshuu/cpr.git GIT_TAG c8d33915dbd88ad6c92b258869b03aba06587ff9) # the commit hash for 1.5.0
-# FetchContent_MakeAvailable(cpr)
-
 FetchContent_Declare(glfw GIT_REPOSITORY https://github.com/glfw/glfw.git GIT_TAG 0b9e48fa3df9c184ff1abfb2452fd1a4b696ecd8) 
 FetchContent_MakeAvailable(glfw)
 
@@ -35,13 +31,14 @@ FetchContent_Declare(
   URL            https://sourceforge.net/projects/glew/files/glew/2.1.0/glew-2.1.0.zip
   SOURCE_DIR     ${CMAKE_SOURCE_DIR}/extern/glew
 )
+
 FetchContent_GetProperties(glew)
 if(NOT glew_POPULATED)
   FetchContent_Populate(glew)
   add_subdirectory(${CMAKE_SOURCE_DIR}/extern/glew/build/cmake)
 endif()
 
-    # imgui
+# imgui
 FetchContent_Declare(
   imgui
   GIT_REPOSITORY https://github.com/ocornut/imgui.git
@@ -53,3 +50,7 @@ FetchContent_GetProperties(imgui)
 if(NOT imgui_POPULATED)
   FetchContent_Populate(imgui)
 endif()
+
+include(FetchContent)
+FetchContent_Declare(cpr GIT_REPOSITORY https://github.com/whoshuu/cpr.git GIT_TAG e538269b0705a46f7e56255421f8e97261f2909a)
+FetchContent_MakeAvailable(cpr)

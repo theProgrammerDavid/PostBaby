@@ -1,9 +1,11 @@
 #pragma once
 #include <string>
+#include <cpr/cpr.h>
 #include "imgui.h"
+#include <iostream>
 #include <map>
 #include <vector>
-
+using namespace cpr;
 class KeyValuePair
 {
 private:
@@ -41,8 +43,14 @@ public:
         BODY_BINARY,
         BODY_GRAPHQL
     };
+    //  networking stuff
+    Url _url;
+    Parameters _params;
+    Response res;
+    // 
     void sendRequest();
     int getBodyType();
+    const char* getResponse();
     void setBodyType(const int bodyType);
 
     std::string title;
