@@ -9,7 +9,7 @@
 #include "imgui.h"
 #include "util.hpp"
 #include "constants.hpp"
-    using namespace cpr;
+using namespace cpr;
 extern std::unique_ptr<Constants> constants;
 
 class KeyValuePair
