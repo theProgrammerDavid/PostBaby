@@ -4,6 +4,12 @@ cmake_minimum_required(VERSION 3.14 FATAL_ERROR)
 #https://github.com/Dav1dde/glad/issues/174
 include(FetchContent)
 
+if(WIN32)
+  set(USE_OPENSSL OFF)
+  set(USE_WINSSL ON)
+  set(CMAKE_USE_OPENSSL OFF)
+  set(BUILD_CPR_TESTS OFF) #testing. if enabled, needs PERL
+endif()
 
 FetchContent_Declare(
   extern_glad
