@@ -16,7 +16,7 @@ sudo apt-get install libx11-dev xorg-dev libglu1-mesa-dev
 vcvarsall.bat x64
 ```
 
-You also need the dev libraries for `OpenSSL` installed
+You also need the dev libraries for `OpenSSL` installed. Windows will default to using `WINSSL`
 ```bash
 sudo apt-get install libssl-dev
 
@@ -29,11 +29,14 @@ git clone https://github.com/theProgrammerDavid/xP.git
 
 ### Building
 
-- Create a ``build`` folder and `cd` into that, and run ``cmake ..``
+- Create a ``build`` folder and `cd` into that, and run ``cmake ..`` (or if you want a Release build, use ``cmake -DCMAKE_BUILD_TYPE=Release ..``)
 - Configuring CMake might take a while initially as it is downloading dependencies
 
 
-### Credits
-* [ImGui](https://github.com/ocornut/imgui)
-* [Glew](http://glew.sourceforge.net/)
-* [GLFW](https://github.com/glfw/glfw)
+### Libraries used
+| Library         | URL                              |
+|-----------------|----------------------------------|
+| ImGui           | https://github.com/ocornut/imgui |
+| Glew            | https://glew.sourceforge.net     |
+| GLFW            | https://github.com/glfw/glfw     |
+| Curl For People | https://whoshuu/cpr              |
