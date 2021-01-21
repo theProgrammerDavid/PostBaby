@@ -71,7 +71,6 @@ const char *Tab::getResponse()
 
 void Tab::constructRequest()
 {
-    _url = std::move(Url{this->url});
     for (auto i : this->queryParams)
     {
         this->_params.Add({i.getKey(), i.getValue()});
@@ -90,7 +89,8 @@ void Tab::constructRequest()
     case 0:
         t = std::thread([&] {
             // res = cpr::Get(_url, sslOpts, Verbose{}, _params, Timeout{constants->REQUEST_TIMEOUT});
-            res = cpr::Get(_url, _params, Timeout{constants->REQUEST_TIMEOUT});
+            res = cpr::Get(Url{this->getUrl()}, _params, Timeout{constants->REQUEST_TIMEOUT});
+            
         });
         t.detach();
         break;

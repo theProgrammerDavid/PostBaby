@@ -38,7 +38,7 @@ private:
 
 
     void constructRequest();
-    Url _url;
+    // Url _url;
     Parameters _params;
     Response res;
 
