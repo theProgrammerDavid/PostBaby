@@ -113,68 +113,6 @@ void GUI::centerModal()
     ImGui::SetNextWindowPos(center, ImGuiCond_Appearing, ImVec2(0.5f, 0.5f));
 }
 
-void GUI::drawParams()
-{
-    ImGui::Text("Query Params");
-    const float TEXT_BASE_HEIGHT = ImGui::GetTextLineHeightWithSpacing();
-    ImVec2 WorkspaceTableSize = ImVec2(-FLT_MIN, TEXT_BASE_HEIGHT * 8);
-    if (ImGui::BeginTable("##table1", 5, workspaceTableFlags, WorkspaceTableSize))
-    {
-
-        ImGui::TableSetupColumn("Use", ImGuiTableColumnFlags_WidthFixed);
-        ImGui::TableSetupColumn("Key");
-        ImGui::TableSetupColumn("Value");
-        ImGui::TableSetupColumn("Description");
-        ImGui::TableSetupColumn("Del", ImGuiTableColumnFlags_WidthFixed);
-
-        ImGui::TableHeadersRow();
-
-        for (size_t row = 0; row < tabs.at(active_tab).queryParams.size(); row++)
-        {
-            ImGui::TableNextRow();
-            ImGui::TableSetColumnIndex(0);
-            ImGui::PushID(row);
-            ImGui::Checkbox("", tabs.at(active_tab).queryParams.at(row).getEnableRef());
-            ImGui::PopID();
-
-            ImGui::TableSetColumnIndex(1);
-            ImGui::PushID(tabs.at(active_tab).queryParams.at(row)._id);
-            ImGui::InputText("Key", tabs.at(active_tab).queryParams.at(row).getKey(), 128);
-            ImGui::SameLine();
-            if (ImGui::Button("Clear"))
-            {
-                tabs.at(active_tab).queryParams.at(row).setKey("");
-            }
-            ImGui::PopID();
-
-            ImGui::TableSetColumnIndex(2);
-            ImGui::PushID(tabs.at(active_tab).queryParams.at(row)._id);
-            ImGui::InputText("Value", tabs.at(active_tab).queryParams.at(row).getValue(), 128);
-            ImGui::PopID();
-
-            ImGui::TableSetColumnIndex(3);
-            ImGui::PushID(tabs.at(active_tab).queryParams.at(row)._id);
-            ImGui::InputText("Description", tabs.at(active_tab).queryParams.at(row).getDescription(), 128);
-            ImGui::PopID();
-
-            ImGui::TableSetColumnIndex(4);
-
-            ImGui::PushID(row);
-            if (ImGui::Button("X"))
-            {
-                tabs.at(active_tab).queryParams.erase(tabs.at(active_tab).queryParams.begin() + row);
-            }
-            ImGui::PopID();
-        }
-        ImGui::EndTable();
-        if (ImGui::Button("+"))
-        {
-            KeyValuePair kvp;
-            tabs.at(active_tab).queryParams.push_back(kvp);
-        }
-    }
-}
-
 void GUI::HelpMarker(const char *desc)
 {
     ImGui::TextDisabled("(?)");
@@ -214,7 +152,9 @@ void GUI::drawKeyValueDesc(std::vector<KeyValuePair> &vec)
 
             ImGui::TableSetColumnIndex(1);
             ImGui::PushID(vec.at(row)._id);
-            ImGui::InputText("Key", vec.at(row).getKey(), 128);
+            // ImGui::InputText("Key", vec.at(row).getKey(), 128);
+            ImGui::InputText("Key", &vec.at(row).key, 128);
+
             ImGui::SameLine();
             if (ImGui::Button("Clear"))
             {
@@ -290,7 +230,8 @@ void GUI::tabConfig()
     {
         if (ImGui::BeginTabItem("Params"))
         {
-            drawParams();
+            // drawParams();
+            drawKeyValueDesc(tabs.at(active_tab).queryParams);
             ImGui::EndTabItem();
         }
         if (ImGui::BeginTabItem("Authorization"))

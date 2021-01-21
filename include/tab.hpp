@@ -15,12 +15,12 @@ extern std::unique_ptr<Constants> constants;
 class KeyValuePair
 {
 private:
-    std::string key;
     std::string value;
     std::string description;
     bool enable;
 
 public:
+    std::string key;
     KeyValuePair();
 
     char *getKey();

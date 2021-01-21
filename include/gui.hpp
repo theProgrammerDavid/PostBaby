@@ -6,7 +6,7 @@
 #include "imgui.h"
 #include "tab.hpp"
 #include "constants.hpp"
-
+#include "imgui_stdlib.h"
 
 // extern Constants *constants;
 extern std::unique_ptr<Constants> constants;
@@ -32,7 +32,6 @@ private:
 
     void settingsPopup();
 
-    void drawParams();
     void drawBody();
     void drawKeyValueDesc(std::vector<KeyValuePair>& vec);
 
