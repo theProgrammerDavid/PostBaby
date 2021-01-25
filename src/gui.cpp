@@ -147,13 +147,13 @@ void GUI::drawKeyValueDesc(std::vector<KeyValuePair> &vec)
             ImGui::TableNextRow();
             ImGui::TableSetColumnIndex(0);
             ImGui::PushID(row);
-            ImGui::Checkbox("", vec.at(row).getEnableRef());
+            ImGui::Checkbox("", &vec.at(row).enable);
             ImGui::PopID();
 
             ImGui::TableSetColumnIndex(1);
             ImGui::PushID(vec.at(row)._id);
             // ImGui::InputText("Key", vec.at(row).getKey(), 128);
-            ImGui::InputText("Key", &vec.at(row).key, 128);
+            ImGui::InputText("Key", &vec.at(row).key);
 
             ImGui::SameLine();
             if (ImGui::Button("Clear"))
@@ -164,12 +164,12 @@ void GUI::drawKeyValueDesc(std::vector<KeyValuePair> &vec)
 
             ImGui::TableSetColumnIndex(2);
             ImGui::PushID(vec.at(row)._id);
-            ImGui::InputText("Value", vec.at(row).getValue(), 128);
+            ImGui::InputText("Value", &vec.at(row).value);
             ImGui::PopID();
 
             ImGui::TableSetColumnIndex(3);
             ImGui::PushID(vec.at(row)._id);
-            ImGui::InputText("Description", vec.at(row).getDescription(), 128);
+            ImGui::InputText("Description", &vec.at(row).description);
             ImGui::PopID();
 
             ImGui::TableSetColumnIndex(4);
@@ -212,7 +212,8 @@ void GUI::drawBody()
         ImGui::Text("Raw Body");
         ImGui::SameLine();
         HelpMarker("Ctrl+Enter for newline");
-        ImGui::InputTextMultiline(" ", tabs.at(active_tab).getRawBodyRef(), 1024, ImVec2(1200, 200), ImGuiInputTextFlags_AllowTabInput | ImGuiInputTextFlags_CtrlEnterForNewLine);
+        // ImGui::InputTextMultiline(" ", &tabs.at(active_tab).rawBody, 1024, ImVec2(1200, 200), ImGuiInputTextFlags_AllowTabInput | ImGuiInputTextFlags_CtrlEnterForNewLine);
+        ImGui::InputTextMultiline(" ", &tabs.at(active_tab).rawBody, ImVec2(1200, 200), ImGuiInputTextFlags_AllowTabInput | ImGuiInputTextFlags_CtrlEnterForNewLine);
     }
     else if (tabs.at(active_tab).getBodyType() == tabs.at(active_tab).BODY_BINARY)
     {
@@ -333,7 +334,7 @@ void GUI::workspaceArea()
         }
         for (size_t n = 0; n < tabs.size(); n++)
         {
-            if (ImGui::BeginTabItem(tabs.at(n).getTitle(), &tabs.at(n).isOpen, ImGuiTabItemFlags_None))
+            if (ImGui::BeginTabItem(tabs.at(n).title.c_str(), &tabs.at(n).isOpen, ImGuiTabItemFlags_None))
             {
                 active_tab = n;
                 this->active_response = tabs.at(active_tab).getResponse();
@@ -342,11 +343,14 @@ void GUI::workspaceArea()
                 ImGui::SetNextItemWidth(100);
                 ImGui::Combo(" ", &tabs.at(n).currentHttpMethod, constants->REQUEST_TYPE, IM_ARRAYSIZE(constants->REQUEST_TYPE));
                 ImGui::SameLine();
-                ImGui::InputText("URL", (char *)tabs.at(n).getUrl(), constants->MAX_URL_SIZE);
+                ImGui::InputText("URL", &tabs.at(n).url);
                 ImGui::SameLine();
                 if (ImGui::Button("Send"))
                 {
-                    tabs.at(active_tab).sendRequest();
+                    std::thread t([&] {
+                        tabs.at(active_tab).sendRequest();
+                    });
+                    t.detach();
                 }
                 ImGui::NewLine();
                 this->tabConfig();

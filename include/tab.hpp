@@ -15,20 +15,18 @@ extern std::unique_ptr<Constants> constants;
 class KeyValuePair
 {
 private:
+
+
+public:
     std::string value;
     std::string description;
     bool enable;
-
-public:
     std::string key;
     KeyValuePair();
 
-    char *getKey();
+
     void setKey(const std::string &constKey);
     void setKey(const char *constKey);
-    bool *getEnableRef();
-    char *getValue();
-    char *getDescription();
     int _id;
 };
 class Tab
@@ -42,10 +40,10 @@ private:
     Parameters _params;
     Response res;
 
+public:
     std::string title;
     std::string url;
     std::string rawBody;
-public:
     enum BodyType
     {
         BODY_NONE,
@@ -70,9 +68,9 @@ public:
     std::vector<KeyValuePair> formData;
 
     bool isOpen;
-    char* getRawBodyRef();
-    const char *getTitle();
-    const char *getUrl();
+    // char* getRawBodyRef();
+    // const char *getTitle();
+    // const char *getUrl();
     
     int currentHttpMethod;
     int currentBodyType;
