@@ -40,3 +40,4 @@ git clone https://github.com/theProgrammerDavid/xP.git
 | Glew            | https://glew.sourceforge.net     |
 | GLFW            | https://github.com/glfw/glfw     |
 | Curl For People | https://whoshuu/cpr              |
+| Glad            | https://github.com/Dav1dde/glad.git|
