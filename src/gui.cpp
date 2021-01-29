@@ -25,12 +25,74 @@ void GUI::responseArea()
         }
         if (ImGui::BeginTabItem("Headers"))
         {
+            const float TEXT_BASE_HEIGHT = ImGui::GetTextLineHeightWithSpacing();
+            ImVec2 WorkspaceTableSize = ImVec2(-FLT_MIN, TEXT_BASE_HEIGHT * 10);
+            // ImGui::Text("URL E");
+            if (ImGui::BeginTable("Response Headers", 2, workspaceTableFlags, WorkspaceTableSize))
+            {
 
+                ImGui::TableSetupColumn("Key");
+                ImGui::TableSetupColumn("Value");
+
+                ImGui::TableHeadersRow();
+
+                int count = 0;
+                // std::cout << tabs.at(active_tab).res.header.size() << std::endl;
+                for (auto i : tabs.at(active_tab).res.header)
+                {
+                    // std::cout << "hello\n";
+                    ImGui::TableNextRow();
+
+                    ImGui::TableSetColumnIndex(0);
+                    ImGui::PushID(0);
+                    ImGui::Text("%s", i.first.c_str());
+                    ImGui::PopID();
+
+                    count++;
+
+                    ImGui::TableSetColumnIndex(1);
+                    ImGui::PushID(1);
+                    ImGui::Text("%s", i.second.c_str());
+                    ImGui::PopID();
+                }
+                ImGui::EndTable();
+            }
             ImGui::EndTabItem();
         }
         if (ImGui::BeginTabItem("Cookies"))
         {
+            const float TEXT_BASE_HEIGHT = ImGui::GetTextLineHeightWithSpacing();
+            ImVec2 WorkspaceTableSize = ImVec2(-FLT_MIN, TEXT_BASE_HEIGHT * 10);
+            // ImGui::Text("URL E");
+            if (ImGui::BeginTable("Cookies", 2, workspaceTableFlags, WorkspaceTableSize))
+            {
 
+                ImGui::TableSetupColumn("Key");
+                ImGui::TableSetupColumn("Value");
+
+                ImGui::TableHeadersRow();
+
+                int count = 0;
+                // std::cout << tabs.at(active_tab).res.header.size() << std::endl;
+                for (auto i : tabs.at(active_tab).res.cookies)
+                {
+                    // std::cout << "hello\n";
+                    ImGui::TableNextRow();
+
+                    ImGui::TableSetColumnIndex(0);
+                    ImGui::PushID(0);
+                    ImGui::Text("%s", i.first.c_str());
+                    ImGui::PopID();
+
+                    count++;
+
+                    ImGui::TableSetColumnIndex(1);
+                    ImGui::PushID(1);
+                    ImGui::Text("%s", i.second.c_str());
+                    ImGui::PopID();
+                }
+                ImGui::EndTable();
+            }
             ImGui::EndTabItem();
         }
         if (ImGui::BeginTabItem("Test Results"))
@@ -57,6 +119,15 @@ void GUI::workspaceBar()
     }
     ImGui::SameLine();
     ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%.1fFPS", ImGui::GetIO().Framerate);
+    ImGui::SameLine();
+    if (constants->isOnline)
+    {
+        ImGui::TextColored(ImVec4(0.0f, 1.0f, 0.0f, 1.0f), "Online");
+    }
+    else
+    {
+        ImGui::TextColored(ImVec4(1.0f, 0.0f, 0.0f, 1.0f), "Offline");
+    }
 }
 
 void GUI::settingsPopup()

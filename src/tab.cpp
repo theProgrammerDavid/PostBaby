@@ -98,7 +98,7 @@ Tab::Tab(size_t index)
 
     // this->title = "Title" + std::to_string((int)rand());
     this->title = "Untitled" + std::to_string(index);
-    this->url = "http://localhost:1234/api";
+    this->url = "http://csivit.com";
     // this->response = "This is some response";
     isOpen = true;
     currentHttpMethod = 0;

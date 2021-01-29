@@ -37,10 +37,10 @@ private:
 
     void constructRequest();
     // Url _url;
-    Parameters _params;
-    Response res;
 
 public:
+    Parameters _params;
+    Response res;
     std::string title;
     std::string url;
     std::string rawBody;

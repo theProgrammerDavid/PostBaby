@@ -35,6 +35,7 @@ public:
     int WINDOW_HEIGHT;
     int CURRENT_THEME;
     float FONT_SIZE;
+    bool isOnline;
     std::string PATH_TO_FONT;
     ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
     const char *REQUEST_TYPE[6] = {"GET", "POST", "PUT", "DELETE", "HEAD", "OPTIONS"};
