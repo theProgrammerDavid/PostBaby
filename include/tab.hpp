@@ -15,15 +15,12 @@ extern std::unique_ptr<Constants> constants;
 class KeyValuePair
 {
 private:
-
-
 public:
     std::string value;
     std::string description;
     bool enable;
     std::string key;
     KeyValuePair();
-
 
     void setKey(const std::string &constKey);
     void setKey(const char *constKey);
@@ -33,14 +30,15 @@ class Tab
 {
 
 private:
-
-
     void constructRequest();
     // Url _url;
 
 public:
     Parameters _params;
     Response res;
+    Header _headers{};
+    Payload payload{};
+
     std::string title;
     std::string url;
     std::string rawBody;
@@ -54,13 +52,11 @@ public:
         BODY_GRAPHQL
     };
     //  networking stuff
-    // 
+    //
     void sendRequest();
     int getBodyType();
-    const char* getResponse();
+    const char *getResponse();
     void setBodyType(const int bodyType);
-
-
 
     std::vector<KeyValuePair> queryParams;
     std::vector<KeyValuePair> headers;
@@ -71,7 +67,7 @@ public:
     // char* getRawBodyRef();
     // const char *getTitle();
     // const char *getUrl();
-    
+
     int currentHttpMethod;
     int currentBodyType;
     Tab(size_t index);

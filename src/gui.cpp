@@ -2,7 +2,7 @@
 
 GUI::GUI()
 {
-    workspaceTableFlags = ImGuiTableFlags_RowBg | ImGuiTableFlags_Borders | ImGuiTableFlags_BordersV | ImGuiTableFlags_Resizable | ImGuiTableFlags_ScrollY;
+    workspaceTableFlags = ImGuiTableFlags_RowBg | ImGuiTableFlags_Borders | ImGuiTableFlags_BordersV | ImGuiTableFlags_Resizable | ImGuiTableFlags_ScrollY | ImGuiTableFlags_ScrollX;
     windowFlags = ImGuiWindowFlags_NoTitleBar;
     active_tab = 0;
     active_response = "";
@@ -27,7 +27,6 @@ void GUI::responseArea()
         {
             const float TEXT_BASE_HEIGHT = ImGui::GetTextLineHeightWithSpacing();
             ImVec2 WorkspaceTableSize = ImVec2(-FLT_MIN, TEXT_BASE_HEIGHT * 10);
-            // ImGui::Text("URL E");
             if (ImGui::BeginTable("Response Headers", 2, workspaceTableFlags, WorkspaceTableSize))
             {
 
@@ -37,10 +36,8 @@ void GUI::responseArea()
                 ImGui::TableHeadersRow();
 
                 int count = 0;
-                // std::cout << tabs.at(active_tab).res.header.size() << std::endl;
                 for (auto i : tabs.at(active_tab).res.header)
                 {
-                    // std::cout << "hello\n";
                     ImGui::TableNextRow();
 
                     ImGui::TableSetColumnIndex(0);
@@ -63,7 +60,7 @@ void GUI::responseArea()
         {
             const float TEXT_BASE_HEIGHT = ImGui::GetTextLineHeightWithSpacing();
             ImVec2 WorkspaceTableSize = ImVec2(-FLT_MIN, TEXT_BASE_HEIGHT * 10);
-            // ImGui::Text("URL E");
+
             if (ImGui::BeginTable("Cookies", 2, workspaceTableFlags, WorkspaceTableSize))
             {
 
@@ -73,10 +70,8 @@ void GUI::responseArea()
                 ImGui::TableHeadersRow();
 
                 int count = 0;
-                // std::cout << tabs.at(active_tab).res.header.size() << std::endl;
                 for (auto i : tabs.at(active_tab).res.cookies)
                 {
-                    // std::cout << "hello\n";
                     ImGui::TableNextRow();
 
                     ImGui::TableSetColumnIndex(0);
@@ -201,7 +196,7 @@ void GUI::drawKeyValueDesc(std::vector<KeyValuePair> &vec)
 {
     const float TEXT_BASE_HEIGHT = ImGui::GetTextLineHeightWithSpacing();
     ImVec2 WorkspaceTableSize = ImVec2(-FLT_MIN, TEXT_BASE_HEIGHT * 8);
-    // ImGui::Text("URL E");
+
     if (ImGui::BeginTable("##table1", 5, workspaceTableFlags, WorkspaceTableSize))
     {
 
@@ -223,7 +218,7 @@ void GUI::drawKeyValueDesc(std::vector<KeyValuePair> &vec)
 
             ImGui::TableSetColumnIndex(1);
             ImGui::PushID(vec.at(row)._id);
-            // ImGui::InputText("Key", vec.at(row).getKey(), 128);
+
             ImGui::InputText("Key", &vec.at(row).key);
 
             ImGui::SameLine();
@@ -283,7 +278,7 @@ void GUI::drawBody()
         ImGui::Text("Raw Body");
         ImGui::SameLine();
         HelpMarker("Ctrl+Enter for newline");
-        // ImGui::InputTextMultiline(" ", &tabs.at(active_tab).rawBody, 1024, ImVec2(1200, 200), ImGuiInputTextFlags_AllowTabInput | ImGuiInputTextFlags_CtrlEnterForNewLine);
+
         ImGui::InputTextMultiline(" ", &tabs.at(active_tab).rawBody, ImVec2(1200, 200), ImGuiInputTextFlags_AllowTabInput | ImGuiInputTextFlags_CtrlEnterForNewLine);
     }
     else if (tabs.at(active_tab).getBodyType() == tabs.at(active_tab).BODY_BINARY)
@@ -366,7 +361,7 @@ void GUI::tabConfig()
 
 void GUI::render()
 {
-    if (ImGui::Begin("xP", NULL, windowFlags))
+    if (ImGui::Begin("config", NULL, windowFlags))
     {
         ImGui::BeginGroup();
         this->workspaceBar();
@@ -386,8 +381,14 @@ void GUI::render()
         ImGui::EndGroup();
 
         // pool.enqueue(&GUI::responseArea, this).get();
-        ImGui::NewLine();
+        // ImGui::NewLine();
 
+
+        ImGui::End();
+    }
+
+    if (ImGui::Begin("response", NULL, windowFlags))
+    {
         responseArea();
 
         ImGui::End();

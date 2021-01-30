@@ -28,6 +28,7 @@ void Tab::setBodyType(const int bodyType)
 {
     this->currentBodyType = bodyType;
 }
+
 const char *Tab::getResponse()
 {
     return this->res.text.c_str();
@@ -37,30 +38,29 @@ const char *Tab::getResponse()
 void Tab::constructRequest()
 {
     this->_params = Parameters{};
+    this->payload = Payload{};
+    this->_headers = Header{};
+
     for (auto i : this->queryParams)
     {
-        if(i.enable)
-        this->_params.Add({i.key, i.value});
+        if (i.enable)
+            this->_params.Add({i.key, i.value});
     }
-    // std::thread t;
-    // std::string baseDirPath = abs_exe_path();
-    // std::string serverCertPath = baseDirPath + "server.cer";
-    // std::string serverKeyPath = baseDirPath + "server.key";
-    // SslOptions sslOpts =
-    //     Ssl(ssl::CaPath{baseDirPath + "ca.cer"}, ssl::CertFile{baseDirPath + "client.cer"},
-    //         ssl::KeyFile{baseDirPath + "client.key"}, ssl::VerifyPeer{false},
-    //         ssl::VerifyHost{false}, ssl::VerifyStatus{false});
 
+    for (auto i : this->headers)
+    {
+        if (i.enable)
+        {
+            this->_headers.insert({i.key, i.value});
+        }
+    }
     switch (this->currentHttpMethod)
     {
-    case 0:
-        // t = std::thread([&] {
-            // res = cpr::Get(_url, sslOpts, Verbose{}, _params, Timeout{constants->REQUEST_TIMEOUT});
-            res = cpr::Get(Url{this->url.c_str()}, _params, Timeout{constants->REQUEST_TIMEOUT});
-        // });
-        // t.detach();
+    case 0: //GET REQUEST
+
         break;
-    case 1:
+    case 1: //POST REQUEST
+
         break;
 
     case 2:
@@ -75,34 +75,41 @@ void Tab::constructRequest()
     case 5:
         break;
     };
-
-    // if (this->currentHttpMethod == 0)
-    // {
-    //     std::cout << "starting\n";
-    //     std::thread t([&] {
-    //         res = cpr::Get(_url, _params);
-    //         std::cout << "done\n";
-    //     });
-    //     t.detach();
-    //     std::cout << "finished\n";
-    // }
 }
 
 void Tab::sendRequest()
 {
     this->constructRequest();
+    switch (this->currentHttpMethod)
+    {
+    case 0: //GET REQUEST
+        res = cpr::Get(Url{this->url.c_str()}, _params, Timeout{constants->REQUEST_TIMEOUT});
+        break;
+    case 1: //POST REQUEST
+        res = cpr::Post(Url{this->url.c_str()}, _params, this->_headers, Timeout{constants->REQUEST_TIMEOUT});
+
+        break;
+
+    case 2:
+        break;
+
+    case 3:
+        break;
+
+    case 4:
+        break;
+
+    case 5:
+        break;
+    };
 }
 
 Tab::Tab(size_t index)
 {
 
-    // this->title = "Title" + std::to_string((int)rand());
     this->title = "Untitled" + std::to_string(index);
-    this->url = "http://csivit.com";
-    // this->response = "This is some response";
+    this->url = "http://localhost:1234";
     isOpen = true;
     currentHttpMethod = 0;
     currentBodyType = 0;
-    // KeyValuePair t;
-    // queryParams.push_back(t);
 }
