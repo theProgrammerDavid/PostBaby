@@ -1,27 +1,25 @@
 name: build
-on:
+'on':
   push: {}
   pull_request: {}
-
 jobs:
   Windows:
     runs-on: windows-2019
     env:
-     VS_PATH: C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\
-     MSBUILD_PATH: C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\MSBuild\Current\Bin\
-     # Until gh-actions allow us to use env variables inside other env variables (because we need %GITHUB_WORKSPACE%) we have to use relative path to imgui/examples/example_name directory.
+      VS_PATH: 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\'
+      MSBUILD_PATH: >-
+        C:\Program Files (x86)\Microsoft Visual
+        Studio\2019\Enterprise\MSBuild\Current\Bin\
     steps:
-    - uses: actions/checkout@v1
-      with: 
-        fetch-dept: 1
-
-    - name: Configure CMake
-      shell: cmd
-      run: |
-        mkdir build && cd build
-        cmake .. 
-    
-    - name: "Build Project"
-      shell: cmd
-      run: |
-      MSBuild.exe ./XP.sln
+      - uses: actions/checkout@v1
+        with:
+          fetch-dept: 1
+      - name: Configure CMake
+        shell: cmd
+        run: |
+          mkdir build && cd build
+          cmake .. 
+      - name: Build Project
+        shell: cmd
+        run: |
+          MSBuild.exe ./XP.sln
