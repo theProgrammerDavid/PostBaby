@@ -31,7 +31,7 @@ jobs:
     - name: Install Dependencies
       run: |
         sudo apt update -y
-        sudo apt install -y build-essential libssl-dev cmake
+        sudo apt install -y build-essential libssl-dev cmake libx11-dev xorg-dev libglu1-mesa-dev 
     - name: Configure CMake
       run: |
         mkdir build && cd build && cmake -DCMAKE_BUILD_TYPE=Release ..
