@@ -109,8 +109,10 @@ int main(int, char **)
     //IM_ASSERT(font != NULL);
 
     // Our state
-    bool show_demo_window = true;
-
+#ifdef XP_SHOW_IMGUI_DEMO_WINDOW
+    bool show_demo_window = false;
+    show_demo_window = false;
+#endif
     GUI gui;
     constants->isOnline = p.get();
     // Main loop
@@ -130,8 +132,10 @@ int main(int, char **)
 
         // 1. Show the big demo window (Most of the sample code is in ImGui::ShowDemoWindow()! You can browse its code to learn more about Dear ImGui!).
         // if (show_demo_window)
-        ImGui::ShowDemoWindow(&show_demo_window);
 
+#ifdef XP_SHOW_IMGUI_DEMO_WINDOW
+        ImGui::ShowDemoWindow(&show_demo_window);
+#endif
         gui.render();
 
         // Rendering

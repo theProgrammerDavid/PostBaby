@@ -29,9 +29,10 @@ git clone https://github.com/theProgrammerDavid/xP.git
 
 ### Building
 
-- Create a ``build`` folder and `cd` into that, and run ``cmake ..`` (or if you want a Release build, use ``cmake -DCMAKE_BUILD_TYPE=Release ..``)
+- Create a ``build`` folder and `cd` into that, and run ``cmake -DCMAKE_BUILD_TYPE=Release ..`` for a Release build with the build system of choice.
 - Configuring CMake might take a while initially as it is downloading dependencies
-
+- Once configured, build it using the selected build system
+- The built binary will be in `${XP_ROOT}/build/src/xP`
 
 ### Libraries used
 | Library         | URL                              |

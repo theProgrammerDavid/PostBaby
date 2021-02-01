@@ -17,7 +17,7 @@ file(GLOB IMGUI_SOURCES "${XP_SOURCE_DIR}/extern/imgui/*.cpp")
 # configure config.hpp.in
 configure_file("config.hpp.in" "${CMAKE_CURRENT_BINARY_DIR}/config_impl.hpp")
 
-# define library target
+# define executable target
 add_executable(xP 
 ${ICON}
 ${SOURCES} 
