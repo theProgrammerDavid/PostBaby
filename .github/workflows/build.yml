@@ -22,5 +22,5 @@ jobs:
       - name: Build Project
         shell: cmd
         run: |
-          dir
+          cd build
           "%MSBUILD_PATH%\MSBuild.exe" XP.sln /p:Configuration=Release
