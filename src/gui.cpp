@@ -2,7 +2,7 @@
 
 GUI::GUI()
 {
-    workspaceTableFlags = ImGuiTableFlags_RowBg | ImGuiTableFlags_Borders | ImGuiTableFlags_BordersV | ImGuiTableFlags_Resizable | ImGuiTableFlags_ScrollY;
+    workspaceTableFlags = ImGuiTableFlags_RowBg | ImGuiTableFlags_Borders | ImGuiTableFlags_BordersV | ImGuiTableFlags_Resizable | ImGuiTableFlags_ScrollY | ImGuiTableFlags_ScrollX;
     windowFlags = ImGuiWindowFlags_NoTitleBar;
     active_tab = 0;
     active_response = "";
@@ -25,12 +25,69 @@ void GUI::responseArea()
         }
         if (ImGui::BeginTabItem("Headers"))
         {
+            const float TEXT_BASE_HEIGHT = ImGui::GetTextLineHeightWithSpacing();
+            ImVec2 WorkspaceTableSize = ImVec2(-FLT_MIN, TEXT_BASE_HEIGHT * 10);
+            if (ImGui::BeginTable("Response Headers", 2, workspaceTableFlags, WorkspaceTableSize))
+            {
 
+                ImGui::TableSetupColumn("Key");
+                ImGui::TableSetupColumn("Value");
+
+                ImGui::TableHeadersRow();
+
+                int count = 0;
+                for (auto i : tabs.at(active_tab).res.header)
+                {
+                    ImGui::TableNextRow();
+
+                    ImGui::TableSetColumnIndex(0);
+                    ImGui::PushID(0);
+                    ImGui::Text("%s", i.first.c_str());
+                    ImGui::PopID();
+
+                    count++;
+
+                    ImGui::TableSetColumnIndex(1);
+                    ImGui::PushID(1);
+                    ImGui::Text("%s", i.second.c_str());
+                    ImGui::PopID();
+                }
+                ImGui::EndTable();
+            }
             ImGui::EndTabItem();
         }
         if (ImGui::BeginTabItem("Cookies"))
         {
+            const float TEXT_BASE_HEIGHT = ImGui::GetTextLineHeightWithSpacing();
+            ImVec2 WorkspaceTableSize = ImVec2(-FLT_MIN, TEXT_BASE_HEIGHT * 10);
 
+            if (ImGui::BeginTable("Cookies", 2, workspaceTableFlags, WorkspaceTableSize))
+            {
+
+                ImGui::TableSetupColumn("Key");
+                ImGui::TableSetupColumn("Value");
+
+                ImGui::TableHeadersRow();
+
+                int count = 0;
+                for (auto i : tabs.at(active_tab).res.cookies)
+                {
+                    ImGui::TableNextRow();
+
+                    ImGui::TableSetColumnIndex(0);
+                    ImGui::PushID(0);
+                    ImGui::Text("%s", i.first.c_str());
+                    ImGui::PopID();
+
+                    count++;
+
+                    ImGui::TableSetColumnIndex(1);
+                    ImGui::PushID(1);
+                    ImGui::Text("%s", i.second.c_str());
+                    ImGui::PopID();
+                }
+                ImGui::EndTable();
+            }
             ImGui::EndTabItem();
         }
         if (ImGui::BeginTabItem("Test Results"))
@@ -57,6 +114,15 @@ void GUI::workspaceBar()
     }
     ImGui::SameLine();
     ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%.1fFPS", ImGui::GetIO().Framerate);
+    ImGui::SameLine();
+    if (constants->isOnline)
+    {
+        ImGui::TextColored(ImVec4(0.0f, 1.0f, 0.0f, 1.0f), "Online");
+    }
+    else
+    {
+        ImGui::TextColored(ImVec4(1.0f, 0.0f, 0.0f, 1.0f), "Offline");
+    }
 }
 
 void GUI::settingsPopup()
@@ -69,6 +135,7 @@ void GUI::settingsPopup()
         ImGui::Separator();
 
         ImGui::InputInt("URL Max Size", &constants->MAX_URL_SIZE);
+        ImGui::InputInt("Request Timeout (ms)", &constants->REQUEST_TIMEOUT);
         //  THEMES
         ImGui::Separator();
         ImGui::Text("Theme");
@@ -112,68 +179,6 @@ void GUI::centerModal()
     ImGui::SetNextWindowPos(center, ImGuiCond_Appearing, ImVec2(0.5f, 0.5f));
 }
 
-void GUI::drawParams()
-{
-    ImGui::Text("Query Params");
-    const float TEXT_BASE_HEIGHT = ImGui::GetTextLineHeightWithSpacing();
-    ImVec2 WorkspaceTableSize = ImVec2(-FLT_MIN, TEXT_BASE_HEIGHT * 8);
-    if (ImGui::BeginTable("##table1", 5, workspaceTableFlags, WorkspaceTableSize))
-    {
-
-        ImGui::TableSetupColumn("Use", ImGuiTableColumnFlags_WidthFixed);
-        ImGui::TableSetupColumn("Key");
-        ImGui::TableSetupColumn("Value");
-        ImGui::TableSetupColumn("Description");
-        ImGui::TableSetupColumn("Del", ImGuiTableColumnFlags_WidthFixed);
-
-        ImGui::TableHeadersRow();
-
-        for (size_t row = 0; row < tabs.at(active_tab).queryParams.size(); row++)
-        {
-            ImGui::TableNextRow();
-            ImGui::TableSetColumnIndex(0);
-            ImGui::PushID(row);
-            ImGui::Checkbox("", tabs.at(active_tab).queryParams.at(row).getEnableRef());
-            ImGui::PopID();
-
-            ImGui::TableSetColumnIndex(1);
-            ImGui::PushID(tabs.at(active_tab).queryParams.at(row)._id);
-            ImGui::InputText("Key", tabs.at(active_tab).queryParams.at(row).getKey(), 128);
-            ImGui::SameLine();
-            if (ImGui::Button("Clear"))
-            {
-                tabs.at(active_tab).queryParams.at(row).setKey("");
-            }
-            ImGui::PopID();
-
-            ImGui::TableSetColumnIndex(2);
-            ImGui::PushID(tabs.at(active_tab).queryParams.at(row)._id);
-            ImGui::InputText("Value", tabs.at(active_tab).queryParams.at(row).getValue(), 128);
-            ImGui::PopID();
-
-            ImGui::TableSetColumnIndex(3);
-            ImGui::PushID(tabs.at(active_tab).queryParams.at(row)._id);
-            ImGui::InputText("Description", tabs.at(active_tab).queryParams.at(row).getDescription(), 128);
-            ImGui::PopID();
-
-            ImGui::TableSetColumnIndex(4);
-
-            ImGui::PushID(row);
-            if (ImGui::Button("X"))
-            {
-                tabs.at(active_tab).queryParams.erase(tabs.at(active_tab).queryParams.begin() + row);
-            }
-            ImGui::PopID();
-        }
-        ImGui::EndTable();
-        if (ImGui::Button("+"))
-        {
-            KeyValuePair kvp;
-            tabs.at(active_tab).queryParams.push_back(kvp);
-        }
-    }
-}
-
 void GUI::HelpMarker(const char *desc)
 {
     ImGui::TextDisabled("(?)");
@@ -191,7 +196,7 @@ void GUI::drawKeyValueDesc(std::vector<KeyValuePair> &vec)
 {
     const float TEXT_BASE_HEIGHT = ImGui::GetTextLineHeightWithSpacing();
     ImVec2 WorkspaceTableSize = ImVec2(-FLT_MIN, TEXT_BASE_HEIGHT * 8);
-    // ImGui::Text("URL E");
+
     if (ImGui::BeginTable("##table1", 5, workspaceTableFlags, WorkspaceTableSize))
     {
 
@@ -208,12 +213,14 @@ void GUI::drawKeyValueDesc(std::vector<KeyValuePair> &vec)
             ImGui::TableNextRow();
             ImGui::TableSetColumnIndex(0);
             ImGui::PushID(row);
-            ImGui::Checkbox("", vec.at(row).getEnableRef());
+            ImGui::Checkbox("", &vec.at(row).enable);
             ImGui::PopID();
 
             ImGui::TableSetColumnIndex(1);
             ImGui::PushID(vec.at(row)._id);
-            ImGui::InputText("Key", vec.at(row).getKey(), 128);
+
+            ImGui::InputText("Key", &vec.at(row).key);
+
             ImGui::SameLine();
             if (ImGui::Button("Clear"))
             {
@@ -223,12 +230,12 @@ void GUI::drawKeyValueDesc(std::vector<KeyValuePair> &vec)
 
             ImGui::TableSetColumnIndex(2);
             ImGui::PushID(vec.at(row)._id);
-            ImGui::InputText("Value", vec.at(row).getValue(), 128);
+            ImGui::InputText("Value", &vec.at(row).value);
             ImGui::PopID();
 
             ImGui::TableSetColumnIndex(3);
             ImGui::PushID(vec.at(row)._id);
-            ImGui::InputText("Description", vec.at(row).getDescription(), 128);
+            ImGui::InputText("Description", &vec.at(row).description);
             ImGui::PopID();
 
             ImGui::TableSetColumnIndex(4);
@@ -271,7 +278,8 @@ void GUI::drawBody()
         ImGui::Text("Raw Body");
         ImGui::SameLine();
         HelpMarker("Ctrl+Enter for newline");
-        ImGui::InputTextMultiline(" ", tabs.at(active_tab).getRawBodyRef(), 1024, ImVec2(1200, 200), ImGuiInputTextFlags_AllowTabInput | ImGuiInputTextFlags_CtrlEnterForNewLine);
+
+        ImGui::InputTextMultiline(" ", &tabs.at(active_tab).rawBody, ImVec2(1200, 200), ImGuiInputTextFlags_AllowTabInput | ImGuiInputTextFlags_CtrlEnterForNewLine);
     }
     else if (tabs.at(active_tab).getBodyType() == tabs.at(active_tab).BODY_BINARY)
     {
@@ -289,7 +297,8 @@ void GUI::tabConfig()
     {
         if (ImGui::BeginTabItem("Params"))
         {
-            drawParams();
+            // drawParams();
+            drawKeyValueDesc(tabs.at(active_tab).queryParams);
             ImGui::EndTabItem();
         }
         if (ImGui::BeginTabItem("Authorization"))
@@ -352,7 +361,7 @@ void GUI::tabConfig()
 
 void GUI::render()
 {
-    if (ImGui::Begin("xP", NULL, windowFlags))
+    if (ImGui::Begin("config", NULL, windowFlags))
     {
         ImGui::BeginGroup();
         this->workspaceBar();
@@ -372,8 +381,14 @@ void GUI::render()
         ImGui::EndGroup();
 
         // pool.enqueue(&GUI::responseArea, this).get();
-        ImGui::NewLine();
+        // ImGui::NewLine();
 
+
+        ImGui::End();
+    }
+
+    if (ImGui::Begin("response", NULL, windowFlags))
+    {
         responseArea();
 
         ImGui::End();
@@ -400,11 +415,14 @@ void GUI::workspaceArea()
                 ImGui::SetNextItemWidth(100);
                 ImGui::Combo(" ", &tabs.at(n).currentHttpMethod, constants->REQUEST_TYPE, IM_ARRAYSIZE(constants->REQUEST_TYPE));
                 ImGui::SameLine();
-                ImGui::InputText("URL", (char *)tabs.at(n).getUrl(), constants->MAX_URL_SIZE);
+                ImGui::InputText("URL", &tabs.at(n).url);
                 ImGui::SameLine();
                 if (ImGui::Button("Send"))
                 {
-                    tabs.at(active_tab).sendRequest();
+                    std::thread t([&] {
+                        tabs.at(active_tab).sendRequest();
+                    });
+                    t.detach();
                 }
                 ImGui::NewLine();
                 this->tabConfig();

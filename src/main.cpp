@@ -1,8 +1,15 @@
 #include "main.hpp"
 #include "util.hpp"
 
+bool checkOnline()
+{
+    Response r = Get(Url{"http://icanhazip.com"}, Timeout{2000});
+    return r.text.length() > 0;
+}
+
 int main(int, char **)
 {
+    std::future<bool> p = std::async(std::launch::async, checkOnline);
     // Setup window
     glfwSetErrorCallback(glfw_error_callback);
     if (!glfwInit())
@@ -72,7 +79,6 @@ int main(int, char **)
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
     ImGuiIO &io = ImGui::GetIO();
-    (void)io;
     io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard; // Enable Keyboard Controls
                                                           //io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
 
@@ -106,7 +112,7 @@ int main(int, char **)
     bool show_demo_window = true;
 
     GUI gui;
-
+    constants->isOnline = p.get();
     // Main loop
     while (!glfwWindowShouldClose(window))
     {

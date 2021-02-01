@@ -9,11 +9,6 @@ KeyValuePair::KeyValuePair()
     this->_id = (int)rand();
 }
 
-char *KeyValuePair::getKey()
-{
-    return (char *)this->key.c_str();
-}
-
 void KeyValuePair::setKey(const char *setKey)
 {
     this->key = setKey;
@@ -22,36 +17,6 @@ void KeyValuePair::setKey(const char *setKey)
 void KeyValuePair::setKey(const std::string &setKey)
 {
     this->key = setKey;
-}
-
-char *KeyValuePair::getValue()
-{
-    return (char *)this->value.c_str();
-}
-
-char *KeyValuePair::getDescription()
-{
-    return (char *)this->description.c_str();
-}
-
-bool *KeyValuePair::getEnableRef()
-{
-    return &this->enable;
-}
-
-const char *Tab::getTitle()
-{
-    return this->title.c_str();
-}
-
-const char *Tab::getUrl()
-{
-    return this->url.c_str();
-}
-
-char *Tab::getRawBodyRef()
-{
-    return (char *)this->rawBody.c_str();
 }
 
 int Tab::getBodyType()
@@ -63,60 +28,88 @@ void Tab::setBodyType(const int bodyType)
 {
     this->currentBodyType = bodyType;
 }
+
 const char *Tab::getResponse()
 {
     return this->res.text.c_str();
+    // return this->asyncRes.get().text.c_str();
 }
 
 void Tab::constructRequest()
 {
-    _url = std::move(Url{this->url});
+    this->_params = Parameters{};
+    this->payload = Payload{};
+    this->_headers = Header{};
+
     for (auto i : this->queryParams)
     {
-        this->_params.Add({i.getKey(), i.getValue()});
+        if (i.enable)
+            this->_params.Add({i.key, i.value});
     }
-    switch (currentHttpMethod)
+
+    for (auto i : this->headers)
     {
-    case 0:
-        //    GET
-        this->res = std::move(cpr::Get(_url, _params));
+        if (i.enable)
+        {
+            this->_headers.insert({i.key, i.value});
+        }
+    }
+    switch (this->currentHttpMethod)
+    {
+    case 0: //GET REQUEST
+
         break;
-    case 1:
-        // POST
+    case 1: //POST REQUEST
+
         break;
+
     case 2:
-        // PUT
         break;
 
     case 3:
-        //  DELETE
         break;
 
     case 4:
-        // HEAD
         break;
 
     case 5:
-        // OPTIONS
         break;
-    }
+    };
 }
 
 void Tab::sendRequest()
 {
     this->constructRequest();
+    switch (this->currentHttpMethod)
+    {
+    case 0: //GET REQUEST
+        res = cpr::Get(Url{this->url.c_str()}, _params, Timeout{constants->REQUEST_TIMEOUT});
+        break;
+    case 1: //POST REQUEST
+        res = cpr::Post(Url{this->url.c_str()}, _params, this->_headers, Timeout{constants->REQUEST_TIMEOUT});
+
+        break;
+
+    case 2:
+        break;
+
+    case 3:
+        break;
+
+    case 4:
+        break;
+
+    case 5:
+        break;
+    };
 }
 
 Tab::Tab(size_t index)
 {
 
-    // this->title = "Title" + std::to_string((int)rand());
     this->title = "Untitled" + std::to_string(index);
-    this->url = "http://localhost:1234/api";
-    // this->response = "This is some response";
+    this->url = "http://localhost:1234";
     isOpen = true;
     currentHttpMethod = 0;
     currentBodyType = 0;
-    // KeyValuePair t;
-    // queryParams.push_back(t);
 }

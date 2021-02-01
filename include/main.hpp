@@ -7,9 +7,12 @@
 #include "imgui_impl_opengl3.h"
 #include <stdio.h>
 #include <iostream>
+#include <cpr/cpr.h>
+#include <future>
+using namespace cpr;
 
 extern std::unique_ptr<Constants> constants;
-
+bool checkOnline();
 // #include "gl3w.h"
 // About Desktop OpenGL function loaders:
 //  Modern desktop OpenGL doesn't have a standard portable header file to load OpenGL function pointers.

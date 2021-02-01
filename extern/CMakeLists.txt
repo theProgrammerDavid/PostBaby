@@ -45,17 +45,17 @@ if(NOT glew_POPULATED)
 endif()
 
 # imgui
-FetchContent_Declare(
-  imgui
-  GIT_REPOSITORY https://github.com/ocornut/imgui.git
-  SOURCE_DIR     ${CMAKE_SOURCE_DIR}/extern/imgui
-  GIT_TAG        626e3e2b3bc1d3802ef177b497b00c5da98e93ee
+# FetchContent_Declare(
+#   imgui
+#   GIT_REPOSITORY https://github.com/ocornut/imgui.git
+#   SOURCE_DIR     ${CMAKE_SOURCE_DIR}/extern/imgui
+#   GIT_TAG        626e3e2b3bc1d3802ef177b497b00c5da98e93ee
 
-)
-FetchContent_GetProperties(imgui)
-if(NOT imgui_POPULATED)
-  FetchContent_Populate(imgui)
-endif()
+# )
+# FetchContent_GetProperties(imgui)
+# if(NOT imgui_POPULATED)
+#   FetchContent_Populate(imgui)
+# endif()
 
 include(FetchContent)
 FetchContent_Declare(cpr GIT_REPOSITORY https://github.com/whoshuu/cpr.git GIT_TAG e538269b0705a46f7e56255421f8e97261f2909a)

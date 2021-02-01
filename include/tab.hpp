@@ -1,39 +1,47 @@
 #pragma once
 #include <string>
-#include <cpr/cpr.h>
-#include "imgui.h"
 #include <iostream>
 #include <map>
+#include <future>
 #include <vector>
+#include <cpr/cpr.h>
+#include <cpr/ssl_options.h>
+#include "imgui.h"
+#include "util.hpp"
+#include "constants.hpp"
 using namespace cpr;
+extern std::unique_ptr<Constants> constants;
+
 class KeyValuePair
 {
 private:
-    std::string key;
+public:
     std::string value;
     std::string description;
     bool enable;
-
-public:
+    std::string key;
     KeyValuePair();
 
-    char *getKey();
     void setKey(const std::string &constKey);
     void setKey(const char *constKey);
-    bool *getEnableRef();
-    char *getValue();
-    char *getDescription();
     int _id;
 };
 class Tab
 {
 
 private:
-
-
     void constructRequest();
+    // Url _url;
 
 public:
+    Parameters _params;
+    Response res;
+    Header _headers{};
+    Payload payload{};
+
+    std::string title;
+    std::string url;
+    std::string rawBody;
     enum BodyType
     {
         BODY_NONE,
@@ -44,19 +52,11 @@ public:
         BODY_GRAPHQL
     };
     //  networking stuff
-    Url _url;
-    Parameters _params;
-    Response res;
-    // 
+    //
     void sendRequest();
     int getBodyType();
-    const char* getResponse();
+    const char *getResponse();
     void setBodyType(const int bodyType);
-
-    std::string title;
-    std::string url;
-    std::string rawBody;
-
 
     std::vector<KeyValuePair> queryParams;
     std::vector<KeyValuePair> headers;
@@ -64,10 +64,10 @@ public:
     std::vector<KeyValuePair> formData;
 
     bool isOpen;
-    char* getRawBodyRef();
-    const char *getTitle();
-    const char *getUrl();
-    
+    // char* getRawBodyRef();
+    // const char *getTitle();
+    // const char *getUrl();
+
     int currentHttpMethod;
     int currentBodyType;
     Tab(size_t index);
