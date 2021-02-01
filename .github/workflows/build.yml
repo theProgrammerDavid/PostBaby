@@ -22,4 +22,4 @@ jobs:
       - name: Build Project
         shell: cmd
         run: |
-          MSBuild.exe ./XP.sln
+          "%MSBUILD_PATH%\MSBuild.exe" ./XP.sln
