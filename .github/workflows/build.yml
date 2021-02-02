@@ -49,6 +49,7 @@ jobs:
     - name: Configure CMake
       run: |
         mkdir build && cd build 
+        export PATH="/usr/local/opt/openssl/bin:$PATH"
         CXX=clang++ CC=clang cmake -DCMAKE_BUILD_TYPE=Release ..
     - name: Build Project
       run: |
