@@ -45,9 +45,8 @@ int main(int, char **)
     }
 #endif
     // GL 3.0 + GLSL 130
-    const char *glsl_version = "#version 130";
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 2);
 
     // if you want to use OpenGL CORE profile, set GLFW_CONTEXT_VERSION_MINOR to >=2 and uncomment the two lines below
 
@@ -109,7 +108,7 @@ int main(int, char **)
     ImGuiStyle &style = ImGui::GetStyle();
     style.ScaleAllSizes(highDPIscaleFactor);
 
-    io.Fonts->AddFontFromFileTTF(constants->PATH_TO_FONT.c_str(), (constants->FONT_SIZE) * highDPIscaleFactor, NULL, NULL);
+    //io.Fonts->AddFontFromFileTTF(constants->PATH_TO_FONT.c_str(), (constants->FONT_SIZE) * highDPIscaleFactor, NULL, NULL);
 
     //io.Fonts->AddFontFromFileTTF("../../misc/fonts/Roboto-Medium.ttf", 16.0f);
     //io.Fonts->AddFontFromFileTTF("../../misc/fonts/Cousine-Regular.ttf", 15.0f);
