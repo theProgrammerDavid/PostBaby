@@ -1,4 +1,5 @@
 find_package(OpenGL REQUIRED)
+find_package(OpenSSL REQUIRED)
 include_directories( ${OPENGL_INCLUDE_DIRS}  )
 
 include_directories("../include")
@@ -24,8 +25,6 @@ ${SOURCES}
 ${IMGUI_SOURCES} 
 )
 target_include_directories(xP PUBLIC ${XP_SOURCE_DIR}/include${CMAKE_CURRENT_BINARY_DIR})
-
-set(CMAKE_INSTALL_PREFIX /usr/local/bin)
 
 target_link_libraries(xP
   PUBLIC

@@ -15,12 +15,13 @@ set(XP_VERSION_MAJOR 1 CACHE STRING "major version" FORCE)
 set(XP_VERSION_MINOR 0 CACHE STRING "minor version" FORCE)
 set(XP_VERSION ${XP_VERSION_MAJOR}.${XP_VERSION_MINOR} CACHE STRING "version" FORCE)
 
+set(CMAKE_INSTALL_PREFIX /usr/local/bin)
+
 # add subdiretories
-add_subdirectory(extern)
+add_subdirectory(extern EXCLUDE_FROM_ALL)
 add_subdirectory(src)
 
 set(GLFW_BUILD_DOCS OFF CACHE BOOL "" FORCE)
 set(GLFW_BUILD_TESTS OFF CACHE BOOL "" FORCE)
 set(GLFW_BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
 
-set(CMAKE_INSTALL_PREFIX /usr/local/bin)
