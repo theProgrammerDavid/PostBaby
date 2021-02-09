@@ -19,7 +19,7 @@ void GUI::responseArea()
         {
             ImGuiWindowFlags response_flags = ImGuiWindowFlags_HorizontalScrollbar;
             ImGui::BeginChild("ResponseBar", ImVec2(ImGui::GetWindowContentRegionWidth(), ImGui::GetWindowHeight()), false, response_flags);
-            ImGui::TextWrapped("%s", active_response.c_str());
+            ImGui::InputTextMultiline("##ResponseBody", &active_response, ImVec2(ImGui::GetWindowContentRegionWidth(), ImGui::GetWindowHeight()));
             ImGui::EndChild();
             ImGui::EndTabItem();
         }
@@ -90,12 +90,6 @@ void GUI::responseArea()
             }
             ImGui::EndTabItem();
         }
-        if (ImGui::BeginTabItem("Test Results"))
-        {
-
-            ImGui::EndTabItem();
-        }
-
         ImGui::EndTabBar();
     }
 }
@@ -107,7 +101,6 @@ void GUI::workspaceBar()
         ImGui::OpenPopup("Edit Preferences");
     }
     this->settingsPopup();
-    // settingsPopup();
     ImGui::SameLine();
     if (ImGui::Button("History"))
     {
@@ -303,7 +296,7 @@ void GUI::tabConfig()
         }
         if (ImGui::BeginTabItem("Authorization"))
         {
-            ImGui::Text("Authorization goes here");
+            ImGui::Text("WIP Authorization");
 
             ImGui::EndTabItem();
         }
@@ -383,7 +376,6 @@ void GUI::render()
         // pool.enqueue(&GUI::responseArea, this).get();
         // ImGui::NewLine();
 
-
         ImGui::End();
     }
 
@@ -420,6 +412,7 @@ void GUI::workspaceArea()
                 if (ImGui::Button("Send"))
                 {
                     std::thread t([&] {
+                        tabs.at(active_tab).updateTitle();
                         tabs.at(active_tab).sendRequest();
                     });
                     t.detach();

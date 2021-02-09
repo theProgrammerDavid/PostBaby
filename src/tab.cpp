@@ -104,6 +104,11 @@ void Tab::sendRequest()
     };
 }
 
+void Tab::updateTitle()
+{
+    this->title = this->url + "##" + std::to_string(rand());
+}
+
 Tab::Tab(size_t index)
 {
 

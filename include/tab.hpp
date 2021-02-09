@@ -54,6 +54,7 @@ public:
     //  networking stuff
     //
     void sendRequest();
+    void updateTitle();
     int getBodyType();
     const char *getResponse();
     void setBodyType(const int bodyType);
