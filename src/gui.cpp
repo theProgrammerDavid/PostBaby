@@ -212,23 +212,23 @@ void GUI::drawKeyValueDesc(std::vector<KeyValuePair> &vec)
             ImGui::TableSetColumnIndex(1);
             ImGui::PushID(vec.at(row)._id);
 
-            ImGui::InputText("Key", &vec.at(row).key);
+            ImGui::InputText("##Key", &vec.at(row).key);
 
             ImGui::SameLine();
-            if (ImGui::Button("Clear"))
-            {
-                vec.at(row).setKey("");
-            }
+            // if (ImGui::Button("Clear"))
+            // {
+            //     vec.at(row).setKey("");
+            // }
             ImGui::PopID();
 
             ImGui::TableSetColumnIndex(2);
             ImGui::PushID(vec.at(row)._id);
-            ImGui::InputText("Value", &vec.at(row).value);
+            ImGui::InputText("##Value", &vec.at(row).value);
             ImGui::PopID();
 
             ImGui::TableSetColumnIndex(3);
             ImGui::PushID(vec.at(row)._id);
-            ImGui::InputText("Description", &vec.at(row).description);
+            ImGui::InputText("##Description", &vec.at(row).description);
             ImGui::PopID();
 
             ImGui::TableSetColumnIndex(4);
@@ -276,11 +276,11 @@ void GUI::drawBody()
     }
     else if (tabs.at(active_tab).getBodyType() == tabs.at(active_tab).BODY_BINARY)
     {
-        ImGui::Text("Binary Body");
+        ImGui::Text("WIP Binary Body");
     }
     else
     {
-        ImGui::Text("GraphQl Body");
+        ImGui::Text("WIP GraphQl Body");
     }
 }
 
@@ -404,7 +404,7 @@ void GUI::workspaceArea()
                 this->active_response = tabs.at(active_tab).getResponse();
                 ImGui::Text("Method");
                 ImGui::SameLine();
-                ImGui::SetNextItemWidth(100);
+                ImGui::SetNextItemWidth(100*constants->highDPIscaleFactor);
                 ImGui::Combo(" ", &tabs.at(n).currentHttpMethod, constants->REQUEST_TYPE, IM_ARRAYSIZE(constants->REQUEST_TYPE));
                 ImGui::SameLine();
                 ImGui::InputText("URL", &tabs.at(n).url);
