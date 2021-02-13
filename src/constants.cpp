@@ -15,7 +15,10 @@ void glfw_error_callback(int error, const char *description)
 
 //     return instance;
 // }
-
+void Constants::setOnlineStatus(bool status)
+{
+    this->isOnline = status;
+}
 Constants::Constants()
 {
     this->MAX_URL_SIZE = 256;
@@ -26,6 +29,7 @@ Constants::Constants()
     this->WINDOW_WIDTH = 1280;
     this->CURRENT_THEME = DARK;
     this->REQUEST_TIMEOUT = 5000;
+    this->highDPIscaleFactor = 1.0;
 }
 
 void Constants::setTheme()

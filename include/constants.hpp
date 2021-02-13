@@ -20,6 +20,7 @@ private:
     // Constants();
 
 public:
+    void setOnlineStatus(bool status);
     Constants();
     enum
     {
@@ -37,6 +38,8 @@ public:
     float FONT_SIZE;
     bool isOnline;
     std::string PATH_TO_FONT;
+    float highDPIscaleFactor ;
+
     ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
     const char *REQUEST_TYPE[6] = {"GET", "POST", "PUT", "DELETE", "HEAD", "OPTIONS"};
     const char *THEMES[3] = {"DARK", "LIGHT", "CLASSIC"};

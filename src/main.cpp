@@ -9,16 +9,19 @@ bool checkOnline()
 
 int main(int, char **)
 {
-    std::future<bool> p = std::async(std::launch::async, checkOnline);
+    std::thread t([&] {
+        constants->setOnlineStatus(checkOnline());
+    });
+    t.detach();
+
     // Setup window
     glfwSetErrorCallback(glfw_error_callback);
     if (!glfwInit())
         return 1;
-    float highDPIscaleFactor = 1.0;
     // Decide GL+GLSL versions
+    const char *glsl_version = "#version 150";
 #ifdef __APPLE__
     // GL 3.2 + GLSL 150
-    const char *glsl_version = "#version 150";
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 2);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE); // 3.2+ only
@@ -40,7 +43,7 @@ int main(int, char **)
     glfwGetMonitorContentScale(monitor, &xscale, &yscale);
     if (xscale > 1 || yscale > 1)
     {
-        highDPIscaleFactor = xscale;
+        constants->highDPIscaleFactor = xscale;
         glfwWindowHint(GLFW_SCALE_TO_MONITOR, GLFW_TRUE);
     }
 #endif
@@ -106,9 +109,9 @@ int main(int, char **)
     // - Remember that in C/C++ if you want to include a backslash \ in a string literal you need to write a double backslash \\ !
     // io.Fonts->AddFontDefault();
     ImGuiStyle &style = ImGui::GetStyle();
-    style.ScaleAllSizes(highDPIscaleFactor);
+    style.ScaleAllSizes(constants->highDPIscaleFactor);
 
-    //io.Fonts->AddFontFromFileTTF(constants->PATH_TO_FONT.c_str(), (constants->FONT_SIZE) * highDPIscaleFactor, NULL, NULL);
+    io.Fonts->AddFontFromFileTTF(constants->PATH_TO_FONT.c_str(), (constants->FONT_SIZE) * constants->highDPIscaleFactor, NULL, NULL);
 
     //io.Fonts->AddFontFromFileTTF("../../misc/fonts/Roboto-Medium.ttf", 16.0f);
     //io.Fonts->AddFontFromFileTTF("../../misc/fonts/Cousine-Regular.ttf", 15.0f);
@@ -123,7 +126,6 @@ int main(int, char **)
     show_demo_window = false;
 #endif
     GUI gui;
-    constants->isOnline = p.get();
     // Main loop
     while (!glfwWindowShouldClose(window))
     {
