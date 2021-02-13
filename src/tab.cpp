@@ -60,7 +60,11 @@ void Tab::constructRequest()
 
         break;
     case 1: //POST REQUEST
-
+        for (auto i : this->formData)
+        {
+            if (i.enable)
+                this->payload.Add({i.key, i.value});
+        }
         break;
 
     case 2:
@@ -86,7 +90,7 @@ void Tab::sendRequest()
         res = cpr::Get(Url{this->url.c_str()}, _params, Timeout{constants->REQUEST_TIMEOUT});
         break;
     case 1: //POST REQUEST
-        res = cpr::Post(Url{this->url.c_str()}, _params, this->_headers, Timeout{constants->REQUEST_TIMEOUT});
+        res = cpr::Post(Url{this->url.c_str()}, this->payload, _params, this->_headers, Timeout{constants->REQUEST_TIMEOUT});
 
         break;
 
