@@ -95,15 +95,20 @@ void Tab::sendRequest()
         break;
 
     case 2:
+        // PUT
         break;
 
     case 3:
+        // DELETE
         break;
 
     case 4:
+        // HEAD
+        res = cpr::Head(Url{this->url.c_str()}, Timeout{constants->REQUEST_TIMEOUT});
         break;
 
     case 5:
+        // OPTIONS
         break;
     };
 }
