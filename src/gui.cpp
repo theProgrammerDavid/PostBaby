@@ -13,6 +13,17 @@ GUI::GUI()
 }
 void GUI::responseArea()
 {
+    if (tabs.at(active_tab).getStatusCode() > 0)
+    {
+        ImGui::Text("Code:%d", tabs.at(active_tab).getStatusCode());
+    }
+
+    if (tabs.at(active_tab).getTimeElapsed() > 0)
+    {
+        ImGui::SameLine();
+        ImGui::Text("Time: %f s", tabs.at(active_tab).getTimeElapsed());
+    }
+
     if (ImGui::BeginTabBar("ResponseBar"))
     {
         if (ImGui::BeginTabItem("Body"))
@@ -404,7 +415,7 @@ void GUI::workspaceArea()
                 this->active_response = tabs.at(active_tab).getResponse();
                 ImGui::Text("Method");
                 ImGui::SameLine();
-                ImGui::SetNextItemWidth(100*constants->highDPIscaleFactor);
+                ImGui::SetNextItemWidth(100 * constants->highDPIscaleFactor);
                 ImGui::Combo(" ", &tabs.at(n).currentHttpMethod, constants->REQUEST_TYPE, IM_ARRAYSIZE(constants->REQUEST_TYPE));
                 ImGui::SameLine();
                 ImGui::InputText("URL", &tabs.at(n).url);
@@ -412,7 +423,7 @@ void GUI::workspaceArea()
                 if (ImGui::Button("Send"))
                 {
                     std::thread t([&] {
-                        tabs.at(active_tab).updateTitle();
+                        // tabs.at(active_tab).updateTitle();
                         tabs.at(active_tab).sendRequest();
                     });
                     t.detach();

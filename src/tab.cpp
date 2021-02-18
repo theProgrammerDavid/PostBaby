@@ -112,13 +112,22 @@ void Tab::updateTitle()
 {
     this->title = this->url + "##" + std::to_string(rand());
 }
-
+float Tab::getTimeElapsed()
+{
+    return res.elapsed;
+}
+int Tab::getStatusCode()
+{
+    return res.status_code;
+}
 Tab::Tab(size_t index)
 {
 
     this->title = "Untitled" + std::to_string(index);
     this->url = "http://localhost:1234";
     isOpen = true;
+    statusCode = 0;
     currentHttpMethod = 0;
     currentBodyType = 0;
+    timeElapsed = 0;
 }

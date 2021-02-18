@@ -1,6 +1,6 @@
 #include "util.hpp"
 
-std::string abs_exe_path()
+std::string absolutePath()
 {
 #if defined(_MSC_VER)
     wchar_t path[FILENAME_MAX] = {0};

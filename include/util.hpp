@@ -8,4 +8,5 @@
 #include <unistd.h>
 #endif
 
-std::string abs_exe_path();
+std::string absolutePath();
+const char* formattedTime();

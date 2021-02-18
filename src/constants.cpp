@@ -23,7 +23,7 @@ Constants::Constants()
 {
     this->MAX_URL_SIZE = 256;
     this->isOnline = false;
-    this->PATH_TO_FONT = abs_exe_path() + "/JetBrainsMono-Medium.ttf";
+    this->PATH_TO_FONT = absolutePath() + "/JetBrainsMono-Medium.ttf";
     this->FONT_SIZE = 18.0f;
     this->WINDOW_HEIGHT = 720;
     this->WINDOW_WIDTH = 1280;

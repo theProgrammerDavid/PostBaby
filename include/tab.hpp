@@ -31,6 +31,8 @@ class Tab
 
 private:
     void constructRequest();
+    int statusCode;
+    float timeElapsed;
     // Url _url;
 
 public:
@@ -56,6 +58,8 @@ public:
     void sendRequest();
     void updateTitle();
     int getBodyType();
+    int getStatusCode();
+    float getTimeElapsed();
     const char *getResponse();
     void setBodyType(const int bodyType);
 
