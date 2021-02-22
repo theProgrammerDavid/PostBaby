@@ -5,10 +5,11 @@
 #include <future>
 #include <vector>
 #include <cpr/cpr.h>
-#include <cpr/ssl_options.h>
 #include "imgui.h"
 #include "util.hpp"
 #include "constants.hpp"
+#include <cpr/ssl_options.h>
+#include <cpr/cprtypes.h>
 using namespace cpr;
 extern std::unique_ptr<Constants> constants;
 
@@ -33,6 +34,11 @@ private:
     void constructRequest();
     int statusCode;
     float timeElapsed;
+    bool isHttps();
+    SslOptions sslOpts =
+        Ssl(ssl::CaPath{absolutePath() + "ca.cer"}, ssl::CertFile{absolutePath() + "client.cer"},
+            ssl::KeyFile{absolutePath() + "client.key"}, ssl::VerifyPeer{false},
+            ssl::VerifyHost{false}, ssl::VerifyStatus{false});
     // Url _url;
 
 public:

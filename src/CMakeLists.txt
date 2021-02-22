@@ -44,6 +44,9 @@ install(TARGETS xP
 add_custom_command(TARGET xP POST_BUILD
                    COMMAND ${CMAKE_COMMAND} -E copy_if_different
                        ${XP_SOURCE_DIR}/assets/JetBrainsMono-Medium.ttf
+                        ${XP_SOURCE_DIR}/assets/ca.cer
+                        ${XP_SOURCE_DIR}/assets/client.cer
+                        ${XP_SOURCE_DIR}/assets/client.key
                        $<TARGET_FILE_DIR:xP>
                    )
 

@@ -80,30 +80,52 @@ void Tab::constructRequest()
         break;
     };
 }
+bool Tab::isHttps()
+{
+    return this->url.rfind("https", 0) == 0;
+}
 
 void Tab::sendRequest()
 {
+
     this->constructRequest();
+
     switch (this->currentHttpMethod)
     {
     case 0: //GET REQUEST
-        res = cpr::Get(Url{this->url.c_str()}, _params, Timeout{constants->REQUEST_TIMEOUT});
+        if (this->isHttps())
+            res = cpr::Get(Url{this->url.c_str()}, _params, sslOpts, Timeout{constants->REQUEST_TIMEOUT});
+        else
+            res = cpr::Get(Url{this->url.c_str()}, _params, Timeout{constants->REQUEST_TIMEOUT});
+
         break;
     case 1: //POST REQUEST
-        res = cpr::Post(Url{this->url.c_str()}, this->payload, _params, this->_headers, Timeout{constants->REQUEST_TIMEOUT});
+        if (this->isHttps())
+            res = cpr::Post(Url{this->url.c_str()}, this->payload, sslOpts, _params, this->_headers, Timeout{constants->REQUEST_TIMEOUT});
+        else
+            res = cpr::Post(Url{this->url.c_str()}, this->payload, _params, this->_headers, Timeout{constants->REQUEST_TIMEOUT});
 
         break;
 
     case 2:
+        // PUT
         break;
 
     case 3:
+        // DELETE
         break;
 
     case 4:
+        // HEAD
+        if (this->isHttps())
+            res = cpr::Head(Url{this->url.c_str()}, sslOpts, Timeout{constants->REQUEST_TIMEOUT});
+        else
+            res = cpr::Head(Url{this->url.c_str()}, Timeout{constants->REQUEST_TIMEOUT});
+
         break;
 
     case 5:
+        // OPTIONS
         break;
     };
 }
