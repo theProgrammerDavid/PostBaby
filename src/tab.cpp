@@ -82,14 +82,7 @@ void Tab::constructRequest()
 }
 bool Tab::isHttps()
 {
-
-    const bool httpsEnabled = this->url.rfind("https", 0) == 0;
-    if (httpsEnabled)
-        std::cout << "yes" << std::endl;
-    else
-        std::cout << "no" << std::endl;
-
-    return httpsEnabled;
+    return this->url.rfind("https", 0) == 0;
 }
 
 void Tab::sendRequest()
