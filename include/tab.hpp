@@ -65,7 +65,7 @@ public:
     void updateTitle();
     int getBodyType();
     int getStatusCode();
-    float getTimeElapsed();
+    double getTimeElapsed();
     const char *getResponse();
     void setBodyType(const int bodyType);
 

@@ -134,7 +134,7 @@ void Tab::updateTitle()
 {
     this->title = this->url + "##" + std::to_string(rand());
 }
-float Tab::getTimeElapsed()
+double Tab::getTimeElapsed()
 {
     return res.elapsed;
 }
