@@ -6,21 +6,20 @@ C++ native app to test HTTP endpoints
 - CMake
 - OpenGL (with supporting drivers)
 - CMake supported C++ Compiler
-- Debian and Ubuntu systems might need some additional dependencies as given below: 
-```bash
-sudo apt-get install libx11-dev xorg-dev libglu1-mesa-dev 
-```
 
+#### Debian/Ubuntu 
+You also need the dev libraries for `OpenSSL` installed. 
+```bash
+sudo apt-get install libx11-dev xorg-dev libglu1-mesa-dev libssl-dev
+```
+#### Windows
 * Windows systems need the Visual Studio environment setup with the necessary files for C++ development. If required, you need to run 
 ```powershell
 vcvarsall.bat x64
 ```
 
-You also need the dev libraries for `OpenSSL` installed. Windows will default to using `WINSSL`
-```bash
-sudo apt-get install libssl-dev
+Windows has been configured to use `WINSSL`
 
-```
 ### Get Started
 
 ```bash
