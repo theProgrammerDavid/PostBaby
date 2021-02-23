@@ -33,7 +33,7 @@ int main(int, char **)
     glfwGetMonitorContentScale(monitor, &xscale, &yscale);
     if (xscale > 1 || yscale > 1)
     {
-        highDPIscaleFactor = xscale;
+        constants->highDPIscaleFactor = xscale;
         glfwWindowHint(GLFW_SCALE_TO_MONITOR, GLFW_TRUE);
     }
 

@@ -1,5 +1,7 @@
 find_package(OpenGL REQUIRED)
+if(UNIX)
 find_package(OpenSSL REQUIRED)
+endif()
 include_directories( ${OPENGL_INCLUDE_DIRS}  )
 
 include_directories("../include")
