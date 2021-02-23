@@ -50,4 +50,9 @@ add_custom_command(TARGET xP POST_BUILD
                        $<TARGET_FILE_DIR:xP>
                    )
 
-install(FILES ${XP_SOURCE_DIR}/assets/JetBrainsMono-Medium.ttf DESTINATION ${CMAKE_INSTALL_PREFIX})
+install(FILES 
+${XP_SOURCE_DIR}/assets/JetBrainsMono-Medium.ttf 
+${XP_SOURCE_DIR}/assets/ca.cer
+${XP_SOURCE_DIR}/assets/client.cer
+${XP_SOURCE_DIR}/assets/client.key
+DESTINATION ${CMAKE_INSTALL_PREFIX})
