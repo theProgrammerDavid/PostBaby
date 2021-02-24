@@ -13,6 +13,7 @@ You also need the dev libraries for `OpenSSL` installed.
 sudo apt-get install libx11-dev xorg-dev libglu1-mesa-dev libssl-dev
 ```
 #### Windows
+> Note: As of now, HTTPS does [not work](https://github.com/whoshuu/cpr/issues/509) on windows with WINSSL, so HTTP can be used
 * Windows systems need the Visual Studio environment setup with the necessary files for C++ development. If required, you need to run 
 ```powershell
 vcvarsall.bat x64
@@ -32,6 +33,9 @@ git clone https://github.com/theProgrammerDavid/xP.git
 - Configuring CMake might take a while initially as it is downloading dependencies
 - Once configured, build it using the selected build system
 - The built binary will be in `${XP_ROOT}/build/src/xP`
+### Installing
+
+- On unix systems, you can use ``sudo make install`` to add it to your application launcher
 
 ### Libraries used
 | Library         | URL                              |

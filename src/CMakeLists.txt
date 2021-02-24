@@ -57,4 +57,13 @@ ${XP_SOURCE_DIR}/assets/JetBrainsMono-Medium.ttf
 ${XP_SOURCE_DIR}/assets/ca.cer
 ${XP_SOURCE_DIR}/assets/client.cer
 ${XP_SOURCE_DIR}/assets/client.key
+${XP_SOURCE_DIR}/assets/xP.png
 DESTINATION ${CMAKE_INSTALL_PREFIX})
+
+if(UNIX)
+install( FILES
+    ${XP_SOURCE_DIR}/assets/xP.desktop
+    DESTINATION
+    ~/.local/share/applications/
+)
+endif()
