@@ -64,6 +64,20 @@ if(UNIX)
 install( FILES
     ${XP_SOURCE_DIR}/assets/xP.desktop
     DESTINATION
-    ~/.local/share/applications/
+   /usr/share/applications
 )
+
+SET(CPACK_GENERATOR "DEB")
+SET(CPACK_DEBIAN_PACKAGE_NAME "xP")
+SET(CPACK_DEBIAN_PACKAGE_VERSION "1.0")
+SET(CPACK_PACKAGE_CONTACT "me@davidvelho.tech")
+SET(CPACK_DEBIAN_PACKAGE_DEPENDS "libc6 (>= 2.3.1-6), libgcc1 (>= 1:3.4.2-12)")
+set(CPACK_PACKAGE_NAME "xP")
+set(CPACK_PACKAGE_VENDOR "theProgrammerDavid")
+set(CPACK_VERBATIM_VARIABLES true)
+set(CPACK_PACKAGE_VERSION_MAJOR ${XP_VERSION_MAJOR})
+set(CPACK_PACKAGE_VERSION_MINOR ${XP_VERSION_MINOR})
+# set(CPACK_PACKAGE_VERSION_PATCH 0)
+include(CPack)
+
 endif()
