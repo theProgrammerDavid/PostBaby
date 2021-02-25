@@ -375,28 +375,13 @@ void GUI::render()
         // Left Vertical
         ImGui::BeginGroup();
         {
-
             workspaceArea();
-
-            // ImGui::Separator();
-            // ImGui::SameLine();
         }
 
         ImGui::EndGroup();
-
-        // pool.enqueue(&GUI::responseArea, this).get();
-        // ImGui::NewLine();
-
-        ImGui::End();
-    }
-
-    if (ImGui::Begin("response", NULL, windowFlags))
-    {
         responseArea();
-
         ImGui::End();
     }
-    // Main Workspace
 }
 void GUI::workspaceArea()
 {
