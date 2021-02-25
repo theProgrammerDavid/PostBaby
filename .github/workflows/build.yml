@@ -45,7 +45,6 @@ jobs:
     - name: Install Dependencies
       run: |
         brew update
-        brew install cmake openssl
     - name: Configure CMake
       run: |
         mkdir build && cd build 
