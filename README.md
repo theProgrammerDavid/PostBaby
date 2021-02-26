@@ -36,6 +36,7 @@ git clone https://github.com/theProgrammerDavid/xP.git
 ### Installing
 
 - On unix systems, you can use ``sudo make install`` to add it to your application launcher
+- You can also use ``sudo make packages`` to build the package for your OS (`.deb` for Debian derivatives)
 
 ### Libraries used
 | Library         | URL                              |
@@ -45,3 +46,8 @@ git clone https://github.com/theProgrammerDavid/xP.git
 | GLFW            | https://github.com/glfw/glfw     |
 | Curl For People | https://whoshuu/cpr              |
 | Glad            | https://github.com/Dav1dde/glad.git|
+
+### Resources
+
+- [CMake CPack](https://embeddeduse.com/2020/03/21/creating-simple-installers-with-cpack/)
+- [CMake tutorial](https://foonathan.net/2016/07/cmake-dependency-handling/)
