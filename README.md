@@ -1,11 +1,14 @@
 ![xP](https://socialify.git.ci/theProgrammerDavid/xP/image?description=1&font=Bitter&language=1&owner=1&stargazers=1&theme=Dark)
 
-# xP
+![xP master cicd status ](https://github.com/theProgrammerDavid/xP/actions/workflows/build.yml/badge.svg?branch=master) ![GitHub](https://img.shields.io/github/license/theProgrammerDavid/xP)
+# xP 
+
 C++ native app to test HTTP endpoints
 ### Dependencies
 - CMake
 - OpenGL (with supporting drivers)
 - CMake supported C++ Compiler
+- Python 3 (to generate GL bindings)
 
 #### Debian/Ubuntu 
 You also need the dev libraries for `OpenSSL` installed. 
@@ -45,3 +48,7 @@ git clone https://github.com/theProgrammerDavid/xP.git
 | GLFW            | https://github.com/glfw/glfw     |
 | Curl For People | https://whoshuu/cpr              |
 | Glad            | https://github.com/Dav1dde/glad.git|
+
+### Resources
+
+- [CPack with CMake](https://gitlab.kitware.com/cmake/community/-/wikis/doc/cpack/Packaging-With-CPack)
