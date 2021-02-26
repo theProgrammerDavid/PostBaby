@@ -66,7 +66,11 @@ install( FILES
     DESTINATION
    /usr/share/applications
 )
+endif()
 
+find_file (DEBIAN_FOUND debian_version debconf.conf PATHS /etc)
+if(DEBIAN_FOUND)
+message("Generating .deb package")
 SET(CPACK_GENERATOR "DEB")
 SET(CPACK_DEBIAN_PACKAGE_NAME "xP")
 SET(CPACK_DEBIAN_PACKAGE_VERSION "1.0")
@@ -79,5 +83,4 @@ set(CPACK_PACKAGE_VERSION_MAJOR ${XP_VERSION_MAJOR})
 set(CPACK_PACKAGE_VERSION_MINOR ${XP_VERSION_MINOR})
 # set(CPACK_PACKAGE_VERSION_PATCH 0)
 include(CPack)
-
-endif()
+endif(DEBIAN_FOUND)
