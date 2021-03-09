@@ -80,7 +80,6 @@ void GUI::responseArea()
 
                 ImGui::TableHeadersRow();
 
-                int count = 0;
                 for (auto i : tabs.at(active_tab).res.cookies)
                 {
                     ImGui::TableNextRow();
@@ -89,8 +88,6 @@ void GUI::responseArea()
                     ImGui::PushID(0);
                     ImGui::Text("%s", i.first.c_str());
                     ImGui::PopID();
-
-                    count++;
 
                     ImGui::TableSetColumnIndex(1);
                     ImGui::PushID(1);

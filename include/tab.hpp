@@ -19,13 +19,13 @@ private:
 public:
     std::string value;
     std::string description;
-    bool enable;
     std::string key;
     KeyValuePair();
 
     void setKey(const std::string &constKey);
     void setKey(const char *constKey);
     int _id;
+    bool enable;
 };
 class Tab
 {
@@ -35,10 +35,7 @@ private:
     int statusCode;
     float timeElapsed;
     bool isHttps();
-    SslOptions sslOpts =
-        Ssl(ssl::CaPath{absolutePath() + "ca.cer"}, ssl::CertFile{absolutePath() + "client.cer"},
-            ssl::KeyFile{absolutePath() + "client.key"}, ssl::VerifyPeer{false},
-            ssl::VerifyHost{false}, ssl::VerifyStatus{false});
+    SslOptions sslOpts;
     // Url _url;
 
 public:
