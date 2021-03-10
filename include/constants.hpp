@@ -3,7 +3,6 @@
 #include <memory>
 #include "util.hpp"
 #include "imgui.h"
-
 #ifdef _Win32
 #include <Windows.h>
 #endif
@@ -28,7 +27,7 @@ public:
         LIGHT,
         CLASSIC
     };
-    
+
     void setTheme();
     int MAX_URL_SIZE;
     int REQUEST_TIMEOUT;
@@ -38,7 +37,7 @@ public:
     float FONT_SIZE;
     bool isOnline;
     std::string PATH_TO_FONT;
-    float highDPIscaleFactor ;
+    float highDPIscaleFactor;
 
     ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
     const char *REQUEST_TYPE[6] = {"GET", "POST", "PUT", "DELETE", "HEAD", "OPTIONS"};
@@ -48,3 +47,4 @@ public:
     /* Static access method. */
     // static Constants* getInstance();
 };
+inline std::unique_ptr<Constants> constants{new Constants()};

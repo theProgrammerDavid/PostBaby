@@ -8,8 +8,6 @@
 #include "constants.hpp"
 #include "imgui_stdlib.h"
 
-// extern Constants *constants;
-extern std::unique_ptr<Constants> constants;
 
 class GUI
 {

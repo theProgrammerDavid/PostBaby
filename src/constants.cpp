@@ -41,7 +41,3 @@ void Constants::setTheme()
     else
         ImGui::StyleColorsClassic();
 }
-
-// Constants *constants = constants->getInstance();
-// std::unique_ptr<Constants> constants{constants->getInstance()};
-std::unique_ptr<Constants> constants{new Constants()};

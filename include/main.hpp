@@ -11,7 +11,6 @@
 #include <future>
 using namespace cpr;
 
-extern std::unique_ptr<Constants> constants;
 bool checkOnline();
 // #include "gl3w.h"
 // About Desktop OpenGL function loaders:

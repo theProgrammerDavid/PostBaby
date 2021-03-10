@@ -11,7 +11,6 @@
 #include <cpr/ssl_options.h>
 #include <cpr/cprtypes.h>
 using namespace cpr;
-extern std::unique_ptr<Constants> constants;
 
 class KeyValuePair
 {
