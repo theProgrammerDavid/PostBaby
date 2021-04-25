@@ -1,3 +1,4 @@
+#include "config.hpp"
 #include "constants.hpp"
 #include "gui.hpp"
 #include "tab.hpp"
