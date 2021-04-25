@@ -21,7 +21,8 @@ file(GLOB IMGUI_SOURCES "${XP_SOURCE_DIR}/extern/imgui/*.cpp")
 add_executable(xP 
 ${ICON}
 ${SOURCES} 
-${IMGUI_SOURCES} 
+${IMGUI_SOURCES}
+${XP_SOURCE_DIR}/assets/xP.rc
 )
 target_include_directories(xP PUBLIC ${XP_SOURCE_DIR}/include${CMAKE_CURRENT_BINARY_DIR})
 
