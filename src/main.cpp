@@ -14,8 +14,8 @@ int main(int, char **)
     t.detach();
     
     std::stringstream ss;
-    ss << "xP v" << XP_VERSON_MAJOR<<'.'<<XP_VERSION_MINOR;
-    
+    ss << "xP v" << XP_VERSION_MAJOR<<'.'<<XP_VERSION_MINOR;
+
     // Setup window
     glfwSetErrorCallback(glfw_error_callback);
     if (!glfwInit())
