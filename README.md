@@ -36,6 +36,8 @@ git clone https://github.com/theProgrammerDavid/xP.git
 ### Installing
 
 - On unix systems, you can use ``sudo make install`` to add it to your application launcher
+- You can also use ``sudo make packages`` to build the package for your OS (`.deb` for Debian derivatives)
+- Windows can use `MSBuild.exe xP.sln` followed by `cpack -C Release` in the build folder
 
 ### Libraries used
 | Library         | URL                              |
@@ -45,3 +47,10 @@ git clone https://github.com/theProgrammerDavid/xP.git
 | GLFW            | https://github.com/glfw/glfw     |
 | Curl For People | https://whoshuu/cpr              |
 | Glad            | https://github.com/Dav1dde/glad.git|
+
+### Resources
+
+- [CMake CPack](https://embeddeduse.com/2020/03/21/creating-simple-installers-with-cpack/)
+- [CMake tutorial](https://foonathan.net/2016/07/cmake-dependency-handling/)
+- [CMake NSIS](https://martinrotter.github.io/it-programming/2014/05/09/integrating-nsis-cmake/)
+- [Absolute Path CPack error fix](https://cmake.org/pipermail/cmake/2013-May/054656.html)
