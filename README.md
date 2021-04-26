@@ -37,6 +37,7 @@ git clone https://github.com/theProgrammerDavid/xP.git
 
 - On unix systems, you can use ``sudo make install`` to add it to your application launcher
 - You can also use ``sudo make packages`` to build the package for your OS (`.deb` for Debian derivatives)
+- Windows can use `MSBuild.exe xP.sln` followed by `cpack -C Release` in the build folder
 
 ### Libraries used
 | Library         | URL                              |
