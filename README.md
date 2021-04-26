@@ -52,3 +52,5 @@ git clone https://github.com/theProgrammerDavid/xP.git
 
 - [CMake CPack](https://embeddeduse.com/2020/03/21/creating-simple-installers-with-cpack/)
 - [CMake tutorial](https://foonathan.net/2016/07/cmake-dependency-handling/)
+- [CMake NSIS](https://martinrotter.github.io/it-programming/2014/05/09/integrating-nsis-cmake/)
+- [Absolute Path CPack error fix](https://cmake.org/pipermail/cmake/2013-May/054656.html)
