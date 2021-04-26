@@ -105,8 +105,6 @@ if(WIN32)
 message(" ######################################using nsis for windows###########################")
     include(InstallRequiredSystemLibraries)
     set(CPACK_PACKAGE_INSTALL_DIRECTORY "xP")
-    #set(CMAKE_INSTALL_PREFIX ${${PROJECT_BINARY_DIR}}/bin)
-    #set(CPACK_PACKAGE_INSTALL_DIRECTORY ${CMAKE_INSTALL_PREFIX})
     set(CPACK_GENERATOR "NSIS")
     set(CPACK_PACKAGE_NAME ${PROJECT_NAME})
     set(CPACK_PACKAGE_VERSION "${XP_VERSION_MAJOR}.${XP_VERSION_MINOR}")
@@ -114,21 +112,20 @@ message(" ######################################using nsis for windows##########
     set(CPACK_PACKAGE_VENDOR "David Velho")
     set (CPACK_NSIS_MODIFY_PATH "ON")
     set(CPACK_PACKAGE_INSTALL_REGISTRY_KEY ${PROJECT_NAME})
-    #set(CPACK_IGNORE_FILES "\\.psd$;/CVS/;/\\.svn/;/\\.git/;\\.swp$;/CMakeLists.txt.user;\\.#;/#;\\.tar.gz$;/CMakeFiles/;CMakeCache.txt;\\.qm$;/build/;\\.diff$;.DS_Store'")
+
     set(CPACK_SOURCE_GENERATOR "TGZ")
     set(CPACK_SOURCE_PACKAGE_FILE_NAME "${CPACK_PACKAGE_NAME}-${CPACK_PACKAGE_VERSION}")
     set(CPACK_SOURCE_IGNORE_FILES ${CPACK_IGNORE_FILES})
-    #Plus, I set up some extra NSIS-related variables:
-
+    
     # set(CPACK_NSIS_CREATE_ICONS_EXTRA
     # "CreateShortCut '$SMPROGRAMS\\\\$STARTMENU_FOLDER\\\\xP.lnk' '$INSTDIR\\bin\\MyProg.exe' "
     # )
 
     set(CPACK_NSIS_INSTALLED_ICON_NAME "${XP_SOURCE_DIR}/assets/xP.ico")
-    set(CPACK_NSIS_HELP_LINK ${APP_URL})
-    set(CPACK_NSIS_URL_INFO_ABOUT ${APP_URL})
-    set(CPACK_NSIS_CONTACT ${APP_EMAIL})
-    set(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/resources/nsis ${CMAKE_MODULE_PATH})
+    set(CPACK_NSIS_HELP_LINK "https://github.com/theProgrammerDavid/xP")
+    set(CPACK_NSIS_URL_INFO_ABOUT "https://github.com/theProgrammerDavid/xP"})
+    #set(CPACK_NSIS_CONTACT ${APP_EMAIL})
+    set(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/assets/nsis ${CMAKE_MODULE_PATH})
     include(CPack)
 
     configure_file(
