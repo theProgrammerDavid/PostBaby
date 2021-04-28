@@ -67,13 +67,23 @@ void Tab::constructRequest()
         }
         break;
 
-    case 2:
+    case 2: //PUT REQUEST
+        for (auto i : this->formData)
+        {
+            if (i.enable)
+                this->payload.Add({i.key, i.value});
+        }
         break;
 
-    case 3:
+    case 3: //DELETE
+        for (auto i : this->formData)
+        {
+            if (i.enable)
+                this->payload.Add({i.key, i.value});
+        }
         break;
 
-    case 4:
+    case 4: //HEAD
         break;
 
     case 5:
@@ -109,20 +119,17 @@ void Tab::sendRequest()
 
     case 2:
         // PUT
-        if (this->isHttps())
-            res = cpr::Put(Url{this->url.c_str()}, _params, this->_headers, sslOpts, Timeout{constants->REQUEST_TIMEOUT});
+       if (this->isHttps())
+            res = cpr::Post(Url{this->url.c_str()}, this->payload, sslOpts, _params, this->_headers, Timeout{constants->REQUEST_TIMEOUT});
         else
-            res = cpr::Put(Url{this->url.c_str()}, _params, this->_headers, Timeout{constants->REQUEST_TIMEOUT});
-
-        break;
+            res = cpr::Post(Url{this->url.c_str()}, this->payload, _params, this->_headers, Timeout{constants->REQUEST_TIMEOUT});
 
     case 3:
         // DELETE
         if (this->isHttps())
-            res = cpr::Delete(Url{this->url.c_str()}, _params, this->_headers, sslOpts, Timeout{constants->REQUEST_TIMEOUT});
+            res = cpr::Delete(Url{this->url.c_str()}, this->payload, sslOpts, _params, this->_headers, Timeout{constants->REQUEST_TIMEOUT});
         else
-            res = cpr::Delete(Url{this->url.c_str()}, Timeout{constants->REQUEST_TIMEOUT});
-
+            res = cpr::Delete(Url{this->url.c_str()}, this->payload, _params, this->_headers, Timeout{constants->REQUEST_TIMEOUT});
         break;
 
     case 4:
