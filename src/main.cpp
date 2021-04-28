@@ -1,6 +1,5 @@
 #include "main.hpp"
 #include "util.hpp"
-
 bool checkOnline()
 {
     Response r = Get(Url{"http://icanhazip.com"}, Timeout{2000});
@@ -13,6 +12,9 @@ int main(int, char **)
         constants->setOnlineStatus(checkOnline());
     });
     t.detach();
+    
+    std::stringstream ss;
+    ss << "xP v" << XP_VERSION_MAJOR<<'.'<<XP_VERSION_MINOR;
 
     // Setup window
     glfwSetErrorCallback(glfw_error_callback);
@@ -57,7 +59,7 @@ int main(int, char **)
     //glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);            // 3.0+ only
 
     // Create window with graphics context
-    GLFWwindow *window = glfwCreateWindow(constants->WINDOW_WIDTH, constants->WINDOW_HEIGHT, "xP", NULL, NULL);
+    GLFWwindow *window = glfwCreateWindow(constants->WINDOW_WIDTH, constants->WINDOW_HEIGHT, ss.str().c_str(), NULL, NULL);
     if (window == NULL)
         return 1;
     glfwMakeContextCurrent(window);
