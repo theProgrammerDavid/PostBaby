@@ -70,3 +70,5 @@ sudo make install
 - [CMake tutorial](https://foonathan.net/2016/07/cmake-dependency-handling/)
 - [CMake NSIS](https://martinrotter.github.io/it-programming/2014/05/09/integrating-nsis-cmake/)
 - [Absolute Path CPack error fix](https://cmake.org/pipermail/cmake/2013-May/054656.html)
+- [CPack Start Menu Link](https://crascit.com/2015/08/07/cmake_cpack_nsis_shortcuts_with_parameters/)
+- [CPack NSIS](https://cmake.org/cmake/help/latest/cpack_gen/nsis.html)
