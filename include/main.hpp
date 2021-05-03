@@ -8,6 +8,7 @@
 #include "imgui_impl_opengl3.h"
 #include <stdio.h>
 #include <iostream>
+#include <filesystem>
 #include <cpr/cpr.h>
 #include <future>
 using namespace cpr;

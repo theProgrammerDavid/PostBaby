@@ -14,3 +14,18 @@ std::string absolutePath()
     return tempString.substr(0, tempString.length() - 2);
 #endif
 }
+
+
+bool dirExists(const std::string& dirName_in)
+{
+    #if _WIN32
+  DWORD ftyp = GetFileAttributesA(dirName_in.c_str());
+  if (ftyp == INVALID_FILE_ATTRIBUTES)
+    return false; 
+
+  if (ftyp & FILE_ATTRIBUTE_DIRECTORY)
+    return true;
+  return false;
+
+  #endif
+}

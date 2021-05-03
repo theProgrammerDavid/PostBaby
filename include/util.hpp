@@ -10,3 +10,5 @@
 
 std::string absolutePath();
 const char* formattedTime();
+
+bool dirExists(const std::string& dirName_in);

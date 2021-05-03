@@ -13,6 +13,21 @@ int main(int, char **)
     });
     t.detach();
     
+    #if _WIN32
+    std::string newPath(getenv("AppData"));
+    newPath+="\\xP";
+    if(dirExists(newPath)){
+        std::filesystem::current_path(newPath.c_str()); //setting path
+    }
+    else{
+        std::filesystem::create_directories(newPath.c_str());
+        std::filesystem::current_path(newPath.c_str()); //setting path
+    }
+    std::cout<<newPath;
+    #endif
+    
+
+
     std::stringstream ss;
     ss << "xP v" << XP_VERSION_MAJOR<<'.'<<XP_VERSION_MINOR;
 
