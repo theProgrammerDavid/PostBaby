@@ -31,6 +31,7 @@ target_link_libraries(xP
   ${OPENGL_LIBRARIES}
   PRIVATE
   glad
+  yaml-cpp
   glfw
   cpr::cpr
   glew

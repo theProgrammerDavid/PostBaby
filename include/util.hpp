@@ -2,6 +2,8 @@
 #include <filesystem>
 #include <string>
 #include <stdio.h>
+#include "yaml-cpp/yaml.h"
+
 #ifdef _WIN32
 #include <Windows.h>
 #else 
@@ -11,4 +13,5 @@
 std::string absolutePath();
 const char* formattedTime();
 
+bool fileExists(const std::string& fileName);
 bool dirExists(const std::string& dirName_in);

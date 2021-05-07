@@ -73,6 +73,7 @@
         "future": "cpp",
         "iostream": "cpp",
         "istream": "cpp",
-        "*.in": "cpp"
+        "*.in": "cpp",
+        "variant": "cpp"
     }
 }

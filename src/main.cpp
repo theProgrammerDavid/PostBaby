@@ -13,23 +13,28 @@ int main(int, char **)
     });
     t.detach();
     
-    #if _WIN32
+    if (!constants->configFileExists())
+    {
+        std::thread t2([&] {
+            constants->createConfigFile();
+        });
+        t2.detach();
+    }
+
+#if _WIN32
     std::string newPath(getenv("AppData"));
-    newPath+="\\xP";
-    if(dirExists(newPath)){
+    newPath += "\\xP";
+    if (dirExists(newPath))
+    {
         std::filesystem::current_path(newPath.c_str()); //setting path
     }
-    else{
+    else
+    {
         std::filesystem::create_directories(newPath.c_str());
         std::filesystem::current_path(newPath.c_str()); //setting path
     }
-    std::cout<<newPath;
-    #endif
-    
-
-
-    std::stringstream ss;
-    ss << "xP v" << XP_VERSION_MAJOR<<'.'<<XP_VERSION_MINOR;
+    std::cout << newPath;
+#endif
 
     // Setup window
     glfwSetErrorCallback(glfw_error_callback);
@@ -74,7 +79,7 @@ int main(int, char **)
     //glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);            // 3.0+ only
 
     // Create window with graphics context
-    GLFWwindow *window = glfwCreateWindow(constants->WINDOW_WIDTH, constants->WINDOW_HEIGHT, ss.str().c_str(), NULL, NULL);
+    GLFWwindow *window = glfwCreateWindow(constants->WINDOW_WIDTH, constants->WINDOW_HEIGHT, WINDOW_TITLE, NULL, NULL);
     if (window == NULL)
         return 1;
     glfwMakeContextCurrent(window);

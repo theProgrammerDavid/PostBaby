@@ -11,6 +11,7 @@
 #include <filesystem>
 #include <cpr/cpr.h>
 #include <future>
+#include <fstream>
 using namespace cpr;
 
 bool checkOnline();
@@ -50,3 +51,5 @@ using namespace gl;
 #if defined(_MSC_VER) && (_MSC_VER >= 1900) && !defined(IMGUI_DISABLE_WIN32_FUNCTIONS)
 #pragma comment(lib, "legacy_stdio_definitions")
 #endif
+
+#define WINDOW_TITLE "xP v" XP_VERSION_MAJOR "." XP_VERSION_MINOR 

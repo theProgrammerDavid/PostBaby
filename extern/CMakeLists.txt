@@ -60,3 +60,13 @@ endif()
 include(FetchContent)
 FetchContent_Declare(cpr GIT_REPOSITORY https://github.com/whoshuu/cpr.git GIT_TAG e538269b0705a46f7e56255421f8e97261f2909a)
 FetchContent_MakeAvailable(cpr)
+
+include(FetchContent)
+FetchContent_Declare(yamlcpp GIT_REPOSITORY https://github.com/jbeder/yaml-cpp GIT_TAG a6bbe0e50ac4074f0b9b44188c28cf00caf1a723)
+FetchContent_MakeAvailable(yamlcpp)
+
+if(NOT yamlcpp_POPULATED)
+  FetchContent_Populate(yamlcpp)
+  add_subdirectory(${yamlcpp_SOURCE_DIR} ${yamlcpp_BINARY_DIR})
+endif()
+

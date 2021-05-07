@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.14)
-project(XP)
+project(xP)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -15,7 +15,16 @@ set(XP_VERSION_MAJOR 1 CACHE STRING "major version" FORCE)
 set(XP_VERSION_MINOR 0 CACHE STRING "minor version" FORCE)
 set(XP_VERSION ${XP_VERSION_MAJOR}.${XP_VERSION_MINOR} CACHE STRING "version" FORCE)
 
+if(WIN32)
+else()
+    set(CONFIG_FILE "$ENV{HOME}/.config/${PROJECT_NAME}.yml")
+endif()
+
 configure_file("${XP_SOURCE_DIR}/include/config.hpp.in" "${XP_SOURCE_DIR}/include/config.hpp")
+
+set(YAML_CPP_BUILD_TESTS OFF CACHE BOOL "disable yaml tests")
+set(YAML_CPP_BUILD_TOOLS OFF CACHE BOOL "disable yaml tools")
+set(YAML_CPP_BUILD_CONTRIB OFF CACHE BOOL "disable yaml contrib")
 
 set(CMAKE_INSTALL_PREFIX /usr/local/bin)
 
