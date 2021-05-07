@@ -22,9 +22,9 @@ add_executable(${PROJECT_NAME}
 ${ICON}
 ${SOURCES} 
 ${IMGUI_SOURCES}
-${XP_SOURCE_DIR}/assets/xP.rc
+${${PROJECT_NAME}_SOURCE_DIR}/assets/xP.rc
 )
-target_include_directories(${PROJECT_NAME} PUBLIC ${XP_SOURCE_DIR}/include${CMAKE_CURRENT_BINARY_DIR})
+target_include_directories(${PROJECT_NAME} PUBLIC ${${PROJECT_NAME}_SOURCE_DIR}/include${CMAKE_CURRENT_BINARY_DIR})
 
 target_link_libraries(${PROJECT_NAME}
   PUBLIC
@@ -52,35 +52,35 @@ if(WIN32)
 endif()
 add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
                    COMMAND ${CMAKE_COMMAND} -E copy_if_different
-                       ${XP_SOURCE_DIR}/assets/JetBrainsMono-Medium.ttf
-                        ${XP_SOURCE_DIR}/assets/ca.cer
-                        ${XP_SOURCE_DIR}/assets/client.cer
-                        ${XP_SOURCE_DIR}/assets/client.key
+                       ${${PROJECT_NAME}_SOURCE_DIR}/assets/JetBrainsMono-Medium.ttf
+                        ${${PROJECT_NAME}_SOURCE_DIR}/assets/ca.cer
+                        ${${PROJECT_NAME}_SOURCE_DIR}/assets/client.cer
+                        ${${PROJECT_NAME}_SOURCE_DIR}/assets/client.key
                        $<TARGET_FILE_DIR:${PROJECT_NAME}>
                    )
 
 if(WIN32)
     install(FILES 
-    ${XP_SOURCE_DIR}/assets/JetBrainsMono-Medium.ttf 
-    ${XP_SOURCE_DIR}/assets/ca.cer
-    ${XP_SOURCE_DIR}/assets/client.cer
-    ${XP_SOURCE_DIR}/assets/client.key
-    ${XP_SOURCE_DIR}/assets/xP.png
+    ${${PROJECT_NAME}_SOURCE_DIR}/assets/JetBrainsMono-Medium.ttf 
+    ${${PROJECT_NAME}_SOURCE_DIR}/assets/ca.cer
+    ${${PROJECT_NAME}_SOURCE_DIR}/assets/client.cer
+    ${${PROJECT_NAME}_SOURCE_DIR}/assets/client.key
+    ${${PROJECT_NAME}_SOURCE_DIR}/assets/xP.png
     DESTINATION bin
     )
 else()
     install(FILES 
-    ${XP_SOURCE_DIR}/assets/JetBrainsMono-Medium.ttf 
-    ${XP_SOURCE_DIR}/assets/ca.cer
-    ${XP_SOURCE_DIR}/assets/client.cer
-    ${XP_SOURCE_DIR}/assets/client.key
-    ${XP_SOURCE_DIR}/assets/xP.png
+    ${${PROJECT_NAME}_SOURCE_DIR}/assets/JetBrainsMono-Medium.ttf 
+    ${${PROJECT_NAME}_SOURCE_DIR}/assets/ca.cer
+    ${${PROJECT_NAME}_SOURCE_DIR}/assets/client.cer
+    ${${PROJECT_NAME}_SOURCE_DIR}/assets/client.key
+    ${${PROJECT_NAME}_SOURCE_DIR}/assets/xP.png
     DESTINATION ${CMAKE_INSTALL_PREFIX})
 endif()
 
 if(UNIX)
     install( FILES
-        ${XP_SOURCE_DIR}/assets/xP.desktop
+        ${${PROJECT_NAME}_SOURCE_DIR}/assets/xP.desktop
         DESTINATION
     /usr/share/applications
     )

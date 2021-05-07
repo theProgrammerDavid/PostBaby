@@ -5,15 +5,15 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 if(CMAKE_BUILD_TYPE STREQUAL "Debug")
-message("Setting Debug profile")
-add_compile_definitions(XP_SHOW_IMGUI_DEMO_WINDOW=1)
+    message("Setting Debug profile")
+    add_compile_definitions(${PROJECT_NAME}_SHOW_IMGUI_DEMO_WINDOW=1)
 else()
-message("Setting Release profile")
+    message("Setting Release profile")
 endif()
 
-set(${PROJECT_NAME}_VERSION_MAJOR 1 CACHE STRING "major version" FORCE)
-set(${PROJECT_NAME}_VERSION_MINOR 0 CACHE STRING "minor version" FORCE)
-set(${PROJECT_NAME}_VERSION ${${PROJECT_NAME}_VERSION_MAJOR}.${${PROJECT_NAME}_VERSION_MINOR} CACHE STRING "version" FORCE)
+set(xP_VERSION_MAJOR 1 CACHE STRING "major version" FORCE)
+set(xP_VERSION_MINOR 0 CACHE STRING "minor version" FORCE)
+set(xP_VERSION ${${PROJECT_NAME}_VERSION_MAJOR}.${${PROJECT_NAME}_VERSION_MINOR} CACHE STRING "version" FORCE)
 
 configure_file("${${PROJECT_NAME}_SOURCE_DIR}/include/config.hpp.in" "${${PROJECT_NAME}_SOURCE_DIR}/include/config.hpp")
 
