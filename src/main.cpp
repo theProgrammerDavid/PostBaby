@@ -9,7 +9,7 @@ bool checkOnline()
 int main(int, char **)
 {   
 #if _WIN32
-    // ShowWindow (GetConsoleWindow(), SW_HIDE);
+    ShowWindow (GetConsoleWindow(), SW_HIDE);
 #endif
 
     std::thread t([&] {
