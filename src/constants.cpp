@@ -4,26 +4,27 @@ void glfw_error_callback(int error, const char *description)
 {
     fprintf(stderr, "Glfw Error %d: %s\n", error, description);
 }
-// Constants *Constants::instance = 0;
-
-// Constants *Constants::getInstance()
-// {
-//     if (instance == 0)
-//     {
-//         instance = new Constants();
-//     }
-
-//     return instance;
-// }
 void Constants::setOnlineStatus(bool status)
 {
     this->isOnline = status;
 }
 Constants::Constants()
-{
-    if (fileExists(CONFIG_FILE))
+{   
+    this->windowFlags =  ImGuiTableFlags_RowBg | ImGuiTableFlags_Borders | ImGuiTableFlags_BordersV | ImGuiTableFlags_Resizable | ImGuiTableFlags_ScrollY | ImGuiTableFlags_ScrollX;
+    windowFlags = ImGuiWindowFlags_NoTitleBar;
+
+#if _WIN32
+    this->workingDir = getenv("AppData");
+    this->workingDir+= "\\xP";
+    this->configFilePath = this->workingDir + "\\xP.yml";
+    this->iniFilePath = this->workingDir + "\\imgui.ini";
+#elif __linux__
+    this->workingDir = getenv("");
+#endif
+    this->defaultValues();
+    if (fileExists(this->configFilePath))
     {
-        YAML::Node config = YAML::LoadFile(CONFIG_FILE);
+        YAML::Node config = YAML::LoadFile(this->configFilePath.c_str());
         
         if (config["PATH_TO_FONT"])
         {
@@ -33,24 +34,44 @@ Constants::Constants()
         {
             this->PATH_TO_FONT = absolutePath() + "/JetBrainsMono-Medium.ttf";
         }
-
         this->MAX_URL_SIZE = config["MAX_URL_SIZE"].as<int>();
         this->FONT_SIZE = config["FONT_SIZE"].as<float>();
         this->WINDOW_HEIGHT = config["WINDOW_HEIGHT"].as<int>();
         this->WINDOW_WIDTH = config["WINDOW_WIDTH"].as<int>();
-        this->REQUEST_TIMEOUT = config["REQUEST_TIMEOUT"].as<float>();
+        this->REQUEST_TIMEOUT = config["REQUEST_TIMEOUT"].as<int>();
         this->configError = false;
+        this->CURRENT_THEME  = config["CURRENT_THEME"].as<int>();
     }
-    else
+    
+}
+
+void Constants::updateWindowFlags(){
+    if(!this->moveWindow)
     {
-        this->defaultValues();
+        this->windowFlags |= ImGuiWindowFlags_NoMove;
+    }
+    else{
+    this->windowFlags &= ~ImGuiWindowFlags_NoMove;
     }
 }
 
+ImGuiWindowFlags Constants::getWindowFlags(){
+    return this->windowFlags;
+}
+
+const char* Constants::getWorkingDir(){
+    return this->workingDir.c_str();
+}
+const char* Constants::getConfigFilePath(){
+    return this->configFilePath.c_str();
+}
+const char* Constants::getIniFilePath(){
+    return this->iniFilePath.c_str();
+}
 void Constants::defaultValues()
 {
     this->MAX_URL_SIZE = 256;
-    this->isOnline = false;
+    this->moveWindow = true;
     this->PATH_TO_FONT = absolutePath() + "/JetBrainsMono-Medium.ttf";
     this->FONT_SIZE = 18.0f;
     this->WINDOW_HEIGHT = 720;
@@ -64,14 +85,13 @@ void Constants::defaultValues()
 
 bool Constants::configFileExists()
 {
-    return fileExists(CONFIG_FILE);
+    return fileExists(this->configFilePath.c_str());
 }
 
 void Constants::createConfigFile()
 {
-    std::cout << "creating config file\n";
-    std::ofstream fout(CONFIG_FILE);
-    fout << "MAX_URL_SIZE: 256\nFONT_SIZE : 18.0\nWINDOW_HEIGHT : 720\nWINDOW_WIDTH : 1280\nCURRENT_THEME : DARK\nREQUEST_TIMEOUT : 5000 ";
+    std::ofstream fout(this->configFilePath.c_str());
+    fout << "MAX_URL_SIZE: 256\nFONT_SIZE : 18.0\nWINDOW_HEIGHT : 720\nWINDOW_WIDTH : 1280\nCURRENT_THEME : 0\nREQUEST_TIMEOUT : 5000 ";
     fout.close();
 }
 

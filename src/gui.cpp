@@ -2,8 +2,8 @@
 
 GUI::GUI()
 {
-    workspaceTableFlags = ImGuiTableFlags_RowBg | ImGuiTableFlags_Borders | ImGuiTableFlags_BordersV | ImGuiTableFlags_Resizable | ImGuiTableFlags_ScrollY | ImGuiTableFlags_ScrollX;
-    windowFlags = ImGuiWindowFlags_NoTitleBar;
+    // workspaceTableFlags = ImGuiTableFlags_RowBg | ImGuiTableFlags_Borders | ImGuiTableFlags_BordersV | ImGuiTableFlags_Resizable | ImGuiTableFlags_ScrollY | ImGuiTableFlags_ScrollX;
+    // windowFlags = ImGuiWindowFlags_NoTitleBar;
     active_tab = 0;
     active_response = "";
     Tab t(tabs.size() + 1);
@@ -38,7 +38,7 @@ void GUI::responseArea()
         {
             const float TEXT_BASE_HEIGHT = ImGui::GetTextLineHeightWithSpacing();
             ImVec2 WorkspaceTableSize = ImVec2(-FLT_MIN, TEXT_BASE_HEIGHT * 10);
-            if (ImGui::BeginTable("Response Headers", 2, workspaceTableFlags, WorkspaceTableSize))
+            if (ImGui::BeginTable("Response Headers", 2, constants->getWindowFlags(), WorkspaceTableSize))
             {
 
                 ImGui::TableSetupColumn("Key");
@@ -72,7 +72,7 @@ void GUI::responseArea()
             const float TEXT_BASE_HEIGHT = ImGui::GetTextLineHeightWithSpacing();
             ImVec2 WorkspaceTableSize = ImVec2(-FLT_MIN, TEXT_BASE_HEIGHT * 10);
 
-            if (ImGui::BeginTable("Cookies", 2, workspaceTableFlags, WorkspaceTableSize))
+            if (ImGui::BeginTable("Cookies", 2, constants->getWindowFlags(), WorkspaceTableSize))
             {
 
                 ImGui::TableSetupColumn("Key");
@@ -137,6 +137,8 @@ void GUI::settingsPopup()
 
         ImGui::InputInt("URL Max Size", &constants->MAX_URL_SIZE);
         ImGui::InputInt("Request Timeout (ms)", &constants->REQUEST_TIMEOUT);
+        ImGui::Checkbox("Moveable Window", &constants->moveWindow);
+
         //  THEMES
         ImGui::Separator();
         ImGui::Text("Theme");
@@ -159,6 +161,7 @@ void GUI::settingsPopup()
         ImGui::Separator();
         if (ImGui::Button("OK", ImVec2(120, 0)))
         {
+            constants->updateWindowFlags();
             constants->setTheme();
             constants->clear_color = constants->TEMP_BG_COLOR;
             ImGui::CloseCurrentPopup();
@@ -198,7 +201,7 @@ void GUI::drawKeyValueDesc(std::vector<KeyValuePair> &vec)
     const float TEXT_BASE_HEIGHT = ImGui::GetTextLineHeightWithSpacing();
     ImVec2 WorkspaceTableSize = ImVec2(-FLT_MIN, TEXT_BASE_HEIGHT * 8);
 
-    if (ImGui::BeginTable("##table1", 5, workspaceTableFlags, WorkspaceTableSize))
+    if (ImGui::BeginTable("##table1", 5, constants->getWindowFlags(), WorkspaceTableSize))
     {
 
         ImGui::TableSetupColumn("Use", ImGuiTableColumnFlags_WidthFixed);
@@ -361,8 +364,9 @@ void GUI::tabConfig()
 }
 
 void GUI::render()
-{
-    if (ImGui::Begin("config", NULL, windowFlags))
+{   ImGuiWindowFlags flags = constants->getWindowFlags(); 
+
+    if (ImGui::Begin("config", NULL, flags))
     {
         ImGui::BeginGroup();
         this->workspaceBar();

@@ -7,7 +7,11 @@ bool checkOnline()
 }
 
 int main(int, char **)
-{
+{   
+#if _WIN32
+    // ShowWindow (GetConsoleWindow(), SW_HIDE);
+#endif
+
     std::thread t([&] {
         constants->setOnlineStatus(checkOnline());
     });
@@ -22,18 +26,15 @@ int main(int, char **)
     }
 
 #if _WIN32
-    std::string newPath(getenv("AppData"));
-    newPath += "\\xP";
-    if (dirExists(newPath))
+    if (dirExists(constants->getWorkingDir()))
     {
-        std::filesystem::current_path(newPath.c_str()); //setting path
+        // std::filesystem::current_path(WORKING_DIR); //setting path
     }
     else
     {
-        std::filesystem::create_directories(newPath.c_str());
-        std::filesystem::current_path(newPath.c_str()); //setting path
+        std::filesystem::create_directories(constants->getWorkingDir());
+        // std::filesystem::current_path(WORKING_DIR); //setting path
     }
-    std::cout << newPath;
 #endif
 
     // Setup window
@@ -132,7 +133,11 @@ int main(int, char **)
     // io.Fonts->AddFontDefault();
     ImGuiStyle &style = ImGui::GetStyle();
     style.ScaleAllSizes(constants->highDPIscaleFactor);
-
+#if _WIN32 
+    io.IniFilename = constants->getIniFilePath();
+#elif __linux__ 
+    io.IniFilename = constants->getIniFilePath();
+#endif
     io.Fonts->AddFontFromFileTTF(constants->PATH_TO_FONT.c_str(), (constants->FONT_SIZE) * constants->highDPIscaleFactor, NULL, NULL);
 
     //io.Fonts->AddFontFromFileTTF("../../misc/fonts/Roboto-Medium.ttf", 16.0f);

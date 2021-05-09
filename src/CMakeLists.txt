@@ -101,7 +101,7 @@ if(UNIX)
 endif()
 
 if(WIN32)
-message(" ######################################using nsis for windows###########################")
+    message(" ######################################using nsis for windows###########################")
     include(InstallRequiredSystemLibraries)
     set(CPACK_PACKAGE_INSTALL_DIRECTORY "xP")
     set(CPACK_GENERATOR "NSIS")

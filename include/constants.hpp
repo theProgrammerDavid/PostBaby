@@ -15,7 +15,16 @@ void glfw_error_callback(int error, const char *description);
 class Constants
 {
 private:
+    std::string workingDir;
+    std::string configFilePath;
+    std::string iniFilePath;
+    ImGuiWindowFlags windowFlags;
 public:
+    ImGuiWindowFlags getWindowFlags();
+    void updateWindowFlags();
+    const char* getWorkingDir();
+    const char* getConfigFilePath();
+    const char* getIniFilePath();
     void defaultValues();
     void createConfigFile();
     bool configFileExists();
@@ -36,6 +45,7 @@ public:
     int CURRENT_THEME;
     float FONT_SIZE;
     bool configError;
+    bool moveWindow;
     bool isOnline;
     std::string PATH_TO_FONT;
     float highDPIscaleFactor;
