@@ -24,7 +24,7 @@ Constants::Constants()
     this->defaultValues();
     if (fileExists(this->configFilePath))
     {
-        YAML::Node config = YAML::LoadFile(this->configFilePath.c_str());
+        config= YAML::LoadFile(this->configFilePath.c_str());
         
         if (config["PATH_TO_FONT"])
         {
@@ -33,6 +33,10 @@ Constants::Constants()
         else
         {
             this->PATH_TO_FONT = absolutePath() + "/JetBrainsMono-Medium.ttf";
+        }
+        if(config["MOVEABLE_WINDOW"]){
+            this->moveWindow = config["MOVEABLE_WINDOW"].as<int>();
+            this->updateWindowFlags();
         }
         this->MAX_URL_SIZE = config["MAX_URL_SIZE"].as<int>();
         this->FONT_SIZE = config["FONT_SIZE"].as<float>();
@@ -91,7 +95,24 @@ bool Constants::configFileExists()
 void Constants::createConfigFile()
 {
     std::ofstream fout(this->configFilePath.c_str());
-    fout << "MAX_URL_SIZE: 256\nFONT_SIZE : 18.0\nWINDOW_HEIGHT : 720\nWINDOW_WIDTH : 1280\nCURRENT_THEME : 0\nREQUEST_TIMEOUT : 5000 ";
+    fout << "MAX_URL_SIZE: 256\nMOVEABLE_WINDOW : 1\nFONT_SIZE : 18.0\nWINDOW_HEIGHT : 720\nWINDOW_WIDTH : 1280\nCURRENT_THEME : 0\nREQUEST_TIMEOUT : 5000 ";
+    fout.close();
+}
+
+template <class T>
+void Constants::writeToFile(std::ofstream& fout, const char* key, const T& value){
+    fout<<key<<" : "<<value<<"\n";
+}
+
+void Constants::writeConfig(){ 
+    std::ofstream fout(this->configFilePath.c_str());
+    writeToFile(fout, "MAX_URL_SIZE", this->MAX_URL_SIZE);
+    writeToFile(fout, "FONT_SIZE", this->FONT_SIZE);
+    writeToFile(fout, "WINDOW_HEIGHT", this->WINDOW_HEIGHT);
+    writeToFile(fout, "WINDOW_WIDTH", this->WINDOW_WIDTH);
+    writeToFile(fout, "REQUEST_TIMEOUT", this->REQUEST_TIMEOUT);
+    writeToFile(fout, "CURRENT_THEME", this->CURRENT_THEME);
+    writeToFile(fout, "MOVEABLE_WINDOW", this->moveWindow);
     fout.close();
 }
 

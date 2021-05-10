@@ -118,7 +118,8 @@ int main(int, char **)
                                                           //io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
 
     // Setup Dear ImGui style
-
+    constants->setTheme();
+    
     // Setup Platform/Renderer backends
     ImGui_ImplGlfw_InitForOpenGL(window, true);
     ImGui_ImplOpenGL3_Init(glsl_version);
@@ -194,6 +195,6 @@ int main(int, char **)
 
     glfwDestroyWindow(window);
     glfwTerminate();
-
+    constants->writeConfig();
     return 0;
 }

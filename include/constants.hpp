@@ -19,8 +19,12 @@ private:
     std::string configFilePath;
     std::string iniFilePath;
     ImGuiWindowFlags windowFlags;
+    YAML::Node config;
+    template <class T>
+    void writeToFile(std::ofstream& fout, const char* key, const T& value);
 public:
     ImGuiWindowFlags getWindowFlags();
+    void writeConfig();
     void updateWindowFlags();
     const char* getWorkingDir();
     const char* getConfigFilePath();
