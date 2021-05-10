@@ -19,7 +19,11 @@ Constants::Constants()
     this->configFilePath = this->workingDir + "\\xP.yml";
     this->iniFilePath = this->workingDir + "\\imgui.ini";
 #elif __linux__
-    this->workingDir = getenv("");
+    this->workingDir = getenv("HOME");
+    this->workingDir += "/.config/xP";
+    this->configFilePath = this->workingDir + "/xP.yml";
+    this->iniFilePath = this->workingDir + "/imgui.ini";
+    
 #endif
     this->defaultValues();
     if (fileExists(this->configFilePath))

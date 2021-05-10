@@ -1,6 +1,7 @@
 #include "util.hpp"
 
-bool fileExists(const std::string& fileName){
+bool fileExists(const std::string &fileName)
+{
   return std::filesystem::exists(fileName);
 }
 
@@ -21,14 +22,5 @@ std::string absolutePath()
 
 bool dirExists(const std::string &dirName_in)
 {
-#if _WIN32
-  DWORD ftyp = GetFileAttributesA(dirName_in.c_str());
-  if (ftyp == INVALID_FILE_ATTRIBUTES)
-    return false;
-
-  if (ftyp & FILE_ATTRIBUTE_DIRECTORY)
-    return true;
-  return false;
-
-#endif
+  return std::filesystem::exists(dirName_in);
 }

@@ -7,16 +7,16 @@ bool checkOnline()
 }
 
 int main(int, char **)
-{   
+{
 #if _WIN32
-    ShowWindow (GetConsoleWindow(), SW_HIDE);
+    ShowWindow(GetConsoleWindow(), SW_HIDE);
 #endif
 
     std::thread t([&] {
         constants->setOnlineStatus(checkOnline());
     });
     t.detach();
-    
+
     if (!constants->configFileExists())
     {
         std::thread t2([&] {
@@ -25,17 +25,11 @@ int main(int, char **)
         t2.detach();
     }
 
-#if _WIN32
-    if (dirExists(constants->getWorkingDir()))
-    {
-        // std::filesystem::current_path(WORKING_DIR); //setting path
-    }
-    else
+    if (!dirExists(constants->getWorkingDir()))
     {
         std::filesystem::create_directories(constants->getWorkingDir());
-        // std::filesystem::current_path(WORKING_DIR); //setting path
     }
-#endif
+    
 
     // Setup window
     glfwSetErrorCallback(glfw_error_callback);
@@ -119,7 +113,7 @@ int main(int, char **)
 
     // Setup Dear ImGui style
     constants->setTheme();
-    
+
     // Setup Platform/Renderer backends
     ImGui_ImplGlfw_InitForOpenGL(window, true);
     ImGui_ImplOpenGL3_Init(glsl_version);
@@ -134,11 +128,9 @@ int main(int, char **)
     // io.Fonts->AddFontDefault();
     ImGuiStyle &style = ImGui::GetStyle();
     style.ScaleAllSizes(constants->highDPIscaleFactor);
-#if _WIN32 
+
     io.IniFilename = constants->getIniFilePath();
-#elif __linux__ 
-    io.IniFilename = constants->getIniFilePath();
-#endif
+
     io.Fonts->AddFontFromFileTTF(constants->PATH_TO_FONT.c_str(), (constants->FONT_SIZE) * constants->highDPIscaleFactor, NULL, NULL);
 
     //io.Fonts->AddFontFromFileTTF("../../misc/fonts/Roboto-Medium.ttf", 16.0f);
