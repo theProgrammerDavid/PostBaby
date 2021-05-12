@@ -79,6 +79,7 @@ On Linux, the config files are stored in `$HOME/.config/xP`
 | GLFW            | https://github.com/glfw/glfw     |
 | Curl For People | https://whoshuu/cpr              |
 | Glad            | https://github.com/Dav1dde/glad.git|
+| tidy-html5      | https://github.com/htacg/tidy-html5 |
 
 ### Resources
 
