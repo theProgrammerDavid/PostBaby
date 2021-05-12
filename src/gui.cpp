@@ -138,6 +138,7 @@ void GUI::settingsPopup()
         ImGui::InputInt("URL Max Size", &constants->MAX_URL_SIZE);
         ImGui::InputInt("Request Timeout (ms)", &constants->REQUEST_TIMEOUT);
         ImGui::Checkbox("Moveable Window", &constants->moveWindow);
+        ImGui::Checkbox("HTML Indent", &constants->htmlIndent);
 
         //  THEMES
         ImGui::Separator();

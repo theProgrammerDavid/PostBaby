@@ -70,3 +70,18 @@ if(NOT yamlcpp_POPULATED)
   add_subdirectory(${yamlcpp_SOURCE_DIR} ${yamlcpp_BINARY_DIR})
 endif()
 
+set(SUPPORT_CONSOLE_APP OFF)
+set(BUILD_SHARED_LIB OFF)
+
+FetchContent_Declare(
+  tidy
+  GIT_REPOSITORY https://github.com/htacg/tidy-html5.git
+  SOURCE_DIR     ${CMAKE_SOURCE_DIR}/extern/tidy
+  GIT_TAG        f6376f82c8d75a2b88d0860497ae39a150ef97e4
+  
+  )
+  FetchContent_GetProperties(tidy)
+  if(NOT tidy_POPULATED)
+  FetchContent_Populate(tidy)
+  endif()
+  add_subdirectory(${CMAKE_SOURCE_DIR}/extern/tidy)

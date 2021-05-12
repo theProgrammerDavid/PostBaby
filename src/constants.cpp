@@ -13,8 +13,8 @@ Constants::Constants()
     this->windowFlags = ImGuiTableFlags_RowBg | ImGuiTableFlags_Borders | ImGuiTableFlags_BordersV | ImGuiTableFlags_Resizable | ImGuiTableFlags_ScrollY | ImGuiTableFlags_ScrollX;
     windowFlags = ImGuiWindowFlags_NoTitleBar;
     this->sslOpts = Ssl(ssl::CaPath{absolutePath() + "ca.cer"}, ssl::CertFile{absolutePath() + "client.cer"},
-                  ssl::KeyFile{absolutePath() + "client.key"}, ssl::VerifyPeer{false},
-                  ssl::VerifyHost{false}, ssl::VerifyStatus{false});
+                        ssl::KeyFile{absolutePath() + "client.key"}, ssl::VerifyPeer{false},
+                        ssl::VerifyHost{false}, ssl::VerifyStatus{false});
 
 #if _WIN32
     this->workingDir = getenv("AppData");
@@ -41,6 +41,11 @@ Constants::Constants()
         {
             this->PATH_TO_FONT = absolutePath() + "/JetBrainsMono-Medium.ttf";
         }
+
+        if(config["HTML_INDENT"]){
+            this->htmlIndent = config["HTML_INDENT"].as<int>();
+        }
+
         if (config["MOVEABLE_WINDOW"])
         {
             this->moveWindow = config["MOVEABLE_WINDOW"].as<int>();
@@ -98,6 +103,7 @@ void Constants::defaultValues()
     this->isOnline = false;
     this->highDPIscaleFactor = 1.0;
     this->configError = false;
+    this->htmlIndent = true;
 }
 
 bool Constants::configFileExists()
@@ -108,7 +114,7 @@ bool Constants::configFileExists()
 void Constants::createConfigFile()
 {
     std::ofstream fout(this->configFilePath.c_str());
-    fout << "MAX_URL_SIZE: 256\nMOVEABLE_WINDOW : 1\nFONT_SIZE : 18.0\nWINDOW_HEIGHT : 720\nWINDOW_WIDTH : 1280\nCURRENT_THEME : 0\nREQUEST_TIMEOUT : 5000 ";
+    fout << "MAX_URL_SIZE: 256\nHTML_INDENT : false\nMOVEABLE_WINDOW : 1\nFONT_SIZE : 18.0\nWINDOW_HEIGHT : 720\nWINDOW_WIDTH : 1280\nCURRENT_THEME : 0\nREQUEST_TIMEOUT : 5000 ";
     fout.close();
 }
 
@@ -122,6 +128,7 @@ void Constants::writeConfig()
 {
     std::ofstream fout(this->configFilePath.c_str());
     writeToFile(fout, "MAX_URL_SIZE", this->MAX_URL_SIZE);
+    writeToFile(fout, "HTML_INDENT", this->htmlIndent);
     writeToFile(fout, "FONT_SIZE", this->FONT_SIZE);
     writeToFile(fout, "WINDOW_HEIGHT", this->WINDOW_HEIGHT);
     writeToFile(fout, "WINDOW_WIDTH", this->WINDOW_WIDTH);

@@ -10,6 +10,10 @@
 #include "constants.hpp"
 #include <cpr/ssl_options.h>
 #include <cpr/cprtypes.h>
+#include <tidy.h>
+#include <tidybuffio.h>
+#include <stdio.h>
+#include <errno.h>
 using namespace cpr;
 
 class KeyValuePair
@@ -43,6 +47,7 @@ public:
     Header _headers{};
     Payload payload{};
 
+    std::string formattedBody;
     std::string title;
     std::string url;
     std::string rawBody;

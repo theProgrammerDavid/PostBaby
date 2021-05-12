@@ -31,8 +31,7 @@ void Tab::setBodyType(const int bodyType)
 
 const char *Tab::getResponse()
 {
-    return this->res.text.c_str();
-    // return this->asyncRes.get().text.c_str();
+    return this->formattedBody.c_str();
 }
 
 void Tab::constructRequest()
@@ -119,7 +118,7 @@ void Tab::sendRequest()
 
     case 2:
         // PUT
-       if (this->isHttps())
+        if (this->isHttps())
             res = cpr::Post(Url{this->url.c_str()}, this->payload, constants->sslOpts, _params, this->_headers, Timeout{constants->REQUEST_TIMEOUT});
         else
             res = cpr::Post(Url{this->url.c_str()}, this->payload, _params, this->_headers, Timeout{constants->REQUEST_TIMEOUT});
@@ -150,6 +149,49 @@ void Tab::sendRequest()
 
         break;
     };
+
+    if (constants->htmlIndent && res.text.find("html") != std::string::npos)
+    {
+        TidyBuffer output = {0};
+        TidyBuffer errbuf = {0};
+        int rc = -1;
+        Bool ok;
+
+        TidyDoc tdoc = tidyCreate(); // Initialize "document"
+        // printf("Tidying:\t%s\n", input);
+
+        ok = tidyOptSetBool(tdoc, TidyXhtmlOut, yes); // Convert to XHTML
+        tidyOptSetInt(tdoc, TidyIndentContent, TidyAutoState);
+        if (ok)
+            rc = tidySetErrorBuffer(tdoc, &errbuf); // Capture diagnostics
+        if (rc >= 0)
+            rc = tidyParseString(tdoc, res.text.c_str()); // Parse the input
+        if (rc >= 0)
+            rc = tidyCleanAndRepair(tdoc); // Tidy it up!
+        if (rc >= 0)
+            rc = tidyRunDiagnostics(tdoc); // Kvetch
+        if (rc > 1)                        // If error, force output.
+            rc = (tidyOptSetBool(tdoc, TidyForceOutput, yes) ? rc : -1);
+        if (rc >= 0)
+            rc = tidySaveBuffer(tdoc, &output); // Pretty Print
+        // if (rc >= 0)
+        // {
+        //     if (rc > 0)
+        //         printf("\nDiagnostics:\n\n%s", errbuf.bp);
+        //     printf("\nAnd here is the result:\n\n%s", output.bp);
+        // }
+        // else
+        //     printf("A severe error (%d) occurred.\n", rc);
+        this->formattedBody = reinterpret_cast<char const *>(output.bp);
+        tidyBufFree(&output);
+        tidyBufFree(&errbuf);
+        tidyRelease(tdoc);
+    }
+    else
+    {
+        this->formattedBody = res.text.c_str(); 
+
+    }
 }
 
 void Tab::updateTitle()
@@ -173,4 +215,5 @@ Tab::Tab(size_t index)
     currentHttpMethod = 0;
     currentBodyType = 0;
     timeElapsed = 0;
+    this->formattedBody = "";
 }
