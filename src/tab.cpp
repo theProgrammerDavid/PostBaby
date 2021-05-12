@@ -104,14 +104,14 @@ void Tab::sendRequest()
     {
     case 0: //GET REQUEST
         if (this->isHttps())
-            res = cpr::Get(Url{this->url.c_str()}, _params, this->_headers, sslOpts, Timeout{constants->REQUEST_TIMEOUT});
+            res = cpr::Get(Url{this->url.c_str()}, _params, this->_headers, constants->sslOpts, Timeout{constants->REQUEST_TIMEOUT});
         else
             res = cpr::Get(Url{this->url.c_str()}, _params, this->_headers, Timeout{constants->REQUEST_TIMEOUT});
 
         break;
     case 1: //POST REQUEST
         if (this->isHttps())
-            res = cpr::Post(Url{this->url.c_str()}, this->payload, sslOpts, _params, this->_headers, Timeout{constants->REQUEST_TIMEOUT});
+            res = cpr::Post(Url{this->url.c_str()}, this->payload, constants->sslOpts, _params, this->_headers, Timeout{constants->REQUEST_TIMEOUT});
         else
             res = cpr::Post(Url{this->url.c_str()}, this->payload, _params, this->_headers, Timeout{constants->REQUEST_TIMEOUT});
 
@@ -120,14 +120,14 @@ void Tab::sendRequest()
     case 2:
         // PUT
        if (this->isHttps())
-            res = cpr::Post(Url{this->url.c_str()}, this->payload, sslOpts, _params, this->_headers, Timeout{constants->REQUEST_TIMEOUT});
+            res = cpr::Post(Url{this->url.c_str()}, this->payload, constants->sslOpts, _params, this->_headers, Timeout{constants->REQUEST_TIMEOUT});
         else
             res = cpr::Post(Url{this->url.c_str()}, this->payload, _params, this->_headers, Timeout{constants->REQUEST_TIMEOUT});
 
     case 3:
         // DELETE
         if (this->isHttps())
-            res = cpr::Delete(Url{this->url.c_str()}, this->payload, sslOpts, _params, this->_headers, Timeout{constants->REQUEST_TIMEOUT});
+            res = cpr::Delete(Url{this->url.c_str()}, this->payload, constants->sslOpts, _params, this->_headers, Timeout{constants->REQUEST_TIMEOUT});
         else
             res = cpr::Delete(Url{this->url.c_str()}, this->payload, _params, this->_headers, Timeout{constants->REQUEST_TIMEOUT});
         break;
@@ -135,7 +135,7 @@ void Tab::sendRequest()
     case 4:
         // HEAD
         if (this->isHttps())
-            res = cpr::Head(Url{this->url.c_str()}, _params, this->_headers, sslOpts, Timeout{constants->REQUEST_TIMEOUT});
+            res = cpr::Head(Url{this->url.c_str()}, _params, this->_headers, constants->sslOpts, Timeout{constants->REQUEST_TIMEOUT});
         else
             res = cpr::Head(Url{this->url.c_str()}, _params, this->_headers, Timeout{constants->REQUEST_TIMEOUT});
 
@@ -144,7 +144,7 @@ void Tab::sendRequest()
     case 5:
         // OPTIONS
         if (this->isHttps())
-            res = cpr::Options(Url{this->url.c_str()}, _params, this->_headers, sslOpts, Timeout{constants->REQUEST_TIMEOUT});
+            res = cpr::Options(Url{this->url.c_str()}, _params, this->_headers, constants->sslOpts, Timeout{constants->REQUEST_TIMEOUT});
         else
             res = cpr::Options(Url{this->url.c_str()}, _params, this->_headers, Timeout{constants->REQUEST_TIMEOUT});
 
@@ -166,9 +166,6 @@ int Tab::getStatusCode()
 }
 Tab::Tab(size_t index)
 {
-    sslOpts = Ssl(ssl::CaPath{absolutePath() + "ca.cer"}, ssl::CertFile{absolutePath() + "client.cer"},
-                  ssl::KeyFile{absolutePath() + "client.key"}, ssl::VerifyPeer{false},
-                  ssl::VerifyHost{false}, ssl::VerifyStatus{false});
     this->title = "Untitled" + std::to_string(index);
     this->url = "http://localhost:1234";
     isOpen = true;

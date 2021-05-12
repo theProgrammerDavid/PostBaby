@@ -9,13 +9,16 @@ void Constants::setOnlineStatus(bool status)
     this->isOnline = status;
 }
 Constants::Constants()
-{   
-    this->windowFlags =  ImGuiTableFlags_RowBg | ImGuiTableFlags_Borders | ImGuiTableFlags_BordersV | ImGuiTableFlags_Resizable | ImGuiTableFlags_ScrollY | ImGuiTableFlags_ScrollX;
+{
+    this->windowFlags = ImGuiTableFlags_RowBg | ImGuiTableFlags_Borders | ImGuiTableFlags_BordersV | ImGuiTableFlags_Resizable | ImGuiTableFlags_ScrollY | ImGuiTableFlags_ScrollX;
     windowFlags = ImGuiWindowFlags_NoTitleBar;
+    this->sslOpts = Ssl(ssl::CaPath{absolutePath() + "ca.cer"}, ssl::CertFile{absolutePath() + "client.cer"},
+                  ssl::KeyFile{absolutePath() + "client.key"}, ssl::VerifyPeer{false},
+                  ssl::VerifyHost{false}, ssl::VerifyStatus{false});
 
 #if _WIN32
     this->workingDir = getenv("AppData");
-    this->workingDir+= "\\xP";
+    this->workingDir += "\\xP";
     this->configFilePath = this->workingDir + "\\xP.yml";
     this->iniFilePath = this->workingDir + "\\imgui.ini";
 #elif __linux__
@@ -23,13 +26,13 @@ Constants::Constants()
     this->workingDir += "/.config/xP";
     this->configFilePath = this->workingDir + "/xP.yml";
     this->iniFilePath = this->workingDir + "/imgui.ini";
-    
+
 #endif
     this->defaultValues();
     if (fileExists(this->configFilePath))
     {
-        config= YAML::LoadFile(this->configFilePath.c_str());
-        
+        config = YAML::LoadFile(this->configFilePath.c_str());
+
         if (config["PATH_TO_FONT"])
         {
             this->PATH_TO_FONT = config["PATH_TO_FONT"].as<std::string>();
@@ -38,7 +41,8 @@ Constants::Constants()
         {
             this->PATH_TO_FONT = absolutePath() + "/JetBrainsMono-Medium.ttf";
         }
-        if(config["MOVEABLE_WINDOW"]){
+        if (config["MOVEABLE_WINDOW"])
+        {
             this->moveWindow = config["MOVEABLE_WINDOW"].as<int>();
             this->updateWindowFlags();
         }
@@ -48,32 +52,37 @@ Constants::Constants()
         this->WINDOW_WIDTH = config["WINDOW_WIDTH"].as<int>();
         this->REQUEST_TIMEOUT = config["REQUEST_TIMEOUT"].as<int>();
         this->configError = false;
-        this->CURRENT_THEME  = config["CURRENT_THEME"].as<int>();
+        this->CURRENT_THEME = config["CURRENT_THEME"].as<int>();
     }
-    
 }
 
-void Constants::updateWindowFlags(){
-    if(!this->moveWindow)
+void Constants::updateWindowFlags()
+{
+    if (!this->moveWindow)
     {
         this->windowFlags |= ImGuiWindowFlags_NoMove;
     }
-    else{
-    this->windowFlags &= ~ImGuiWindowFlags_NoMove;
+    else
+    {
+        this->windowFlags &= ~ImGuiWindowFlags_NoMove;
     }
 }
 
-ImGuiWindowFlags Constants::getWindowFlags(){
+ImGuiWindowFlags Constants::getWindowFlags()
+{
     return this->windowFlags;
 }
 
-const char* Constants::getWorkingDir(){
+const char *Constants::getWorkingDir()
+{
     return this->workingDir.c_str();
 }
-const char* Constants::getConfigFilePath(){
+const char *Constants::getConfigFilePath()
+{
     return this->configFilePath.c_str();
 }
-const char* Constants::getIniFilePath(){
+const char *Constants::getIniFilePath()
+{
     return this->iniFilePath.c_str();
 }
 void Constants::defaultValues()
@@ -104,11 +113,13 @@ void Constants::createConfigFile()
 }
 
 template <class T>
-void Constants::writeToFile(std::ofstream& fout, const char* key, const T& value){
-    fout<<key<<" : "<<value<<"\n";
+void Constants::writeToFile(std::ofstream &fout, const char *key, const T &value)
+{
+    fout << key << " : " << value << "\n";
 }
 
-void Constants::writeConfig(){ 
+void Constants::writeConfig()
+{
     std::ofstream fout(this->configFilePath.c_str());
     writeToFile(fout, "MAX_URL_SIZE", this->MAX_URL_SIZE);
     writeToFile(fout, "FONT_SIZE", this->FONT_SIZE);

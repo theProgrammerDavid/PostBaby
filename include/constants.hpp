@@ -5,10 +5,13 @@
 #include <thread>
 #include <memory>
 #include "util.hpp"
+#include <cpr/ssl_options.h>
+#include <cpr/cprtypes.h>
 #include "imgui.h"
 #ifdef _Win32
 #include <Windows.h>
 #endif
+using namespace cpr;
 
 void glfw_error_callback(int error, const char *description);
 
@@ -43,6 +46,7 @@ public:
 
     void setTheme();
     int MAX_URL_SIZE;
+    SslOptions sslOpts;
     int REQUEST_TIMEOUT;
     int WINDOW_WIDTH;
     int WINDOW_HEIGHT;

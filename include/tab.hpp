@@ -34,7 +34,7 @@ private:
     int statusCode;
     float timeElapsed;
     bool isHttps();
-    SslOptions sslOpts;
+    
     // Url _url;
 
 public:
