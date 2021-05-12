@@ -13,16 +13,11 @@ message("Setting Release profile")
 add_compile_definitions(RELEASE_BUILD=1)
 endif()
 
-set(XP_VERSION_MAJOR 1 CACHE STRING "major version" FORCE)
-set(XP_VERSION_MINOR 0 CACHE STRING "minor version" FORCE)
-set(XP_VERSION ${XP_VERSION_MAJOR}.${XP_VERSION_MINOR} CACHE STRING "version" FORCE)
+set(xP_VERSION_MAJOR 1 CACHE STRING "major version" FORCE)
+set(xP_VERSION_MINOR 0 CACHE STRING "minor version" FORCE)
+set(xP_VERSION ${${PROJECT_NAME}_VERSION_MAJOR}.${${PROJECT_NAME}_VERSION_MINOR} CACHE STRING "version" FORCE)
 
-if(WIN32)
-else()
-    set(CMAKE_INSTALL_PREFIX /usr/local/bin)
-    set(INI_FILE "$ENV{HOME}/.config/${PROJECT_NAME}.ini")
-    set(CONFIG_FILE "$ENV{HOME}/.config/${PROJECT_NAME}.yml")
-endif()
+configure_file("${${PROJECT_NAME}_SOURCE_DIR}/include/config.hpp.in" "${${PROJECT_NAME}_SOURCE_DIR}/include/config.hpp")
 
 configure_file("${PROJECT_SOURCE_DIR}/include/config.hpp.in" "${PROJECT_SOURCE_DIR}/include/config.hpp")
 
