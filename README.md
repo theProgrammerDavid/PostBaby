@@ -50,9 +50,26 @@ cmake -DCMAKE_BUILD_TYPE=Release .. && \
 make -j$(nproc) && \
 sudo make install
 ```
-- ``sudo make install`` will add it to your application launcher
-- You can also use ``sudo make packages`` to build the package for your OS (`.deb` for Debian derivatives)
-- Windows can use `MSBuild.exe xP.sln` followed by `cpack -C Release` in the build folder
+> ``sudo make install`` will add it to your system and application launcher
+> You can also use ``cpack -C Release`` to build the package for your OS (`.deb` for Debian derivatives)
+
+- Quick Install Windows
+> Initialize your cmd with `vcvarsall.bat x64`
+```cmd
+git clone https://github.com/theProgrammerDavid/xP.git && \
+cd xP && \
+mkdir build && \
+cd build && \
+cmake .. && \
+MSBuild.exe /p:Configuration=Release xP.sln
+cpack -C Release
+```
+- `MSBuild.exe xP.sln` takes additional arguments like `/m:12` where `12` is the number of threads available
+
+### Config Files
+
+On Windows, the config files are stored in `%APPDATA%\xP`
+On Linux, the config files are stored in `$HOME/.config/xP`
 
 ### Libraries used
 | Library         | URL                              |
