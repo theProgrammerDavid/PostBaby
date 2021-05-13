@@ -124,6 +124,11 @@ void GUI::workspaceBar()
     {
         ImGui::TextColored(ImVec4(1.0f, 0.0f, 0.0f, 1.0f), "Offline");
     }
+    ImGui::SameLine();
+    if (constants->configError)
+    {
+        ImGui::TextColored(ImVec4(1.0f, 0.0f, 0.0f, 1.0f), "Config Error");
+    }
 }
 
 void GUI::settingsPopup()
@@ -157,15 +162,19 @@ void GUI::settingsPopup()
             }
             ImGui::EndCombo();
         }
-        ImGui::ColorEdit3("Background", (float *)&constants->TEMP_BG_COLOR);
+        ImGui::ColorEdit3("Background", (float *)&constants->clear_color);
         // THEMES
         ImGui::Separator();
         if (ImGui::Button("OK", ImVec2(120, 0)))
         {
             constants->updateWindowFlags();
             constants->setTheme();
-            constants->clear_color = constants->TEMP_BG_COLOR;
+            // constants->clear_color = constants->TEMP_BG_COLOR;
             ImGui::CloseCurrentPopup();
+            std::thread t([&] {
+                constants->writeConfig();
+            });
+            t.detach();
         }
         ImGui::SetItemDefaultFocus();
         ImGui::SameLine();
@@ -174,6 +183,16 @@ void GUI::settingsPopup()
             constants->TEMP_BG_COLOR = constants->clear_color;
             ImGui::CloseCurrentPopup();
         }
+        ImGui::SameLine();
+        if (ImGui::Button("Reset"))
+        {
+            std::thread t([&] {
+                constants->createConfigFile();
+            });
+            t.detach();
+        }
+        ImGui::SameLine();
+        HelpMarker("\"OK\" saves changes\n\"Cancel\" discards changes.\n\"Reset\" resets config file to defaults");
         ImGui::EndPopup();
     }
 }
@@ -365,7 +384,8 @@ void GUI::tabConfig()
 }
 
 void GUI::render()
-{   ImGuiWindowFlags flags = constants->getWindowFlags(); 
+{
+    ImGuiWindowFlags flags = constants->getWindowFlags();
 
     if (ImGui::Begin("config", NULL, flags))
     {

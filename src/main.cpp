@@ -186,6 +186,5 @@ int main(int, char **)
 
     glfwDestroyWindow(window);
     glfwTerminate();
-    constants->writeConfig();
     return 0;
 }

@@ -31,18 +31,20 @@ Constants::Constants()
     this->defaultValues();
     if (fileExists(this->configFilePath))
     {
-        config = YAML::LoadFile(this->configFilePath.c_str());
-
-        if (config["PATH_TO_FONT"])
+        try
+        {
+            config = YAML::LoadFile(this->configFilePath.c_str());
+            if (config["PATH_TO_FONT"])
         {
             this->PATH_TO_FONT = config["PATH_TO_FONT"].as<std::string>();
         }
-        else
-        {
-            this->PATH_TO_FONT = absolutePath() + "/JetBrainsMono-Medium.ttf";
-        }
+        // else
+        // {
+        //     this->PATH_TO_FONT = absolutePath() + "/JetBrainsMono-Medium.ttf";
+        // }
 
-        if(config["HTML_INDENT"]){
+        if (config["HTML_INDENT"])
+        {
             this->htmlIndent = config["HTML_INDENT"].as<int>();
         }
 
@@ -51,13 +53,40 @@ Constants::Constants()
             this->moveWindow = config["MOVEABLE_WINDOW"].as<int>();
             this->updateWindowFlags();
         }
-        this->MAX_URL_SIZE = config["MAX_URL_SIZE"].as<int>();
-        this->FONT_SIZE = config["FONT_SIZE"].as<float>();
-        this->WINDOW_HEIGHT = config["WINDOW_HEIGHT"].as<int>();
-        this->WINDOW_WIDTH = config["WINDOW_WIDTH"].as<int>();
-        this->REQUEST_TIMEOUT = config["REQUEST_TIMEOUT"].as<int>();
+        if (config["MAX_URL_SIZE"])
+        {
+            this->MAX_URL_SIZE = config["MAX_URL_SIZE"].as<int>();
+        }
+        if (config["FONT_SIZE"])
+        {
+            this->FONT_SIZE = config["FONT_SIZE"].as<float>();
+        }
+        if (config["WINDOW_HEIGHT"])
+        {
+            this->WINDOW_HEIGHT = config["WINDOW_HEIGHT"].as<int>();
+        }
+        if (config["WINDOW_WIDTH"])
+        {
+            this->WINDOW_WIDTH = config["WINDOW_WIDTH"].as<int>();
+        }
+        if (config["REQUEST_TIMEOUT"])
+        {
+            this->REQUEST_TIMEOUT = config["REQUEST_TIMEOUT"].as<int>();
+        }
+        if (config["CURRENT_THEME"])
+        {
+            this->CURRENT_THEME = config["CURRENT_THEME"].as<int>();
+        }
         this->configError = false;
-        this->CURRENT_THEME = config["CURRENT_THEME"].as<int>();
+        }
+        catch (YAML::Exception e)
+        {
+            std::cerr << "Error in yaml file";
+            this->configError = true;
+            std::cout << this->configError;
+        }
+
+        
     }
 }
 
