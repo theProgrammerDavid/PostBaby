@@ -1,4 +1,34 @@
 #include "constants.hpp"
+namespace YAML
+{
+    template <>
+    struct convert<ImVec4>
+    {
+        static Node encode(const ImVec4 &rhs)
+        {
+            Node node;
+            node.push_back(rhs.x);
+            node.push_back(rhs.y);
+            node.push_back(rhs.z);
+            node.push_back(rhs.w);
+            return node;
+        }
+
+        static bool decode(const Node &node, ImVec4 &rhs)
+        {
+            if (!node.IsSequence() || node.size() != 4)
+            {
+                return false;
+            }
+
+            rhs.x = node[0].as<double>();
+            rhs.y = node[1].as<double>();
+            rhs.z = node[2].as<double>();
+            rhs.w = node[3].as<double>();
+            return true;
+        }
+    };
+}
 
 void glfw_error_callback(int error, const char *description)
 {
@@ -35,49 +65,52 @@ Constants::Constants()
         {
             config = YAML::LoadFile(this->configFilePath.c_str());
             if (config["PATH_TO_FONT"])
-        {
-            this->PATH_TO_FONT = config["PATH_TO_FONT"].as<std::string>();
-        }
-        // else
-        // {
-        //     this->PATH_TO_FONT = absolutePath() + "/JetBrainsMono-Medium.ttf";
-        // }
+            {
+                this->PATH_TO_FONT = config["PATH_TO_FONT"].as<std::string>();
+            }
+            // else
+            // {
+            //     this->PATH_TO_FONT = absolutePath() + "/JetBrainsMono-Medium.ttf";
+            // }
 
-        if (config["HTML_INDENT"])
-        {
-            this->htmlIndent = config["HTML_INDENT"].as<int>();
-        }
+            if (config["HTML_INDENT"])
+            {
+                this->htmlIndent = config["HTML_INDENT"].as<int>();
+            }
 
-        if (config["MOVEABLE_WINDOW"])
-        {
-            this->moveWindow = config["MOVEABLE_WINDOW"].as<int>();
-            this->updateWindowFlags();
-        }
-        if (config["MAX_URL_SIZE"])
-        {
-            this->MAX_URL_SIZE = config["MAX_URL_SIZE"].as<int>();
-        }
-        if (config["FONT_SIZE"])
-        {
-            this->FONT_SIZE = config["FONT_SIZE"].as<float>();
-        }
-        if (config["WINDOW_HEIGHT"])
-        {
-            this->WINDOW_HEIGHT = config["WINDOW_HEIGHT"].as<int>();
-        }
-        if (config["WINDOW_WIDTH"])
-        {
-            this->WINDOW_WIDTH = config["WINDOW_WIDTH"].as<int>();
-        }
-        if (config["REQUEST_TIMEOUT"])
-        {
-            this->REQUEST_TIMEOUT = config["REQUEST_TIMEOUT"].as<int>();
-        }
-        if (config["CURRENT_THEME"])
-        {
-            this->CURRENT_THEME = config["CURRENT_THEME"].as<int>();
-        }
-        this->configError = false;
+            if (config["MOVEABLE_WINDOW"])
+            {
+                this->moveWindow = config["MOVEABLE_WINDOW"].as<int>();
+                this->updateWindowFlags();
+            }
+            if (config["MAX_URL_SIZE"])
+            {
+                this->MAX_URL_SIZE = config["MAX_URL_SIZE"].as<int>();
+            }
+            if (config["FONT_SIZE"])
+            {
+                this->FONT_SIZE = config["FONT_SIZE"].as<float>();
+            }
+            if (config["WINDOW_HEIGHT"])
+            {
+                this->WINDOW_HEIGHT = config["WINDOW_HEIGHT"].as<int>();
+            }
+            if (config["WINDOW_WIDTH"])
+            {
+                this->WINDOW_WIDTH = config["WINDOW_WIDTH"].as<int>();
+            }
+            if (config["REQUEST_TIMEOUT"])
+            {
+                this->REQUEST_TIMEOUT = config["REQUEST_TIMEOUT"].as<int>();
+            }
+            if (config["CURRENT_THEME"])
+            {
+                this->CURRENT_THEME = config["CURRENT_THEME"].as<int>();
+            }
+            if(config["BACKGROUND"]){
+                this->clear_color = config["BACKGROUND"].as<ImVec4>();
+            }
+            this->configError = false;
         }
         catch (YAML::Exception e)
         {
@@ -85,8 +118,6 @@ Constants::Constants()
             this->configError = true;
             std::cout << this->configError;
         }
-
-        
     }
 }
 
@@ -143,7 +174,8 @@ bool Constants::configFileExists()
 void Constants::createConfigFile()
 {
     std::ofstream fout(this->configFilePath.c_str());
-    fout << "MAX_URL_SIZE: 256\nHTML_INDENT : false\nMOVEABLE_WINDOW : 1\nFONT_SIZE : 18.0\nWINDOW_HEIGHT : 720\nWINDOW_WIDTH : 1280\nCURRENT_THEME : 0\nREQUEST_TIMEOUT : 5000 ";
+    fout << "MAX_URL_SIZE: 256\nHTML_INDENT : 0\nMOVEABLE_WINDOW : 1\nFONT_SIZE : 18.0\nWINDOW_HEIGHT : 720\nWINDOW_WIDTH : 1280\nCURRENT_THEME : 0\nREQUEST_TIMEOUT : 5000 ";
+    fout << "\nBACKGROUND : [ 0.45, 0.55, 0.60, 1.00 ]";
     fout.close();
 }
 
@@ -164,6 +196,7 @@ void Constants::writeConfig()
     writeToFile(fout, "REQUEST_TIMEOUT", this->REQUEST_TIMEOUT);
     writeToFile(fout, "CURRENT_THEME", this->CURRENT_THEME);
     writeToFile(fout, "MOVEABLE_WINDOW", this->moveWindow);
+    fout << "BACKGROUND : [ "<<this->clear_color.x<<" , "<<this->clear_color.y<<" , "<<this->clear_color.z<<" , "<<this->clear_color.w<<" ] ";
     fout.close();
 }
 
