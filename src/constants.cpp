@@ -51,6 +51,11 @@ Constants::Constants()
     this->workingDir += "\\xP";
     this->configFilePath = this->workingDir + "\\xP.yml";
     this->iniFilePath = this->workingDir + "\\imgui.ini";
+#elif __APPLE__
+    this->workingDir = getenv("HOME");
+    this->workingDir += "/.config/xP";
+    this->configFilePath = this->workingDir + "/xP.yml";
+    this->iniFilePath = this->workingDir + "/imgui.ini";
 #elif __linux__
     this->workingDir = getenv("HOME");
     this->workingDir += "/.config/xP";
