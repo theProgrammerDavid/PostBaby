@@ -160,10 +160,11 @@ void Constants::defaultValues()
     this->WINDOW_WIDTH = 1280;
     this->CURRENT_THEME = DARK;
     this->REQUEST_TIMEOUT = 5000;
-    this->isOnline = false;
-    this->highDPIscaleFactor = 1.0;
+    //this->isOnline = false;
+    //this->highDPIscaleFactor = 1.0;
     this->configError = false;
     this->htmlIndent = true;
+    this->clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
 }
 
 bool Constants::configFileExists()
