@@ -66,18 +66,12 @@ add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
 if(WIN32)
     install(FILES 
     ${PROJECT_SOURCE_DIR}/assets/JetBrainsMono-Medium.ttf 
-    ${PROJECT_SOURCE_DIR}/assets/ca.cer
-    ${PROJECT_SOURCE_DIR}/assets/client.cer
-    ${PROJECT_SOURCE_DIR}/assets/client.key
     ${PROJECT_SOURCE_DIR}/assets/xP.png
     DESTINATION bin
     )
 else()
     install(FILES 
     ${PROJECT_SOURCE_DIR}/assets/JetBrainsMono-Medium.ttf 
-    ${PROJECT_SOURCE_DIR}/assets/ca.cer
-    ${PROJECT_SOURCE_DIR}/assets/client.cer
-    ${PROJECT_SOURCE_DIR}/assets/client.key
     ${PROJECT_SOURCE_DIR}/assets/xP.png
     DESTINATION ${CMAKE_INSTALL_PREFIX})
 endif()
