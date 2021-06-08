@@ -42,9 +42,7 @@ Constants::Constants()
 {
     this->windowFlags = ImGuiTableFlags_RowBg | ImGuiTableFlags_Borders | ImGuiTableFlags_BordersV | ImGuiTableFlags_Resizable | ImGuiTableFlags_ScrollY | ImGuiTableFlags_ScrollX;
     windowFlags = ImGuiWindowFlags_NoTitleBar;
-    this->sslOpts = Ssl(ssl::CaPath{ "./ca.cer"}, ssl::CertFile{"./client.cer"},
-                        ssl::KeyFile{"./client.key"}, ssl::VerifyPeer{false},
-                        ssl::VerifyHost{false}, ssl::VerifyStatus{false});
+    this->sslOpts = Ssl(ssl::TLSv1_2{});
 
 #if _WIN32
     this->workingDir = getenv("AppData");

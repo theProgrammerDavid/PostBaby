@@ -89,10 +89,6 @@ void Tab::constructRequest()
         break;
     };
 }
-bool Tab::isHttps()
-{
-    return this->url.rfind("https", 0) == 0;
-}
 
 void Tab::sendRequest()
 {
@@ -101,52 +97,34 @@ void Tab::sendRequest()
 
     switch (this->currentHttpMethod)
     {
-    case 0: //GET REQUEST
-        if (this->isHttps())
-            res = cpr::Get(Url{this->url.c_str()}, _params, this->_headers, constants->sslOpts, Timeout{constants->REQUEST_TIMEOUT});
-        else
-            res = cpr::Get(Url{this->url.c_str()}, _params, this->_headers, Timeout{constants->REQUEST_TIMEOUT});
+    case 0: 
+            res = cpr::Get(Url{this->url.c_str()}, _params, constants->sslOpts,  this->_headers, Timeout{constants->REQUEST_TIMEOUT});
 
         break;
     case 1: //POST REQUEST
-        if (this->isHttps())
+       
             res = cpr::Post(Url{this->url.c_str()}, this->payload, constants->sslOpts, _params, this->_headers, Timeout{constants->REQUEST_TIMEOUT});
-        else
-            res = cpr::Post(Url{this->url.c_str()}, this->payload, _params, this->_headers, Timeout{constants->REQUEST_TIMEOUT});
 
         break;
 
     case 2:
-        // PUT
-        if (this->isHttps())
-            res = cpr::Post(Url{this->url.c_str()}, this->payload, constants->sslOpts, _params, this->_headers, Timeout{constants->REQUEST_TIMEOUT});
-        else
-            res = cpr::Post(Url{this->url.c_str()}, this->payload, _params, this->_headers, Timeout{constants->REQUEST_TIMEOUT});
+        
+            res = cpr::Post(Url{this->url.c_str()}, this->payload, constants->sslOpts,  _params, this->_headers, Timeout{constants->REQUEST_TIMEOUT});
 
     case 3:
         // DELETE
-        if (this->isHttps())
+        
             res = cpr::Delete(Url{this->url.c_str()}, this->payload, constants->sslOpts, _params, this->_headers, Timeout{constants->REQUEST_TIMEOUT});
-        else
-            res = cpr::Delete(Url{this->url.c_str()}, this->payload, _params, this->_headers, Timeout{constants->REQUEST_TIMEOUT});
         break;
 
     case 4:
         // HEAD
-        if (this->isHttps())
-            res = cpr::Head(Url{this->url.c_str()}, _params, this->_headers, constants->sslOpts, Timeout{constants->REQUEST_TIMEOUT});
-        else
-            res = cpr::Head(Url{this->url.c_str()}, _params, this->_headers, Timeout{constants->REQUEST_TIMEOUT});
-
+            res = cpr::Head(Url{this->url.c_str()}, _params, constants->sslOpts, this->_headers, Timeout{constants->REQUEST_TIMEOUT});
         break;
 
     case 5:
         // OPTIONS
-        if (this->isHttps())
-            res = cpr::Options(Url{this->url.c_str()}, _params, this->_headers, constants->sslOpts, Timeout{constants->REQUEST_TIMEOUT});
-        else
-            res = cpr::Options(Url{this->url.c_str()}, _params, this->_headers, Timeout{constants->REQUEST_TIMEOUT});
-
+            res = cpr::Options(Url{this->url.c_str()}, _params, constants->sslOpts, this->_headers, Timeout{constants->REQUEST_TIMEOUT});
         break;
     };
 

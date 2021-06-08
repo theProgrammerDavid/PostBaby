@@ -36,10 +36,7 @@ class Tab
 private:
     void constructRequest();
     int statusCode;
-    float timeElapsed;
-    bool isHttps();
-    
-    // Url _url;
+    float timeElapsed;    
 
 public:
     Parameters _params;
