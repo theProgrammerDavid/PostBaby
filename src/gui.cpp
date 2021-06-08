@@ -187,6 +187,7 @@ void GUI::settingsPopup()
         if (ImGui::Button("Reset"))
         {
             std::thread t([&] {
+                constants->defaultValues();
                 constants->createConfigFile();
             });
             t.detach();
