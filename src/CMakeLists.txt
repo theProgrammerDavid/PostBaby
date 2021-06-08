@@ -57,9 +57,6 @@ endif()
 add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
                    COMMAND ${CMAKE_COMMAND} -E copy_if_different
                        ${PROJECT_SOURCE_DIR}/assets/JetBrainsMono-Medium.ttf
-                        ${PROJECT_SOURCE_DIR}/assets/ca.cer
-                        ${PROJECT_SOURCE_DIR}/assets/client.cer
-                        ${PROJECT_SOURCE_DIR}/assets/client.key
                         $<TARGET_FILE_DIR:${PROJECT_NAME}>
                    )
 
