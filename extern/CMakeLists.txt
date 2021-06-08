@@ -5,10 +5,9 @@ cmake_minimum_required(VERSION 3.14 FATAL_ERROR)
 include(FetchContent)
 
 if(WIN32)
-  set(USE_OPENSSL OFF)
-  set(USE_WINSSL ON)
-  set(CMAKE_USE_OPENSSL OFF)
-  set(BUILD_CPR_TESTS OFF) #testing. if enabled, needs PERL
+set(CPR_BUILD_TESTS_SSL OFF)
+set(CPR_BUILD_TESTS OFF) #testing. if enabled, needs PER
+set(CPR_FORCE_WINSSL_BACKEND ON)
 endif()
 
 FetchContent_Declare(
@@ -58,7 +57,7 @@ endif()
 # endif()
 
 include(FetchContent)
-FetchContent_Declare(cpr GIT_REPOSITORY https://github.com/whoshuu/cpr.git GIT_TAG e538269b0705a46f7e56255421f8e97261f2909a)
+FetchContent_Declare(cpr GIT_REPOSITORY https://github.com/whoshuu/cpr.git GIT_TAG f4622efcb59d84071ae11404ae61bd821c1c344b)
 FetchContent_MakeAvailable(cpr)
 
 include(FetchContent)
