@@ -1,3 +1,3 @@
-#define xP_VERSION "@xP_VERSION@"
-#define xP_VERSION_MAJOR "@xP_VERSION_MAJOR@"
-#define xP_VERSION_MINOR "@xP_VERSION_MINOR@"
+#define PostBaby_VERSION "@PostBaby_VERSION@"
+#define PostBaby_VERSION_MAJOR "@PostBaby_VERSION_MAJOR@"
+#define PostBaby_VERSION_MINOR "@PostBaby_VERSION_MINOR@"

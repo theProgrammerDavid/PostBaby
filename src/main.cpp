@@ -9,19 +9,17 @@ bool checkOnline()
 int main(int, char **)
 {
 #if _WIN32
-    ShowWindow(GetConsoleWindow(), SW_HIDE);
+    // ShowW         indow(GetConsoleWindow(), SW_HIDE);
 #endif
 
-    std::thread t([&] {
-        constants->setOnlineStatus(checkOnline());
-    });
+    std::thread t([&]
+                  { constants->setOnlineStatus(checkOnline()); });
     t.detach();
 
     if (!constants->configFileExists())
     {
-        std::thread t2([&] {
-            constants->createConfigFile();
-        });
+        std::thread t2([&]
+                       { constants->createConfigFile(); });
         t2.detach();
     }
 
@@ -29,7 +27,7 @@ int main(int, char **)
     {
         std::filesystem::create_directories(constants->getWorkingDir());
     }
-    
+
     // Setup window
     glfwSetErrorCallback(glfw_error_callback);
     if (!glfwInit())
@@ -51,6 +49,7 @@ int main(int, char **)
     {
         constants->highDPIscaleFactor = xscale;
         glfwWindowHint(GLFW_SCALE_TO_MONITOR, GLFW_TRUE);
+        std::cout << xscale << " " << yscale << "\n";
     }
 
 #else
@@ -93,7 +92,8 @@ int main(int, char **)
     glbinding::Binding::initialize();
 #elif defined(IMGUI_IMPL_OPENGL_LOADER_GLBINDING3)
     bool err = false;
-    glbinding::initialize([](const char *name) { return (glbinding::ProcAddress)glfwGetProcAddress(name); });
+    glbinding::initialize([](const char *name)
+                          { return (glbinding::ProcAddress)glfwGetProcAddress(name); });
 #else
     bool err = false; // If you use IMGUI_IMPL_OPENGL_LOADER_CUSTOM, your loader is likely to requires some form of initialization.
 #endif
@@ -140,7 +140,7 @@ int main(int, char **)
     //IM_ASSERT(font != NULL);
 
     // Our state
-#ifdef xP_SHOW_IMGUI_DEMO_WINDOW
+#ifdef PostBaby_SHOW_IMGUI_DEMO_WINDOW
     bool show_demo_window = false;
     show_demo_window = false;
 #endif
@@ -163,11 +163,10 @@ int main(int, char **)
         // 1. Show the big demo window (Most of the sample code is in ImGui::ShowDemoWindow()! You can browse its code to learn more about Dear ImGui!).
         // if (show_demo_window)
 
-#ifdef xP_SHOW_IMGUI_DEMO_WINDOW
+#ifdef PostBaby_SHOW_IMGUI_DEMO_WINDOW
         ImGui::ShowDemoWindow(&show_demo_window);
 #endif
         gui.render();
-
         // Rendering
         ImGui::Render();
         int display_w, display_h;

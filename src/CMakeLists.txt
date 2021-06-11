@@ -8,9 +8,9 @@ include_directories("../include")
 
 # set application icon
 if (WIN32)
-    set(ICON "${PROJECT_SOURCE_DIR}/assets/xP.rc")
+    set(ICON "${PROJECT_SOURCE_DIR}/assets/PostBaby.rc")
 elseif (APPLE)
-    set(ICON "${PROJECT_SOURCE_DIR}/assets/xP.ico")
+    set(ICON "${PROJECT_SOURCE_DIR}/assets/PostBaby.ico")
 endif()
 
 include_directories("${PROJECT_SOURCE_DIR}/extern/imgui")	
@@ -24,7 +24,7 @@ add_executable(${PROJECT_NAME}
 ${ICON}
 ${SOURCES} 
 ${IMGUI_SOURCES}
-${${PROJECT_NAME}_SOURCE_DIR}/assets/xP.rc
+${${PROJECT_NAME}_SOURCE_DIR}/assets/PostBaby.rc
 )
 target_include_directories(${PROJECT_NAME} PUBLIC ${${PROJECT_NAME}_SOURCE_DIR}/include${CMAKE_CURRENT_BINARY_DIR})
 
@@ -63,19 +63,19 @@ add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
 if(WIN32)
     install(FILES 
     ${PROJECT_SOURCE_DIR}/assets/JetBrainsMono-Medium.ttf 
-    ${PROJECT_SOURCE_DIR}/assets/xP.png
+    ${PROJECT_SOURCE_DIR}/assets/PostBaby.png
     DESTINATION bin
     )
 else()
     install(FILES 
     ${PROJECT_SOURCE_DIR}/assets/JetBrainsMono-Medium.ttf 
-    ${PROJECT_SOURCE_DIR}/assets/xP.png
+    ${PROJECT_SOURCE_DIR}/assets/PostBaby.png
     DESTINATION ${CMAKE_INSTALL_PREFIX})
 endif()
 
 if(UNIX)
     install( FILES
-        ${PROJECT_SOURCE_DIR}/assets/xP.desktop
+        ${PROJECT_SOURCE_DIR}/assets/PostBaby.desktop
         DESTINATION
     /usr/share/applications
     )
@@ -83,7 +83,6 @@ if(UNIX)
     SET(CPACK_GENERATOR "DEB")
     SET(CPACK_DEBIAN_PACKAGE_NAME "${PROJECT_NAME}")
     SET(CPACK_DEBIAN_PACKAGE_VERSION "1.0")
-    SET(CPACK_PACKAGE_CONTACT "me@davidvelho.tech")
     SET(CPACK_DEBIAN_PACKAGE_DEPENDS "libc6 (>= 2.3.1-6), libgcc1 (>= 1:3.4.2-12)")
     set(CPACK_PACKAGE_NAME "${PROJECT_NAME}")
     set(CPACK_PACKAGE_VENDOR "theProgrammerDavid")
@@ -106,8 +105,8 @@ if(WIN32)
     set (CPACK_NSIS_MODIFY_PATH "ON")
     set(CPACK_PACKAGE_INSTALL_REGISTRY_KEY ${PROJECT_NAME})
 
-    set(CPACK_NSIS_MUI_ICON "${PROJECT_SOURCE_DIR}/assets/xP.ico")
-    set(CPACK_NSIS_MUI_UNICON "${PROJECT_SOURCE_DIR}/assets/xP.ico")
+    set(CPACK_NSIS_MUI_ICON "${PROJECT_SOURCE_DIR}/assets/PostBaby.ico")
+    set(CPACK_NSIS_MUI_UNICON "${PROJECT_SOURCE_DIR}/assets/PostBaby.ico")
     set(CPACK_NSIS_ENABLE_UNINSTALL_BEFORE_INSTALL "ON")
 
     set(CPACK_SOURCE_GENERATOR "TGZ")
@@ -127,9 +126,9 @@ if(WIN32)
     set(CPACK_NSIS_EXTRA_UNINSTALL_COMMANDS "
     Delete '$DESKTOP\\\\${PROJECT_NAME}.lnk'
     ")
-    set(CPACK_NSIS_INSTALLED_ICON_NAME "${PROJECT_SOURCE_DIR}/assets/xP.ico")
-    set(CPACK_NSIS_HELP_LINK "https://github.com/theProgrammerDavid/xP")
-    set(CPACK_NSIS_URL_INFO_ABOUT "https://github.com/theProgrammerDavid/xP")
+    set(CPACK_NSIS_INSTALLED_ICON_NAME "${PROJECT_SOURCE_DIR}/assets/PostBaby.ico")
+    set(CPACK_NSIS_HELP_LINK "https://github.com/theProgrammerDavid/PostBaby")
+    set(CPACK_NSIS_URL_INFO_ABOUT "https://github.com/theProgrammerDavid/PostBaby")
     set(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/assets/nsis ${CMAKE_MODULE_PATH})
     include(CPack)
 

@@ -52,4 +52,4 @@ using namespace gl;
 #pragma comment(lib, "legacy_stdio_definitions")
 #endif
 
-#define WINDOW_TITLE "xP v" xP_VERSION
+#define WINDOW_TITLE "PostBaby v" PostBaby_VERSION

@@ -1,7 +1,7 @@
-![xP](https://socialify.git.ci/theProgrammerDavid/xP/image?description=1&font=Bitter&language=1&owner=1&stargazers=1&theme=Dark)
+![PostBaby](https://socialify.git.ci/theProgrammerDavid/PostBaby/image?description=1&font=Bitter&language=1&owner=1&stargazers=1&theme=Dark)
 
-![xP master cicd status ](https://github.com/theProgrammerDavid/xP/actions/workflows/build.yml/badge.svg?branch=master) ![GitHub](https://img.shields.io/github/license/theProgrammerDavid/xP)
-# xP 
+![PostBaby master cicd status ](https://github.com/theProgrammerDavid/PostBaby/actions/workflows/build.yml/badge.svg?branch=master) ![GitHub](https://img.shields.io/github/license/theProgrammerDavid/PostBaby)
+# PostBaby 
 
 C++ native app to test HTTP endpoints
 ### Dependencies
@@ -27,7 +27,7 @@ Windows has been configured to use `WINSSL`
 ### Get Started
 
 ```bash
-git clone https://github.com/theProgrammerDavid/xP.git
+git clone https://github.com/theProgrammerDavid/PostBaby.git
 ```
 
 ### Building
@@ -37,13 +37,22 @@ git clone https://github.com/theProgrammerDavid/xP.git
 - Once configured, build it using the selected build system. On *nix systems you can use ``
 make -j$(nproc)
 ``
-- The built binary will be in `${XP_ROOT}/build/src/xP`
+- The built binary will be in `${PostBaby_ROOT}/build/src/PostBaby`
 ### Installing
-
+- Quick Install MacOS
+```bash
+git clone https://github.com/theProgrammerDavid/PostBaby.git && \
+cd PostBaby && \
+mkdir build && \
+cd build && \
+export PATH="/usr/local/opt/openssl/bin:$PATH" && \
+CXX=clang++ CC=clang cmake -DOPENSSL_ROOT_DIR=/usr/local/opt/openssl -DOPENSSL_LIBRARIES=/usr/local/opt/openssl/lib -DCMAKE_BUILD_TYPE=Release ..
+make -j$(nproc)
+```
 - Quick Install Linux
 ```bash
-git clone https://github.com/theProgrammerDavid/xP.git && \
-cd xP && \
+git clone https://github.com/theProgrammerDavid/PostBaby.git && \
+cd PostBaby && \
 mkdir build && \
 cd build && \
 cmake -DCMAKE_BUILD_TYPE=Release .. && \
@@ -56,20 +65,20 @@ sudo make install
 - Quick Install Windows
 > Initialize your cmd with `vcvarsall.bat x64`
 ```cmd
-git clone https://github.com/theProgrammerDavid/xP.git && \
-cd xP && \
+git clone https://github.com/theProgrammerDavid/PostBaby.git && \
+cd PostBaby && \
 mkdir build && \
 cd build && \
 cmake .. && \
-MSBuild.exe /p:Configuration=Release xP.sln
+MSBuild.exe /p:Configuration=Release PostBaby.sln
 cpack -C Release
 ```
-- `MSBuild.exe xP.sln` takes additional arguments like `/m:12` where `12` is the number of threads available
+- `MSBuild.exe PostBaby.sln` takes additional arguments like `/m:12` where `12` is the number of threads available
 
 ### Config Files
 
-On Windows, the config files are stored in `%APPDATA%\xP`
-On Linux, the config files are stored in `$HOME/.config/xP`
+On Windows, the config files are stored in `%APPDATA%\PostBaby`
+On Linux, the config files are stored in `$HOME/.config/PostBaby`
 
 ### Libraries used
 | Library         | URL                              |
@@ -77,7 +86,7 @@ On Linux, the config files are stored in `$HOME/.config/xP`
 | ImGui           | https://github.com/ocornut/imgui |
 | Glew            | https://glew.sourceforge.net     |
 | GLFW            | https://github.com/glfw/glfw     |
-| Curl For People | https://whoshuu/cpr              |
+| Curl For People | https://github.com/whoshuu/cpr   |
 | Glad            | https://github.com/Dav1dde/glad.git|
 | tidy-html5      | https://github.com/htacg/tidy-html5 |
 

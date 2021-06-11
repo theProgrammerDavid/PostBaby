@@ -46,18 +46,18 @@ Constants::Constants()
 
 #if _WIN32
     this->workingDir = getenv("AppData");
-    this->workingDir += "\\xP";
-    this->configFilePath = this->workingDir + "\\xP.yml";
+    this->workingDir += "\\PostBaby";
+    this->configFilePath = this->workingDir + "\\PostBaby.yml";
     this->iniFilePath = this->workingDir + "\\imgui.ini";
 #elif __APPLE__
     this->workingDir = getenv("HOME");
-    this->workingDir += "/.config/xP";
-    this->configFilePath = this->workingDir + "/xP.yml";
+    this->workingDir += "/.config/PostBaby";
+    this->configFilePath = this->workingDir + "/PostBaby.yml";
     this->iniFilePath = this->workingDir + "/imgui.ini";
 #elif __linux__
     this->workingDir = getenv("HOME");
-    this->workingDir += "/.config/xP";
-    this->configFilePath = this->workingDir + "/xP.yml";
+    this->workingDir += "/.config/PostBaby";
+    this->configFilePath = this->workingDir + "/PostBaby.yml";
     this->iniFilePath = this->workingDir + "/imgui.ini";
 
 #endif

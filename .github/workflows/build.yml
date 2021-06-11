@@ -23,7 +23,7 @@ jobs:
         shell: cmd
         run: |
           cd build
-          "%MSBUILD_PATH%\MSBuild.exe" XP.sln /p:Configuration=Release /m
+          "%MSBUILD_PATH%\MSBuild.exe" PostBaby.sln /p:Configuration=Release /m
   Linux:
     runs-on: ubuntu-20.04
     steps:
