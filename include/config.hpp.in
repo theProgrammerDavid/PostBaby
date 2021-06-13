@@ -1,3 +1,4 @@
 #define PostBaby_VERSION "@PostBaby_VERSION@"
 #define PostBaby_VERSION_MAJOR "@PostBaby_VERSION_MAJOR@"
 #define PostBaby_VERSION_MINOR "@PostBaby_VERSION_MINOR@"
+#define PROJECT_NAME "@PROJECT_NAME@"
