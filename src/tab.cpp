@@ -64,6 +64,11 @@ void Tab::constructRequest()
             if (i.enable)
                 this->payload.Add({i.key, i.value});
         }
+
+        if (this->rawBody.size() != 0)
+        {
+            this->_headers.insert({"content-type", "application/json"});
+        }
         break;
 
     case 2: //PUT REQUEST
@@ -97,34 +102,34 @@ void Tab::sendRequest()
 
     switch (this->currentHttpMethod)
     {
-    case 0: 
-            res = cpr::Get(Url{this->url.c_str()}, _params, constants->sslOpts,  this->_headers, Timeout{constants->REQUEST_TIMEOUT});
+    case 0:
+        res = cpr::Get(Url{this->url.c_str()}, _params, constants->sslOpts, this->_headers, Timeout{constants->REQUEST_TIMEOUT});
 
         break;
     case 1: //POST REQUEST
-       
-            res = cpr::Post(Url{this->url.c_str()}, this->payload, constants->sslOpts, _params, this->_headers, Timeout{constants->REQUEST_TIMEOUT});
+
+        res = cpr::Post(Url{this->url.c_str()}, this->payload, constants->sslOpts, _params, this->_headers, cpr::Body({this->rawBody.c_str()}), Timeout{constants->REQUEST_TIMEOUT});
 
         break;
 
     case 2:
-        
-            res = cpr::Post(Url{this->url.c_str()}, this->payload, constants->sslOpts,  _params, this->_headers, Timeout{constants->REQUEST_TIMEOUT});
+
+        res = cpr::Post(Url{this->url.c_str()}, this->payload, constants->sslOpts, _params, this->_headers, Timeout{constants->REQUEST_TIMEOUT});
 
     case 3:
         // DELETE
-        
-            res = cpr::Delete(Url{this->url.c_str()}, this->payload, constants->sslOpts, _params, this->_headers, Timeout{constants->REQUEST_TIMEOUT});
+
+        res = cpr::Delete(Url{this->url.c_str()}, this->payload, constants->sslOpts, _params, this->_headers, Timeout{constants->REQUEST_TIMEOUT});
         break;
 
     case 4:
         // HEAD
-            res = cpr::Head(Url{this->url.c_str()}, _params, constants->sslOpts, this->_headers, Timeout{constants->REQUEST_TIMEOUT});
+        res = cpr::Head(Url{this->url.c_str()}, _params, constants->sslOpts, this->_headers, Timeout{constants->REQUEST_TIMEOUT});
         break;
 
     case 5:
         // OPTIONS
-            res = cpr::Options(Url{this->url.c_str()}, _params, constants->sslOpts, this->_headers, Timeout{constants->REQUEST_TIMEOUT});
+        res = cpr::Options(Url{this->url.c_str()}, _params, constants->sslOpts, this->_headers, Timeout{constants->REQUEST_TIMEOUT});
         break;
     };
 
@@ -167,8 +172,7 @@ void Tab::sendRequest()
     }
     else
     {
-        this->formattedBody = res.text.c_str(); 
-
+        this->formattedBody = res.text.c_str();
     }
 }
 
