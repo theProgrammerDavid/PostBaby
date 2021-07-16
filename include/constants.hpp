@@ -55,6 +55,7 @@ public:
     bool configError;
     bool moveWindow;
     bool htmlIndent;
+    bool jsonIndent;
     bool isOnline;
     std::string PATH_TO_FONT;
     float highDPIscaleFactor;

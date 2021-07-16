@@ -14,7 +14,9 @@
 #include <tidybuffio.h>
 #include <stdio.h>
 #include <errno.h>
+#include <nlohmann/json.hpp>
 using namespace cpr;
+using json = nlohmann::json;
 
 class KeyValuePair
 {

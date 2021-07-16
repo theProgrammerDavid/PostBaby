@@ -132,6 +132,16 @@ void Tab::sendRequest()
         res = cpr::Options(Url{this->url.c_str()}, _params, constants->sslOpts, this->_headers, Timeout{constants->REQUEST_TIMEOUT});
         break;
     };
+    this->formattedBody = res.text.c_str();
+
+    if (constants->jsonIndent && (res.header["content-type"].find("application/json") != std::string::npos || res.header["Content-Type"].find("application/json") != std::string::npos))
+
+    {
+        std::cout << "json indenting\n";
+        auto j = json::parse(res.text.c_str());
+        this->formattedBody = j.dump(4);
+        std::cout << this->formattedBody;
+    }
 
     if (constants->htmlIndent && res.text.find("html") != std::string::npos)
     {
@@ -170,10 +180,7 @@ void Tab::sendRequest()
         tidyBufFree(&errbuf);
         tidyRelease(tdoc);
     }
-    else
-    {
-        this->formattedBody = res.text.c_str();
-    }
+    
 }
 
 void Tab::updateTitle()
