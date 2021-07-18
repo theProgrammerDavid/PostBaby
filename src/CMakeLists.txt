@@ -33,6 +33,7 @@ target_link_libraries(${PROJECT_NAME}
   ${OPENGL_LIBRARIES}
   PRIVATE
   glad
+  nlohmann_json::nlohmann_json
   yaml-cpp
   tidy-static
   glfw
@@ -86,6 +87,7 @@ if(UNIX)
     SET(CPACK_DEBIAN_PACKAGE_DEPENDS "libc6 (>= 2.3.1-6), libgcc1 (>= 1:3.4.2-12)")
     set(CPACK_PACKAGE_NAME "${PROJECT_NAME}")
     set(CPACK_PACKAGE_VENDOR "theProgrammerDavid")
+    set(CPACK_DEBIAN_PACKAGE_MAINTAINER "David Velho")
     set(CPACK_VERBATIM_VARIABLES true)
     set(CPACK_PACKAGE_VERSION_MAJOR ${${PROJECT_NAME}_VERSION_MAJOR})
     set(CPACK_PACKAGE_VERSION_MINOR ${${PROJECT_NAME}_VERSION_MINOR})

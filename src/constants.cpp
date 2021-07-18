@@ -113,6 +113,9 @@ Constants::Constants()
             if(config["BACKGROUND"]){
                 this->clear_color = config["BACKGROUND"].as<ImVec4>();
             }
+            if(config["JSON_INDENT"]){
+                this->jsonIndent = config["JSON_INDENT"].as<int>();
+            }
             this->configError = false;
         }
         catch (YAML::Exception e)
@@ -164,9 +167,10 @@ void Constants::defaultValues()
     this->CURRENT_THEME = DARK;
     this->REQUEST_TIMEOUT = 5000;
     //this->isOnline = false;
-    //this->highDPIscaleFactor = 1.0;
+    this->highDPIscaleFactor = 1.0;
     this->configError = false;
     this->htmlIndent = true;
+    this->jsonIndent = false;
     this->clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
 }
 
@@ -178,7 +182,7 @@ bool Constants::configFileExists()
 void Constants::createConfigFile()
 {
     std::ofstream fout(this->configFilePath.c_str());
-    fout << "MAX_URL_SIZE: 256\nHTML_INDENT : 0\nMOVEABLE_WINDOW : 1\nFONT_SIZE : 18.0\nWINDOW_HEIGHT : 720\nWINDOW_WIDTH : 1280\nCURRENT_THEME : 0\nREQUEST_TIMEOUT : 5000 ";
+    fout << "MAX_URL_SIZE: 256\nHTML_INDENT : 0\nMOVEABLE_WINDOW : 1\nJSON_INDENT : 1\nFONT_SIZE : 18.0\nWINDOW_HEIGHT : 720\nWINDOW_WIDTH : 1280\nCURRENT_THEME : 0\nREQUEST_TIMEOUT : 5000 ";
     fout << "\nBACKGROUND : [ 0.45, 0.55, 0.60, 1.00 ]";
     fout.close();
 }
@@ -200,6 +204,7 @@ void Constants::writeConfig()
     writeToFile(fout, "REQUEST_TIMEOUT", this->REQUEST_TIMEOUT);
     writeToFile(fout, "CURRENT_THEME", this->CURRENT_THEME);
     writeToFile(fout, "MOVEABLE_WINDOW", this->moveWindow);
+    writeToFile(fout, "JSON_INDENT", this->jsonIndent);
     fout << "BACKGROUND : [ "<<this->clear_color.x<<" , "<<this->clear_color.y<<" , "<<this->clear_color.z<<" , "<<this->clear_color.w<<" ] ";
     fout.close();
 }

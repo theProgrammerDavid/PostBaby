@@ -144,6 +144,7 @@ void GUI::settingsPopup()
         ImGui::InputInt("Request Timeout (ms)", &constants->REQUEST_TIMEOUT);
         ImGui::Checkbox("Moveable Window", &constants->moveWindow);
         ImGui::Checkbox("HTML Indent", &constants->htmlIndent);
+        ImGui::Checkbox("JSON Indent", &constants->jsonIndent);
 
         //  THEMES
         ImGui::Separator();
@@ -302,7 +303,7 @@ void GUI::drawBody()
     {
         ImGui::Text("Raw Body");
         ImGui::SameLine();
-        HelpMarker("Ctrl+Enter for newline");
+        HelpMarker("Ctrl+Enter for newline. Only JSON is supported for now");
 
         ImGui::InputTextMultiline(" ", &tabs.at(active_tab).rawBody, ImVec2(1200, 200), ImGuiInputTextFlags_AllowTabInput | ImGuiInputTextFlags_CtrlEnterForNewLine);
     }

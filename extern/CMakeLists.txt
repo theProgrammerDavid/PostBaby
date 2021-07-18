@@ -77,10 +77,21 @@ FetchContent_Declare(
   GIT_REPOSITORY https://github.com/htacg/tidy-html5.git
   SOURCE_DIR     ${CMAKE_SOURCE_DIR}/extern/tidy
   GIT_TAG        f6376f82c8d75a2b88d0860497ae39a150ef97e4
-  
-  )
-  FetchContent_GetProperties(tidy)
-  if(NOT tidy_POPULATED)
+
+)
+FetchContent_GetProperties(tidy)
+if(NOT tidy_POPULATED)
   FetchContent_Populate(tidy)
-  endif()
-  add_subdirectory(${CMAKE_SOURCE_DIR}/extern/tidy)
+endif()
+add_subdirectory(${CMAKE_SOURCE_DIR}/extern/tidy)
+
+FetchContent_Declare(json
+  GIT_REPOSITORY https://github.com/nlohmann/json.git
+  GIT_TAG v3.7.3
+)
+
+FetchContent_GetProperties(json)
+if(NOT json_POPULATED)
+  FetchContent_Populate(json)
+  add_subdirectory(${json_SOURCE_DIR} ${json_BINARY_DIR} EXCLUDE_FROM_ALL)
+endif()
