@@ -1,5 +1,5 @@
 name: build
-'on':
+on:
   push: {}
   pull_request: {}
 jobs:
@@ -28,6 +28,12 @@ jobs:
         shell: cmd
         run : |
           cd build && cpack -C Release
+      - name: Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: '*.exe'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   Linux:
     runs-on: ubuntu-20.04
     steps:
@@ -45,8 +51,14 @@ jobs:
     - name: Build Package
       run: |
         cd build && cpack -C Release
+    - name: Release
+      uses: softprops/action-gh-release@v1
+      with:
+          files: 'src/*.deb'
+      env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   MacOS:
-    runs-on: macOS-latest
+    runs-on: macos-latest
     steps:
     - uses: actions/checkout@v1
     - name: Install Dependencies
