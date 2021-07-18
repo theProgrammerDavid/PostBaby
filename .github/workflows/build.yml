@@ -1,7 +1,8 @@
 name: build
 on:
-  push: {}
-  pull_request: {}
+  push:
+    tags:
+      - 'v*.*.*'
 jobs:
   Windows:
     runs-on: windows-2019
