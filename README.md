@@ -89,6 +89,7 @@ On Linux, the config files are stored in `$HOME/.config/PostBaby`
 | Curl For People | https://github.com/whoshuu/cpr   |
 | Glad            | https://github.com/Dav1dde/glad.git|
 | tidy-html5      | https://github.com/htacg/tidy-html5 |
+| Nlohmann JSON   | https://github.com/nlohmann/json |
 
 ### Resources
 
