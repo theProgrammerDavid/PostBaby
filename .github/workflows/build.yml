@@ -27,7 +27,7 @@ jobs:
       - name: Build Package
         shell: cmd
         run : |
-          cpack -C Release
+          cd build && cpack -C Release
   Linux:
     runs-on: ubuntu-20.04
     steps:
@@ -44,7 +44,7 @@ jobs:
         cd build && make -j$(nproc)
     - name: Build Package
       run: |
-        cpack -C Release
+        cd build && cpack -C Release
   MacOS:
     runs-on: macOS-latest
     steps:
