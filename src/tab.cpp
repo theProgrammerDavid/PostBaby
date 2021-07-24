@@ -133,7 +133,7 @@ void Tab::sendRequest()
         break;
     };
 
-    if (constants->jsonIndent && (res.header["content-type"].find("application/json") != std::string::npos || res.header["Content-Type"].find("application/json") != std::string::npos))
+    if (constants->jsonIndent && res.header["content-type"].find("application/json") != std::string::npos)
     {
         auto j = json::parse(res.text.c_str());
         this->formattedBody = j.dump(4);
