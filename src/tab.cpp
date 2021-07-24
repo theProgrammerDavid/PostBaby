@@ -132,18 +132,13 @@ void Tab::sendRequest()
         res = cpr::Options(Url{this->url.c_str()}, _params, constants->sslOpts, this->_headers, Timeout{constants->REQUEST_TIMEOUT});
         break;
     };
-    this->formattedBody = res.text.c_str();
 
-    if (constants->jsonIndent && (res.header["content-type"].find("application/json") != std::string::npos || res.header["Content-Type"].find("application/json") != std::string::npos))
-
+    if (constants->jsonIndent && res.header["content-type"].find("application/json") != std::string::npos)
     {
-        std::cout << "json indenting\n";
         auto j = json::parse(res.text.c_str());
         this->formattedBody = j.dump(4);
-        std::cout << this->formattedBody;
     }
-
-    if (constants->htmlIndent && res.text.find("html") != std::string::npos)
+    else if (constants->htmlIndent && res.text.find("html") != std::string::npos)
     {
         TidyBuffer output = {0};
         TidyBuffer errbuf = {0};
@@ -167,20 +162,15 @@ void Tab::sendRequest()
             rc = (tidyOptSetBool(tdoc, TidyForceOutput, yes) ? rc : -1);
         if (rc >= 0)
             rc = tidySaveBuffer(tdoc, &output); // Pretty Print
-        // if (rc >= 0)
-        // {
-        //     if (rc > 0)
-        //         printf("\nDiagnostics:\n\n%s", errbuf.bp);
-        //     printf("\nAnd here is the result:\n\n%s", output.bp);
-        // }
-        // else
-        //     printf("A severe error (%d) occurred.\n", rc);
         this->formattedBody = reinterpret_cast<char const *>(output.bp);
         tidyBufFree(&output);
         tidyBufFree(&errbuf);
         tidyRelease(tdoc);
     }
-    
+    else
+    {
+        this->formattedBody = res.text.c_str();
+    }
 }
 
 void Tab::updateTitle()

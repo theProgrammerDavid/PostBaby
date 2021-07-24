@@ -5,7 +5,9 @@ endif()
 include_directories( ${OPENGL_INCLUDE_DIRS}  )
 
 include_directories("../include")
-
+find_file (DEBIAN_FOUND debian_version debconf.conf
+    PATHS /etc
+)
 # set application icon
 if (WIN32)
     set(ICON "${PROJECT_SOURCE_DIR}/assets/PostBaby.rc")
@@ -74,7 +76,7 @@ else()
     DESTINATION ${CMAKE_INSTALL_PREFIX})
 endif()
 
-if(UNIX)
+if(DEBIAN_FOUND)
     install( FILES
         ${PROJECT_SOURCE_DIR}/assets/PostBaby.desktop
         DESTINATION
@@ -93,9 +95,7 @@ if(UNIX)
     set(CPACK_PACKAGE_VERSION_MINOR ${${PROJECT_NAME}_VERSION_MINOR})
     # set(CPACK_PACKAGE_VERSION_PATCH 0)
     include(CPack)
-endif()
-
-if(WIN32)
+elseif(WIN32)
     message(" ######################################using nsis for windows###########################")
     include(InstallRequiredSystemLibraries)
     set(CPACK_PACKAGE_INSTALL_DIRECTORY "${PROJECT_NAME}")
@@ -138,4 +138,7 @@ if(WIN32)
     ${PROJECT_SOURCE_DIR}/assets/nsis/NSIS.definitions.nsh.in
     ${CMAKE_CURRENT_BINARY_DIR}/assets/nsis/NSIS.definitions.nsh
     )   
+
+else()
+# UNIX
 endif()
