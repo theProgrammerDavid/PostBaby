@@ -27,7 +27,13 @@ int main(int, char **)
     {
         std::filesystem::create_directories(constants->getWorkingDir());
     }
-
+    if (!fileExists(constants->getIniFilePath()))
+    {
+        std::ofstream iniFile(constants->getIniFilePath());
+        iniFile<<imguiIniFilePreset;
+        iniFile.close();
+    }
+    
     // Setup window
     glfwSetErrorCallback(glfw_error_callback);
     if (!glfwInit())
