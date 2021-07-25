@@ -129,14 +129,7 @@ Constants::Constants()
 
 void Constants::updateWindowFlags()
 {
-    if (!this->moveWindow)
-    {
-        this->windowFlags |= ImGuiWindowFlags_NoMove;
-    }
-    else
-    {
-        this->windowFlags &= ~ImGuiWindowFlags_NoMove;
-    }
+    this->windowFlags ^= (ImGuiWindowFlags_NoMove);
 }
 
 ImGuiWindowFlags Constants::getWindowFlags()

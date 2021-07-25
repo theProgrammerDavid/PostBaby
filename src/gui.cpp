@@ -140,6 +140,12 @@ void GUI::settingsPopup()
         ImGui::Text("Changes will be saved automatically");
         ImGui::Separator();
 
+        ImGui::InputInt("Window Width", &constants->WINDOW_WIDTH);
+        ImGui::InputInt("Window Height", &constants->WINDOW_HEIGHT);
+
+
+        ImGui::Separator();
+
         ImGui::InputInt("URL Max Size", &constants->MAX_URL_SIZE);
         ImGui::InputInt("Request Timeout (ms)", &constants->REQUEST_TIMEOUT);
         ImGui::Checkbox("Moveable Window", &constants->moveWindow);
