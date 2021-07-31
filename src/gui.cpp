@@ -143,6 +143,8 @@ void GUI::settingsPopup()
         ImGui::InputInt("Window Width", &constants->WINDOW_WIDTH);
         ImGui::InputInt("Window Height", &constants->WINDOW_HEIGHT);
 
+        ImGui::InputFloat("Font Size", &constants->FONT_SIZE); ImGui::SameLine();
+        HelpMarker("Changes to font size will take effect after restart");
 
         ImGui::Separator();
 
@@ -176,11 +178,11 @@ void GUI::settingsPopup()
         {
             constants->updateWindowFlags();
             constants->setTheme();
+
             // constants->clear_color = constants->TEMP_BG_COLOR;
             ImGui::CloseCurrentPopup();
-            std::thread t([&] {
-                constants->writeConfig();
-            });
+            std::thread t([&]
+                          { constants->writeConfig(); });
             t.detach();
         }
         ImGui::SetItemDefaultFocus();
@@ -193,10 +195,11 @@ void GUI::settingsPopup()
         ImGui::SameLine();
         if (ImGui::Button("Reset"))
         {
-            std::thread t([&] {
-                constants->defaultValues();
-                constants->createConfigFile();
-            });
+            std::thread t([&]
+                          {
+                              constants->defaultValues();
+                              constants->createConfigFile();
+                          });
             t.detach();
         }
         ImGui::SameLine();
@@ -437,10 +440,11 @@ void GUI::workspaceArea()
                 ImGui::SameLine();
                 if (ImGui::Button("Send"))
                 {
-                    std::thread t([&] {
-                        // tabs.at(active_tab).updateTitle();
-                        tabs.at(active_tab).sendRequest();
-                    });
+                    std::thread t([&]
+                                  {
+                                      // tabs.at(active_tab).updateTitle();
+                                      tabs.at(active_tab).sendRequest();
+                                  });
                     t.detach();
                 }
                 ImGui::NewLine();
