@@ -4,6 +4,15 @@ cmake_minimum_required(VERSION 3.14 FATAL_ERROR)
 #https://github.com/Dav1dde/glad/issues/174
 include(FetchContent)
 
+set(YAML_CPP_BUILD_TESTS OFF CACHE BOOL "disable yaml tests")
+set(YAML_CPP_BUILD_TOOLS OFF CACHE BOOL "disable yaml tools")
+set(YAML_CPP_BUILD_CONTRIB OFF CACHE BOOL "disable yaml contrib")
+
+set(GLFW_BUILD_DOCS OFF CACHE BOOL "" FORCE)
+set(GLFW_BUILD_TESTS OFF CACHE BOOL "" FORCE)
+set(GLFW_BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
+set(JSON_BuildTests OFF CACHE INTERNAL "")
+
 if(WIN32)
 set(CPR_BUILD_TESTS_SSL OFF)
 set(CPR_BUILD_TESTS OFF) #testing. if enabled, needs PER

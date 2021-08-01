@@ -146,10 +146,7 @@ int main(int, char **)
     //IM_ASSERT(font != NULL);
 
     // Our state
-#ifdef PostBaby_SHOW_IMGUI_DEMO_WINDOW
-    bool show_demo_window = false;
-    show_demo_window = false;
-#endif
+
     GUI gui;
     // Main loop
     while (!glfwWindowShouldClose(window))
@@ -168,10 +165,6 @@ int main(int, char **)
 
         // 1. Show the big demo window (Most of the sample code is in ImGui::ShowDemoWindow()! You can browse its code to learn more about Dear ImGui!).
         // if (show_demo_window)
-
-#ifdef PostBaby_SHOW_IMGUI_DEMO_WINDOW
-        ImGui::ShowDemoWindow(&show_demo_window);
-#endif
         gui.render();
         // Rendering
         ImGui::Render();
