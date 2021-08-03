@@ -99,6 +99,7 @@ void Tab::sendRequest()
 {
 
     this->constructRequest();
+    constants->db->insertUrl(this->url);
 
     switch (this->currentHttpMethod)
     {

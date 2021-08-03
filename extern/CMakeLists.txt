@@ -65,9 +65,14 @@ endif()
 #   FetchContent_Populate(imgui)
 # endif()
 
+
 include(FetchContent)
 FetchContent_Declare(cpr GIT_REPOSITORY https://github.com/whoshuu/cpr.git GIT_TAG f4622efcb59d84071ae11404ae61bd821c1c344b)
 FetchContent_MakeAvailable(cpr)
+
+include(FetchContent)
+FetchContent_Declare(sqlite3 GIT_REPOSITORY https://github.com/SRombauts/SQLiteCpp.git GIT_TAG 44bd9c4f38e7552f411944a3208cddfa759406ce)
+FetchContent_MakeAvailable(sqlite3)
 
 include(FetchContent)
 FetchContent_Declare(yamlcpp GIT_REPOSITORY https://github.com/jbeder/yaml-cpp GIT_TAG a6bbe0e50ac4074f0b9b44188c28cf00caf1a723)

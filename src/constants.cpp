@@ -49,18 +49,24 @@ Constants::Constants()
     this->workingDir += "\\PostBaby";
     this->configFilePath = this->workingDir + "\\PostBaby.yml";
     this->iniFilePath = this->workingDir + "\\imgui.ini";
+    this->dbFilePath = this->workingDir + "\\PostBaby.db3";
 #elif __APPLE__
     this->workingDir = getenv("HOME");
     this->workingDir += "/.config/PostBaby";
     this->configFilePath = this->workingDir + "/PostBaby.yml";
     this->iniFilePath = this->workingDir + "/imgui.ini";
+    this->dbFilePath = this->workingDir + "/PostBaby.db3";
 #elif __linux__
     this->workingDir = getenv("HOME");
     this->workingDir += "/.config/PostBaby";
     this->configFilePath = this->workingDir + "/PostBaby.yml";
     this->iniFilePath = this->workingDir + "/imgui.ini";
+    this->dbFilePath = this->workingDir + "/PostBaby.db3";
 
 #endif
+
+    this->db = new Database(this->dbFilePath);
+
     this->defaultValues();
     if (fileExists(this->configFilePath))
     {
@@ -110,10 +116,12 @@ Constants::Constants()
             {
                 this->CURRENT_THEME = config["CURRENT_THEME"].as<int>();
             }
-            if(config["BACKGROUND"]){
+            if (config["BACKGROUND"])
+            {
                 this->clear_color = config["BACKGROUND"].as<ImVec4>();
             }
-            if(config["JSON_INDENT"]){
+            if (config["JSON_INDENT"])
+            {
                 this->jsonIndent = config["JSON_INDENT"].as<int>();
             }
             this->configError = false;
@@ -198,7 +206,7 @@ void Constants::writeConfig()
     writeToFile(fout, "CURRENT_THEME", this->CURRENT_THEME);
     writeToFile(fout, "MOVEABLE_WINDOW", this->moveWindow);
     writeToFile(fout, "JSON_INDENT", this->jsonIndent);
-    fout << "BACKGROUND : [ "<<this->clear_color.x<<" , "<<this->clear_color.y<<" , "<<this->clear_color.z<<" , "<<this->clear_color.w<<" ] ";
+    fout << "BACKGROUND : [ " << this->clear_color.x << " , " << this->clear_color.y << " , " << this->clear_color.z << " , " << this->clear_color.w << " ] ";
     fout.close();
 }
 

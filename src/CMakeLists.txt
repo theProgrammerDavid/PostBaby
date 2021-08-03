@@ -38,6 +38,8 @@ target_link_libraries(${PROJECT_NAME}
   nlohmann_json::nlohmann_json
   yaml-cpp
   tidy-static
+  SQLiteCpp
+  sqlite3
   glfw
   cpr::cpr
   glew

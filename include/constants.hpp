@@ -8,6 +8,7 @@
 #include <cpr/ssl_options.h>
 #include <cpr/cprtypes.h>
 #include "imgui.h"
+#include "database.hpp"
 #ifdef _Win32
 #include <Windows.h>
 #endif
@@ -21,17 +22,20 @@ private:
     std::string workingDir;
     std::string configFilePath;
     std::string iniFilePath;
+    std::string dbFilePath;
     ImGuiWindowFlags windowFlags;
     YAML::Node config;
     template <class T>
-    void writeToFile(std::ofstream& fout, const char* key, const T& value);
+    void writeToFile(std::ofstream &fout, const char *key, const T &value);
+
 public:
     ImGuiWindowFlags getWindowFlags();
+    Database *db;
     void writeConfig();
     void updateWindowFlags();
-    const char* getWorkingDir();
-    const char* getConfigFilePath();
-    const char* getIniFilePath();
+    const char *getWorkingDir();
+    const char *getConfigFilePath();
+    const char *getIniFilePath();
     void defaultValues();
     void createConfigFile();
     bool configFileExists();
