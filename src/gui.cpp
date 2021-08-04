@@ -134,13 +134,26 @@ void GUI::workspaceBar()
 
 void GUI::settingsPopup()
 {
+    const float TEXT_BASE_HEIGHT = ImGui::GetTextLineHeightWithSpacing();
+    ImVec2 WorkspaceTableSize = ImVec2(-FLT_MIN, TEXT_BASE_HEIGHT * 8);
+    
     centerModal();
+    
+    History hist;
+    constants->db->getHistory(&hist);
+
+    if (hist.size() == 0)
+    {
+        return;
+    }
     if (ImGui::BeginPopupModal("History", NULL, ImGuiWindowFlags_AlwaysAutoResize))
     {
         ImGui::Text("Changes will be saved automatically");
         ImGui::Separator();
 
-        ImGui::BeginTable("##HistoryTable", 3, constants->getTableFlags());
+        ImGui::BeginTable("##HistoryTable", 3,
+                          ImGuiTableFlags_RowBg | ImGuiTableFlags_Borders | ImGuiTableFlags_BordersV | ImGuiTableFlags_Resizable,
+                          WorkspaceTableSize);
 
         ImGui::TableSetupColumn("No.", ImGuiTableColumnFlags_WidthFixed);
         ImGui::TableSetupColumn("Method");
@@ -148,26 +161,24 @@ void GUI::settingsPopup()
 
         ImGui::TableHeadersRow();
 
-        for (size_t row = 0; row < 5; row++)
+        for (size_t row = 0; row < hist.size(); row++)
         {
             ImGui::TableNextRow();
-            
+
             ImGui::TableSetColumnIndex(0);
             ImGui::PushID(row);
-            ImGui::Text("%d", row);
+            ImGui::Text("%d", hist[row].id);
             ImGui::PopID();
 
             ImGui::TableSetColumnIndex(1);
             ImGui::PushID(row);
-            ImGui::Text("Hello");
+            ImGui::Text("%s", hist[row].url.c_str());
             ImGui::PopID();
 
             ImGui::TableSetColumnIndex(2);
             ImGui::PushID(row);
             ImGui::Text("Hello");
             ImGui::PopID();
-
-            
         }
         ImGui::EndTable();
         ImGui::Separator();
