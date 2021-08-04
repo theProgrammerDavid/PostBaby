@@ -38,7 +38,7 @@ void GUI::responseArea()
         {
             const float TEXT_BASE_HEIGHT = ImGui::GetTextLineHeightWithSpacing();
             ImVec2 WorkspaceTableSize = ImVec2(-FLT_MIN, TEXT_BASE_HEIGHT * 10);
-            if (ImGui::BeginTable("Response Headers", 2, constants->getWindowFlags(), WorkspaceTableSize))
+            if (ImGui::BeginTable("Response Headers", 2, constants->getTableFlags(), WorkspaceTableSize))
             {
 
                 ImGui::TableSetupColumn("Key");
@@ -72,7 +72,7 @@ void GUI::responseArea()
             const float TEXT_BASE_HEIGHT = ImGui::GetTextLineHeightWithSpacing();
             ImVec2 WorkspaceTableSize = ImVec2(-FLT_MIN, TEXT_BASE_HEIGHT * 10);
 
-            if (ImGui::BeginTable("Cookies", 2, constants->getWindowFlags(), WorkspaceTableSize))
+            if (ImGui::BeginTable("Cookies", 2, constants->getTableFlags(), WorkspaceTableSize))
             {
 
                 ImGui::TableSetupColumn("Key");
@@ -112,6 +112,7 @@ void GUI::workspaceBar()
     ImGui::SameLine();
     if (ImGui::Button("History"))
     {
+        ImGui::OpenPopup("History");
     }
     ImGui::SameLine();
     ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%.1fFPS", ImGui::GetIO().Framerate);
@@ -134,7 +135,53 @@ void GUI::workspaceBar()
 void GUI::settingsPopup()
 {
     centerModal();
+    if (ImGui::BeginPopupModal("History", NULL, ImGuiWindowFlags_AlwaysAutoResize))
+    {
+        ImGui::Text("Changes will be saved automatically");
+        ImGui::Separator();
 
+        ImGui::BeginTable("##HistoryTable", 3, constants->getTableFlags());
+
+        ImGui::TableSetupColumn("No.", ImGuiTableColumnFlags_WidthFixed);
+        ImGui::TableSetupColumn("Method");
+        ImGui::TableSetupColumn("URL");
+
+        ImGui::TableHeadersRow();
+
+        for (size_t row = 0; row < 5; row++)
+        {
+            ImGui::TableNextRow();
+            
+            ImGui::TableSetColumnIndex(0);
+            ImGui::PushID(row);
+            ImGui::Text("%d", row);
+            ImGui::PopID();
+
+            ImGui::TableSetColumnIndex(1);
+            ImGui::PushID(row);
+            ImGui::Text("Hello");
+            ImGui::PopID();
+
+            ImGui::TableSetColumnIndex(2);
+            ImGui::PushID(row);
+            ImGui::Text("Hello");
+            ImGui::PopID();
+
+            
+        }
+        ImGui::EndTable();
+        ImGui::Separator();
+        if (ImGui::Button("OK"))
+        {
+        }
+        ImGui::SetItemDefaultFocus();
+        ImGui::SameLine();
+        if (ImGui::Button("Cancel"))
+        {
+            ImGui::CloseCurrentPopup();
+        }
+        ImGui::EndPopup();
+    }
     if (ImGui::BeginPopupModal("Edit Preferences", NULL, ImGuiWindowFlags_AlwaysAutoResize))
     {
         ImGui::Text("Changes will be saved automatically");
@@ -143,7 +190,8 @@ void GUI::settingsPopup()
         ImGui::InputInt("Window Width", &constants->WINDOW_WIDTH);
         ImGui::InputInt("Window Height", &constants->WINDOW_HEIGHT);
 
-        ImGui::InputFloat("Font Size", &constants->FONT_SIZE); ImGui::SameLine();
+        ImGui::InputFloat("Font Size", &constants->FONT_SIZE);
+        ImGui::SameLine();
         HelpMarker("Changes to font size will take effect after restart");
 
         ImGui::Separator();
@@ -232,7 +280,7 @@ void GUI::drawKeyValueDesc(std::vector<KeyValuePair> &vec)
     const float TEXT_BASE_HEIGHT = ImGui::GetTextLineHeightWithSpacing();
     ImVec2 WorkspaceTableSize = ImVec2(-FLT_MIN, TEXT_BASE_HEIGHT * 8);
 
-    if (ImGui::BeginTable("##table1", 5, constants->getWindowFlags(), WorkspaceTableSize))
+    if (ImGui::BeginTable("##table1", 5, constants->getTableFlags(), WorkspaceTableSize))
     {
 
         ImGui::TableSetupColumn("Use", ImGuiTableColumnFlags_WidthFixed);

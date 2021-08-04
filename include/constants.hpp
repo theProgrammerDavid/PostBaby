@@ -24,12 +24,14 @@ private:
     std::string iniFilePath;
     std::string dbFilePath;
     ImGuiWindowFlags windowFlags;
+    ImGuiTableFlags tableFlags;
     YAML::Node config;
     template <class T>
     void writeToFile(std::ofstream &fout, const char *key, const T &value);
 
 public:
     ImGuiWindowFlags getWindowFlags();
+    ImGuiTableFlags getTableFlags();
     Database *db;
     void writeConfig();
     void updateWindowFlags();

@@ -40,8 +40,8 @@ void Constants::setOnlineStatus(bool status)
 }
 Constants::Constants()
 {
-    this->windowFlags = ImGuiTableFlags_RowBg | ImGuiTableFlags_Borders | ImGuiTableFlags_BordersV | ImGuiTableFlags_Resizable | ImGuiTableFlags_ScrollY | ImGuiTableFlags_ScrollX;
-    windowFlags = ImGuiWindowFlags_NoTitleBar;
+    this->windowFlags = ImGuiWindowFlags_NoTitleBar;
+    this->tableFlags = ImGuiTableFlags_RowBg | ImGuiTableFlags_ScrollX | ImGuiTableFlags_ScrollY | ImGuiTableFlags_Borders | ImGuiTableFlags_BordersV | ImGuiTableFlags_Resizable;
     this->sslOpts = Ssl(ssl::TLSv1_2{});
 
 #if _WIN32
@@ -157,6 +157,11 @@ const char *Constants::getIniFilePath()
 {
     return this->iniFilePath.c_str();
 }
+
+ImGuiTableFlags Constants::getTableFlags(){
+    return this->tableFlags;
+}
+
 void Constants::defaultValues()
 {
     this->MAX_URL_SIZE = 256;
