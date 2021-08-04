@@ -40,13 +40,6 @@ Database::Database(const std::string &dbPath) : db(dbPath, SQLite::OPEN_READWRIT
         {
             db.exec(HISTORY_CREATE_QUERY);
         }
-
-        SQLite::Statement query(db, HISTORY_SELECT_QUERY);
-        while (query.executeStep())
-        {
-            std::cout << query.getColumn(1) << query.getColumn(2) << "\n";
-            // hist.push_back(makeHistory(query.getColumn(0), query.getColumn(1)));
-        }
     }
     catch (const std::exception &e)
     {

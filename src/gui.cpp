@@ -13,15 +13,15 @@ GUI::GUI()
 }
 void GUI::responseArea()
 {
-    if (tabs.at(active_tab).getStatusCode() > 0)
+    if (tabs[active_tab].getStatusCode() > 0)
     {
-        ImGui::Text("Code:%d", tabs.at(active_tab).getStatusCode());
+        ImGui::Text("Code:%d", tabs[active_tab].getStatusCode());
     }
 
-    if (tabs.at(active_tab).getTimeElapsed() > 0)
+    if (tabs[active_tab].getTimeElapsed() > 0)
     {
         ImGui::SameLine();
-        ImGui::Text("Time: %f s", tabs.at(active_tab).getTimeElapsed());
+        ImGui::Text("Time: %f s", tabs[active_tab].getTimeElapsed());
     }
 
     if (ImGui::BeginTabBar("ResponseBar"))
@@ -47,7 +47,7 @@ void GUI::responseArea()
                 ImGui::TableHeadersRow();
 
                 int count = 0;
-                for (auto i : tabs.at(active_tab).res.header)
+                for (auto i : tabs[active_tab].res.header)
                 {
                     ImGui::TableNextRow();
 
@@ -80,7 +80,7 @@ void GUI::responseArea()
 
                 ImGui::TableHeadersRow();
 
-                for (auto i : tabs.at(active_tab).res.cookies)
+                for (auto i : tabs[active_tab].res.cookies)
                 {
                     ImGui::TableNextRow();
 
@@ -307,29 +307,29 @@ void GUI::drawKeyValueDesc(std::vector<KeyValuePair> &vec)
             ImGui::TableNextRow();
             ImGui::TableSetColumnIndex(0);
             ImGui::PushID(row);
-            ImGui::Checkbox("", &vec.at(row).enable);
+            ImGui::Checkbox("", &vec[row].enable);
             ImGui::PopID();
 
             ImGui::TableSetColumnIndex(1);
-            ImGui::PushID(vec.at(row)._id);
+            ImGui::PushID(vec[row]._id);
 
-            ImGui::InputText("##Key", &vec.at(row).key);
+            ImGui::InputText("##Key", &vec[row].key);
 
             ImGui::SameLine();
             // if (ImGui::Button("Clear"))
             // {
-            //     vec.at(row).setKey("");
+            //     vec[row].setKey("");
             // }
             ImGui::PopID();
 
             ImGui::TableSetColumnIndex(2);
-            ImGui::PushID(vec.at(row)._id);
-            ImGui::InputText("##Value", &vec.at(row).value);
+            ImGui::PushID(vec[row]._id);
+            ImGui::InputText("##Value", &vec[row].value);
             ImGui::PopID();
 
             ImGui::TableSetColumnIndex(3);
-            ImGui::PushID(vec.at(row)._id);
-            ImGui::InputText("##Description", &vec.at(row).description);
+            ImGui::PushID(vec[row]._id);
+            ImGui::InputText("##Description", &vec[row].description);
             ImGui::PopID();
 
             ImGui::TableSetColumnIndex(4);
@@ -353,29 +353,29 @@ void GUI::drawKeyValueDesc(std::vector<KeyValuePair> &vec)
 void GUI::drawBody()
 {
 
-    if (tabs.at(active_tab).getBodyType() == tabs.at(active_tab).BODY_NONE)
+    if (tabs[active_tab].getBodyType() == tabs[active_tab].BODY_NONE)
     {
         ImGui::Text("HTTP request does not have a Body");
     }
-    else if (tabs.at(active_tab).getBodyType() == tabs.at(active_tab).BODY_URL_ENCODED)
+    else if (tabs[active_tab].getBodyType() == tabs[active_tab].BODY_URL_ENCODED)
     {
         ImGui::Text("URL encoded");
-        drawKeyValueDesc(tabs.at(active_tab).urlParams);
+        drawKeyValueDesc(tabs[active_tab].urlParams);
     }
-    else if (tabs.at(active_tab).getBodyType() == tabs.at(active_tab).BODY_FORM_DATA)
+    else if (tabs[active_tab].getBodyType() == tabs[active_tab].BODY_FORM_DATA)
     {
         ImGui::Text("Form Data");
-        drawKeyValueDesc(tabs.at(active_tab).formData);
+        drawKeyValueDesc(tabs[active_tab].formData);
     }
-    else if (tabs.at(active_tab).getBodyType() == tabs.at(active_tab).BODY_RAW)
+    else if (tabs[active_tab].getBodyType() == tabs[active_tab].BODY_RAW)
     {
         ImGui::Text("Raw Body");
         ImGui::SameLine();
         HelpMarker("Ctrl+Enter for newline. Only JSON is supported for now");
 
-        ImGui::InputTextMultiline(" ", &tabs.at(active_tab).rawBody, ImVec2(1200, 200), ImGuiInputTextFlags_AllowTabInput | ImGuiInputTextFlags_CtrlEnterForNewLine);
+        ImGui::InputTextMultiline(" ", &tabs[active_tab].rawBody, ImVec2(1200, 200), ImGuiInputTextFlags_AllowTabInput | ImGuiInputTextFlags_CtrlEnterForNewLine);
     }
-    else if (tabs.at(active_tab).getBodyType() == tabs.at(active_tab).BODY_BINARY)
+    else if (tabs[active_tab].getBodyType() == tabs[active_tab].BODY_BINARY)
     {
         ImGui::Text("WIP Binary Body");
     }
@@ -392,7 +392,7 @@ void GUI::tabConfig()
         if (ImGui::BeginTabItem("Params"))
         {
             // drawParams();
-            drawKeyValueDesc(tabs.at(active_tab).queryParams);
+            drawKeyValueDesc(tabs[active_tab].queryParams);
             ImGui::EndTabItem();
         }
         if (ImGui::BeginTabItem("Authorization"))
@@ -404,7 +404,7 @@ void GUI::tabConfig()
         if (ImGui::BeginTabItem("Headers"))
         {
             ImGui::Text("HTTP Headers");
-            drawKeyValueDesc(tabs.at(active_tab).headers);
+            drawKeyValueDesc(tabs[active_tab].headers);
             ImGui::EndTabItem();
         }
         if (ImGui::BeginTabItem("Body"))
@@ -412,33 +412,33 @@ void GUI::tabConfig()
             ImGui::NewLine();
             if (ImGui::Button("None"))
             {
-                tabs.at(active_tab).currentBodyType = tabs.at(active_tab).BODY_NONE;
+                tabs[active_tab].currentBodyType = tabs[active_tab].BODY_NONE;
             }
             ImGui::SameLine();
 
             if (ImGui::Button("Url Encoded"))
             {
-                tabs.at(active_tab).currentBodyType = tabs.at(active_tab).BODY_URL_ENCODED;
+                tabs[active_tab].currentBodyType = tabs[active_tab].BODY_URL_ENCODED;
             }
             ImGui::SameLine();
             if (ImGui::Button("Form Data"))
             {
-                tabs.at(active_tab).currentBodyType = tabs.at(active_tab).BODY_FORM_DATA;
+                tabs[active_tab].currentBodyType = tabs[active_tab].BODY_FORM_DATA;
             }
             ImGui::SameLine();
             if (ImGui::Button("Raw"))
             {
-                tabs.at(active_tab).currentBodyType = tabs.at(active_tab).BODY_RAW;
+                tabs[active_tab].currentBodyType = tabs[active_tab].BODY_RAW;
             }
             ImGui::SameLine();
             if (ImGui::Button("Binary"))
             {
-                tabs.at(active_tab).currentBodyType = tabs.at(active_tab).BODY_BINARY;
+                tabs[active_tab].currentBodyType = tabs[active_tab].BODY_BINARY;
             }
             ImGui::SameLine();
             if (ImGui::Button("GraphQl"))
             {
-                tabs.at(active_tab).currentBodyType = tabs.at(active_tab).BODY_GRAPHQL;
+                tabs[active_tab].currentBodyType = tabs[active_tab].BODY_GRAPHQL;
             }
             ImGui::EndTabItem();
             drawBody();
@@ -486,23 +486,23 @@ void GUI::workspaceArea()
         }
         for (size_t n = 0; n < tabs.size(); n++)
         {
-            if (ImGui::BeginTabItem(tabs.at(n).title.c_str(), &tabs.at(n).isOpen, ImGuiTabItemFlags_None))
+            if (ImGui::BeginTabItem(tabs[n].title.c_str(), &tabs[n].isOpen, ImGuiTabItemFlags_None))
             {
                 active_tab = n;
-                this->active_response = tabs.at(active_tab).getResponse();
+                this->active_response = tabs[active_tab].getResponse();
                 ImGui::Text("Method");
                 ImGui::SameLine();
                 ImGui::SetNextItemWidth(100 * constants->highDPIscaleFactor);
-                ImGui::Combo(" ", &tabs.at(n).currentHttpMethod, constants->REQUEST_TYPE, IM_ARRAYSIZE(constants->REQUEST_TYPE));
+                ImGui::Combo(" ", &tabs[n].currentHttpMethod, constants->REQUEST_TYPE, IM_ARRAYSIZE(constants->REQUEST_TYPE));
                 ImGui::SameLine();
-                ImGui::InputText("URL", &tabs.at(n).url);
+                ImGui::InputText("URL", &tabs[n].url);
                 ImGui::SameLine();
                 if (ImGui::Button("Send"))
                 {
                     std::thread t([&]
                                   {
-                                      // tabs.at(active_tab).updateTitle();
-                                      tabs.at(active_tab).sendRequest();
+                                      // tabs[active_tab].updateTitle();
+                                      tabs[active_tab].sendRequest();
                                   });
                     t.detach();
                 }
@@ -511,7 +511,7 @@ void GUI::workspaceArea()
                 ImGui::EndTabItem();
             }
 
-            if (!tabs.at(n).isOpen)
+            if (!tabs[n].isOpen)
             {
                 tabs.erase(tabs.begin() + n);
             }
