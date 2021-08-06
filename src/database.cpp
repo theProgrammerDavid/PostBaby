@@ -22,7 +22,7 @@ void Database::getHistory(History *hist)
         SQLite::Statement query(db, HISTORY_SELECT_QUERY);
         while (query.executeStep())
         {
-            hist->push_back(makeHistory(query.getColumn(0), query.getColumn(1)));
+            hist->push_back(makeHistory(query.getColumn(0), query.getColumn(1), query.getColumn(2)));
         }
     }
     catch (const std::exception &e)

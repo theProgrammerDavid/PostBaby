@@ -134,20 +134,24 @@ void GUI::workspaceBar()
 
 void GUI::settingsPopup()
 {
-    const float TEXT_BASE_HEIGHT = ImGui::GetTextLineHeightWithSpacing();
-    ImVec2 WorkspaceTableSize = ImVec2(-FLT_MIN, TEXT_BASE_HEIGHT * 8);
-    
-    centerModal();
-    
+
     History hist;
     constants->db->getHistory(&hist);
+
+    const float TEXT_BASE_HEIGHT = ImGui::GetTextLineHeightWithSpacing();
+    ImVec2 WorkspaceTableSize = ImVec2(FLT_MAX, TEXT_BASE_HEIGHT * 8);
+    centerModal();
 
     if (hist.size() == 0)
     {
         return;
     }
+
+    ImGui::SetNextWindowSize(ImVec2(ImGui::GetIO().DisplaySize.x * 0.5f, ImGui::GetIO().DisplaySize.y * 0.5f));
+
     if (ImGui::BeginPopupModal("History", NULL, ImGuiWindowFlags_AlwaysAutoResize))
     {
+
         ImGui::Text("Changes will be saved automatically");
         ImGui::Separator();
 
@@ -168,29 +172,30 @@ void GUI::settingsPopup()
             ImGui::TableSetColumnIndex(0);
             ImGui::PushID(row);
             ImGui::Text("%d", hist[row].id);
+            ImGui::SameLine();
+            if (ImGui::Button("Load"))
+            {
+            }
             ImGui::PopID();
 
             ImGui::TableSetColumnIndex(1);
             ImGui::PushID(row);
-            ImGui::Text("%s", hist[row].url.c_str());
+            ImGui::Text("%s", hist[row].method.c_str());
             ImGui::PopID();
 
             ImGui::TableSetColumnIndex(2);
             ImGui::PushID(row);
-            ImGui::Text("Hello");
+            ImGui::Text("%s", hist[row].url.c_str());
+
             ImGui::PopID();
         }
         ImGui::EndTable();
         ImGui::Separator();
-        if (ImGui::Button("OK"))
-        {
-        }
-        ImGui::SetItemDefaultFocus();
-        ImGui::SameLine();
-        if (ImGui::Button("Cancel"))
+        if (ImGui::Button("Close"))
         {
             ImGui::CloseCurrentPopup();
         }
+        ImGui::SetItemDefaultFocus();
         ImGui::EndPopup();
     }
     if (ImGui::BeginPopupModal("Edit Preferences", NULL, ImGuiWindowFlags_AlwaysAutoResize))
