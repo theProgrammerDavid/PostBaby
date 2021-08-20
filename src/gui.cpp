@@ -506,7 +506,7 @@ void GUI::workspaceArea()
                 {
                     std::thread t([&]
                                   {
-                                      // tabs[active_tab].updateTitle();
+                                      tabs[active_tab].updateTitle();
                                       tabs[active_tab].sendRequest();
                                   });
                     t.detach();
