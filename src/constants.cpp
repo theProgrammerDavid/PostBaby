@@ -42,7 +42,11 @@ Constants::Constants()
 {
     this->windowFlags = ImGuiWindowFlags_NoTitleBar;
     this->tableFlags = ImGuiTableFlags_RowBg | ImGuiTableFlags_ScrollX | ImGuiTableFlags_ScrollY | ImGuiTableFlags_Borders | ImGuiTableFlags_BordersV | ImGuiTableFlags_Resizable;
-    this->sslOpts = Ssl(ssl::TLSv1_2{});
+    // this->sslOpts = Ssl(ssl::TLSv1_2{});
+    std::cout << absolutePath() << "\n";
+    this->sslOpts = Ssl(ssl::CaPath{absolutePath() + "/ca.cer"}, ssl::CertFile{absolutePath() + "/client.cer"},
+                        ssl::KeyFile{absolutePath() + "/client.key"}, ssl::VerifyPeer{false},
+                        ssl::VerifyHost{false}, ssl::VerifyStatus{false});
 
 #if _WIN32
     this->workingDir = getenv("AppData");
@@ -158,7 +162,8 @@ const char *Constants::getIniFilePath()
     return this->iniFilePath.c_str();
 }
 
-ImGuiTableFlags Constants::getTableFlags(){
+ImGuiTableFlags Constants::getTableFlags()
+{
     return this->tableFlags;
 }
 

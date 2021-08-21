@@ -97,50 +97,48 @@ void Tab::constructRequest()
 
 void Tab::sendRequest()
 {
-
     this->constructRequest();
     std::string method;
     switch (this->currentHttpMethod)
     {
     case 0:
-        res = cpr::Get(Url{this->url.c_str()}, _params, constants->sslOpts, this->_headers, Timeout{constants->REQUEST_TIMEOUT});
+        res = cpr::Get(Url{this->url.c_str()}, _params, constants->sslOpts, Verbose{}, this->_headers, Timeout{constants->REQUEST_TIMEOUT});
         method = "GET";
         break;
     case 1: //POST REQUEST
 
-        res = cpr::Post(Url{this->url.c_str()}, this->payload, constants->sslOpts, _params, this->_headers, cpr::Body({this->rawBody.c_str()}), Timeout{constants->REQUEST_TIMEOUT});
+        res = cpr::Post(Url{this->url.c_str()}, this->payload, constants->sslOpts, Verbose{}, _params, this->_headers, cpr::Body({this->rawBody.c_str()}), Timeout{constants->REQUEST_TIMEOUT});
         method = "POST";
         break;
 
     case 2:
 
-        res = cpr::Put(Url{this->url.c_str()}, this->payload, constants->sslOpts, _params, this->_headers, Timeout{constants->REQUEST_TIMEOUT});
+        res = cpr::Put(Url{this->url.c_str()}, this->payload, constants->sslOpts, Verbose{}, _params, this->_headers, Timeout{constants->REQUEST_TIMEOUT});
         method = "PUT";
         break;
 
     case 3:
         // DELETE
 
-        res = cpr::Delete(Url{this->url.c_str()}, this->payload, constants->sslOpts, _params, this->_headers, Timeout{constants->REQUEST_TIMEOUT});
+        res = cpr::Delete(Url{this->url.c_str()}, this->payload, constants->sslOpts, Verbose{}, _params, this->_headers, Timeout{constants->REQUEST_TIMEOUT});
         method = "DELETE";
 
         break;
 
     case 4:
         // HEAD
-        res = cpr::Head(Url{this->url.c_str()}, _params, constants->sslOpts, this->_headers, Timeout{constants->REQUEST_TIMEOUT});
+        res = cpr::Head(Url{this->url.c_str()}, _params, constants->sslOpts, Verbose{}, this->_headers, Timeout{constants->REQUEST_TIMEOUT});
         method = "HEAD";
 
         break;
 
     case 5:
         // OPTIONS
-        res = cpr::Options(Url{this->url.c_str()}, _params, constants->sslOpts, this->_headers, Timeout{constants->REQUEST_TIMEOUT});
+        res = cpr::Options(Url{this->url.c_str()}, _params, constants->sslOpts, Verbose{}, this->_headers, Timeout{constants->REQUEST_TIMEOUT});
         method = "OPTIONS";
 
         break;
     };
-
     constants->db->insertUrl(this->url, method.c_str());
 
     if (constants->jsonIndent && res.header["content-type"].find("application/json") != std::string::npos)
@@ -198,7 +196,7 @@ int Tab::getStatusCode()
 Tab::Tab(size_t index)
 {
     this->title = "Untitled" + std::to_string(index);
-    this->url = "http://localhost:1234";
+    this->url = "https://google.com";
     isOpen = true;
     statusCode = 0;
     currentHttpMethod = 0;
