@@ -48,7 +48,7 @@ target_link_libraries(${PROJECT_NAME}
 
 if(UNIX)
     install(TARGETS ${PROJECT_NAME} 
-        RUNTIME DESTINATION ${CMAKE_INSTALL_PREFIX}
+        RUNTIME DESTINATION ${CMAKE_INSTALL_PREFIX}/bin
     )
 endif()
 if(WIN32)
@@ -72,13 +72,20 @@ if(WIN32)
     install(FILES 
     ${PROJECT_SOURCE_DIR}/assets/JetBrainsMono-Medium.ttf 
     ${PROJECT_SOURCE_DIR}/assets/PostBaby.png
+    ${PROJECT_SOURCE_DIR}/assets/ca.cer
+    ${PROJECT_SOURCE_DIR}/assets/client.cer
+    ${PROJECT_SOURCE_DIR}/assets/client.key
     DESTINATION bin
     )
 else()
     install(FILES 
     ${PROJECT_SOURCE_DIR}/assets/JetBrainsMono-Medium.ttf 
     ${PROJECT_SOURCE_DIR}/assets/PostBaby.png
-    DESTINATION ${CMAKE_INSTALL_PREFIX})
+    ${PROJECT_SOURCE_DIR}/assets/ca.cer
+    ${PROJECT_SOURCE_DIR}/assets/client.cer
+    ${PROJECT_SOURCE_DIR}/assets/client.key
+    DESTINATION ${CMAKE_INSTALL_PREFIX}/bin
+    )
 endif()
 
 if(DEBIAN_FOUND)
@@ -146,4 +153,15 @@ elseif(WIN32)
 
 else()
 # UNIX
+    install( FILES
+        ${PROJECT_SOURCE_DIR}/assets/PostBaby.desktop
+        DESTINATION
+    /usr/share/applications
+    )
+    message("#### linux ####")
+    message(${CMAKE_INSTALL_PREFIX})
+    set(CPACK_GENERATOR "ZIP")
+    set(CPACK_ARCHIVE_FILE_NAME "PostBaby.zip")
+    set(CPACK_INCLUDE_TOPLEVEL_DIRECTORY OFF)
+    include(CPack)
 endif()
