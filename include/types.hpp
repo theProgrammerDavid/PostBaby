@@ -6,10 +6,10 @@ class _history {
 public:
   unsigned int id;
   std::string url;
-  std::string method;
+  int method;
 
   _history(const unsigned int _id, const std::string &_url,
-           const std::string &method)
+           const int method)
       : id(_id), url(_url), method(method) {}
   _history(const _history &&h) {
     this->id = h.id;
@@ -21,4 +21,4 @@ public:
 using History = std::vector<_history>;
 
 _history makeHistory(const unsigned int _id, const std::string &_url,
-                     const std::string &method);
+                     const int method);

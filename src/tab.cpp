@@ -10,6 +10,11 @@ KeyValuePair::KeyValuePair() {
 
 void KeyValuePair::setKey(const char *setKey) { this->key = setKey; }
 
+void Tab::loadTabFromHistory(const _history &h) {
+  this->url = h.url;
+  this->currentHttpMethod = h.method;
+}
+
 void KeyValuePair::setKey(const std::string &setKey) { this->key = setKey; }
 
 int Tab::getBodyType() { return currentBodyType; }
@@ -72,60 +77,57 @@ void Tab::constructRequest() {
 
 void Tab::sendRequest() {
   this->constructRequest();
-  std::string method;
+  int method;
   switch (this->currentHttpMethod) {
   case 0:
+    method = 0;
     res =
         cpr::Get(Url{this->url.c_str()}, _params, constants->sslOpts, Verbose{},
                  this->_headers, Timeout{constants->REQUEST_TIMEOUT});
-    method = "GET";
     break;
   case 1: // POST REQUEST
-
+    method = 1;
     res = cpr::Post(Url{this->url.c_str()}, this->payload, constants->sslOpts,
                     Verbose{}, _params, this->_headers,
                     cpr::Body({this->rawBody.c_str()}),
                     Timeout{constants->REQUEST_TIMEOUT});
-    method = "POST";
     break;
 
   case 2:
-
+    method = 2;
     res = cpr::Put(Url{this->url.c_str()}, this->payload, constants->sslOpts,
                    Verbose{}, _params, this->_headers,
                    Timeout{constants->REQUEST_TIMEOUT});
-    method = "PUT";
     break;
 
   case 3:
     // DELETE
-
+    method = 3;
     res = cpr::Delete(Url{this->url.c_str()}, this->payload, constants->sslOpts,
                       Verbose{}, _params, this->_headers,
                       Timeout{constants->REQUEST_TIMEOUT});
-    method = "DELETE";
 
     break;
 
   case 4:
     // HEAD
+    method = 4;
     res = cpr::Head(Url{this->url.c_str()}, _params, constants->sslOpts,
                     Verbose{}, this->_headers,
                     Timeout{constants->REQUEST_TIMEOUT});
-    method = "HEAD";
 
     break;
 
   case 5:
     // OPTIONS
+    method = 5;
     res = cpr::Options(Url{this->url.c_str()}, _params, constants->sslOpts,
                        Verbose{}, this->_headers,
                        Timeout{constants->REQUEST_TIMEOUT});
-    method = "OPTIONS";
 
     break;
   };
-  constants->db->insertUrl(this->url, method.c_str());
+  constants->db->insertUrl(this->url, method);
 
   if (constants->jsonIndent && res.header["content-type"].find(
                                    "application/json") != std::string::npos) {

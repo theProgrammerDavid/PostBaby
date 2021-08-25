@@ -4,6 +4,25 @@ bool fileExists(const std::string &fileName) {
   return std::filesystem::exists(fileName);
 }
 
+const char *getHttpMethod(const int method) {
+  switch (method) {
+  case 0:
+    return "GET";
+  case 1:
+    return "POST";
+  case 2:
+    return "PUT";
+  case 3:
+    return "DELETE";
+  case 4:
+    return "HEAD";
+  case 5:
+    return "OPTIONS";
+  default:
+    break;
+  }
+}
+
 std::string absolutePath() {
 #if defined(_MSC_VER)
   wchar_t path[FILENAME_MAX] = {0};

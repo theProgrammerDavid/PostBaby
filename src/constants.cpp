@@ -34,7 +34,7 @@ Constants::Constants() {
                      ImGuiTableFlags_ScrollY | ImGuiTableFlags_Borders |
                      ImGuiTableFlags_BordersV | ImGuiTableFlags_Resizable;
   // this->sslOpts = Ssl(ssl::TLSv1_2{});
-  std::cout << absolutePath() << "\n";
+  std::cout << "absolute path: "<<absolutePath() << "\n";
   this->sslOpts =
       Ssl(ssl::CaPath{absolutePath() + "/ca.cer"},
           ssl::CertFile{absolutePath() + "/client.cer"},

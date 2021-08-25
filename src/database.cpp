@@ -1,6 +1,6 @@
 #include "database.hpp"
 
-void Database::insertUrl(const std::string &url, const char *method) {
+void Database::insertUrl(const std::string &url, const int method) {
   try {
     SQLite::Statement query(db, URL_INSERT_QUERY);
     SQLite::bind(query, url, method);

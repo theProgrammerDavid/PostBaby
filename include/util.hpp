@@ -15,3 +15,4 @@ const char *formattedTime();
 
 bool fileExists(const std::string &fileName);
 bool dirExists(const std::string &dirName_in);
+const char* getHttpMethod(const int method);

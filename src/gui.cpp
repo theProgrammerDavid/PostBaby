@@ -164,12 +164,13 @@ void GUI::settingsPopup() {
       ImGui::Text("%d", hist[row].id);
       ImGui::SameLine();
       if (ImGui::Button("Load")) {
+        tabs[active_tab].loadTabFromHistory(hist[row]);
       }
       ImGui::PopID();
 
       ImGui::TableSetColumnIndex(1);
       ImGui::PushID(row);
-      ImGui::Text("%s", hist[row].method.c_str());
+      ImGui::Text("%s", getHttpMethod(hist[row].method));
       ImGui::PopID();
 
       ImGui::TableSetColumnIndex(2);
