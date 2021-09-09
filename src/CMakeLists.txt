@@ -72,9 +72,9 @@ if(WIN32)
     install(FILES 
     ${PROJECT_SOURCE_DIR}/assets/JetBrainsMono-Medium.ttf 
     ${PROJECT_SOURCE_DIR}/assets/PostBaby.png
-    ${PROJECT_SOURCE_DIR}/assets/ca.cer
-    ${PROJECT_SOURCE_DIR}/assets/client.cer
-    ${PROJECT_SOURCE_DIR}/assets/client.key
+    # ${PROJECT_SOURCE_DIR}/assets/ca.cer
+    # ${PROJECT_SOURCE_DIR}/assets/client.cer
+    # ${PROJECT_SOURCE_DIR}/assets/client.key
     DESTINATION bin
     )
 else()

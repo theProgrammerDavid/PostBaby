@@ -33,17 +33,31 @@ Constants::Constants() {
   this->tableFlags = ImGuiTableFlags_RowBg | ImGuiTableFlags_ScrollX |
                      ImGuiTableFlags_ScrollY | ImGuiTableFlags_Borders |
                      ImGuiTableFlags_BordersV | ImGuiTableFlags_Resizable;
-  // this->sslOpts = Ssl(ssl::TLSv1_2{});
-  std::cout << "absolute path: "<<absolutePath() << "\n";
+  #ifdef WIN32
+  this->sslOpts = Ssl(ssl::TLSv1_2{});
+  #else
   this->sslOpts =
       Ssl(ssl::CaPath{absolutePath() + "/ca.cer"},
           ssl::CertFile{absolutePath() + "/client.cer"},
           ssl::KeyFile{absolutePath() + "/client.key"}, ssl::VerifyPeer{false},
           ssl::VerifyHost{false}, ssl::VerifyStatus{false});
+  #endif
+  
+  std::cout << "absolute path: "<<absolutePath() << "\n";
+
 
 #if _WIN32
   this->workingDir = getenv("AppData");
   this->workingDir += "\\PostBaby";
+
+  //check if dir exists
+  if(!dirExists(this->workingDir)){
+std::cout<<"dir does not exist. Creating\n";
+std::filesystem::create_directory(this->workingDir);
+std::cout<<"dir created\n";
+
+  }
+
   this->configFilePath = this->workingDir + "\\PostBaby.yml";
   this->iniFilePath = this->workingDir + "\\imgui.ini";
   this->dbFilePath = this->workingDir + "\\PostBaby.db3";
