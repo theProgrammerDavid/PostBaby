@@ -17,10 +17,6 @@ int main(int, char **) {
     std::thread t2([&] { constants->createConfigFile(); });
     t2.detach();
   }
-
-  if (!dirExists(constants->getWorkingDir())) {
-    std::filesystem::create_directories(constants->getWorkingDir());
-  }
   if (!fileExists(constants->getIniFilePath())) {
     std::ofstream iniFile(constants->getIniFilePath());
     iniFile << imguiIniFilePreset;
