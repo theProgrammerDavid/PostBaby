@@ -48,8 +48,10 @@ target_link_libraries(${PROJECT_NAME}
 
 if(UNIX)
     install(TARGETS ${PROJECT_NAME} 
-        RUNTIME DESTINATION ${CMAKE_INSTALL_PREFIX}/bin
+        RUNTIME DESTINATION bin
     )
+    # https://stackoverflow.com/questions/51698076/why-cpack-generates-an-empty-package
+    # RUNTIME DESTIONATION should be relative within the package
 endif()
 if(WIN32)
     install(TARGETS ${PROJECT_NAME} 
@@ -84,8 +86,10 @@ else()
     ${PROJECT_SOURCE_DIR}/assets/ca.cer
     ${PROJECT_SOURCE_DIR}/assets/client.cer
     ${PROJECT_SOURCE_DIR}/assets/client.key
-    DESTINATION ${CMAKE_INSTALL_PREFIX}/bin
+    DESTINATION bin
     )
+    # https://stackoverflow.com/questions/51698076/why-cpack-generates-an-empty-package
+    # RUNTIME DESTIONATION should be relative within the package
 endif()
 
 if(DEBIAN_FOUND)
@@ -159,7 +163,6 @@ else()
     /usr/share/applications
     )
     message("#### linux ####")
-    message(${CMAKE_INSTALL_PREFIX})
     set(CPACK_GENERATOR "ZIP")
     set(CPACK_ARCHIVE_FILE_NAME "PostBaby.zip")
     set(CPACK_INCLUDE_TOPLEVEL_DIRECTORY OFF)
