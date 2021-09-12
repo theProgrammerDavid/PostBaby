@@ -21,6 +21,7 @@ bool checkOnline();
 //  Here we are supporting a few common ones (gl3w, glew, glad). You may use
 //  another loader/header of your choice (glext, glLoadGen, etc.), or chose to
 //  manually implement your own.
+#define IMGUI_IMPL_OPENGL_LOADER_GLAD 1
 #if defined(IMGUI_IMPL_OPENGL_LOADER_GL3W)
 #include <GL/gl3w.h> // Initialize with gl3wInit()
 #elif defined(IMGUI_IMPL_OPENGL_LOADER_GLEW)
@@ -64,7 +65,7 @@ const char *imguiIniFilePreset = "Collapsed=0\n"
                                  "\n"
                                  "[Window][config]\n"
                                  "Pos=2,3\n"
-                                 "Size=1591,893\n"
+                                 "Size=1270,709\n"
                                  "Collapsed=0\n"
                                  "\n"
                                  "[Table][0x6416BC47,5]\n"

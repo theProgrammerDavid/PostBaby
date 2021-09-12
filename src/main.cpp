@@ -6,6 +6,10 @@ bool checkOnline() {
 }
 
 int main(int, char **) {
+  std::ios::sync_with_stdio(false);
+  std::cout.tie(0);
+  std::cin.tie(0);
+
 #if _WIN32
   ShowWindow(GetConsoleWindow(), SW_HIDE);
 #endif
