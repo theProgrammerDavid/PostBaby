@@ -42,7 +42,7 @@ target_link_libraries(${PROJECT_NAME}
   sqlite3
   glfw
   cpr::cpr
-  glew
+  glew_s
   CURL::libcurl
   ${CMAKE_DL_LIBS})
 
