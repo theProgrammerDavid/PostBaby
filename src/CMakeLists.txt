@@ -46,6 +46,8 @@ target_link_libraries(${PROJECT_NAME}
   CURL::libcurl
   ${CMAKE_DL_LIBS})
 
+cotire(${PROJECT_NAME})
+
 if(UNIX)
     install(TARGETS ${PROJECT_NAME} 
         RUNTIME DESTINATION bin
