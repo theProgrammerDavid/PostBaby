@@ -26,7 +26,7 @@ jobs:
           "%MSBUILD_PATH%\MSBuild.exe" PostBaby.sln /p:Configuration=Release /m
       - name: Package Application
         run: |
-        cpack -C Release
+          cpack -C Release
   Linux:
     runs-on: ubuntu-20.04
     steps:
