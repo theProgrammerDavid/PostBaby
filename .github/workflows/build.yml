@@ -25,8 +25,9 @@ jobs:
           cd build
           "%MSBUILD_PATH%\MSBuild.exe" PostBaby.sln /p:Configuration=Release /m
       - name: Package Application
+        shell: cmd
         run: |
-          cpack -C Release
+          cd build && cpack -C Release
   Linux:
     runs-on: ubuntu-20.04
     steps:
@@ -43,7 +44,7 @@ jobs:
         cd build && make -j$(nproc)
     - name : Package Application
       run: |
-        cpack -C Release
+        cd build && cpack -C Release
   MacOS:
     runs-on: macOS-latest
     steps:
