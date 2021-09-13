@@ -1,7 +1,8 @@
 name: build
-'on':
-  push: {}
-  pull_request: {}
+on:
+  push:
+    tags:
+      - 'v*.*.*'
 jobs:
   Windows:
     runs-on: windows-2019
@@ -24,9 +25,16 @@ jobs:
         run: |
           cd build
           "%MSBUILD_PATH%\MSBuild.exe" PostBaby.sln /p:Configuration=Release /m
-      - name: Package Application
-        run: |
-        cpack -C Release
+      - name: Build Package
+        shell: cmd
+        run : |
+          cd build && cpack -C Release
+      - name: Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: 'build/*.exe'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   Linux:
     runs-on: ubuntu-20.04
     steps:
@@ -41,11 +49,17 @@ jobs:
     - name: Build Project
       run: |
         cd build && make -j$(nproc) PostBaby_unity
-    - name : Package Application
+    - name: Build Package
       run: |
-        cpack -C Release
+        cd build && cpack -C Release
+    - name: Release
+      uses: softprops/action-gh-release@v1
+      with:
+          files: 'build/*.deb'
+      env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   MacOS:
-    runs-on: macOS-latest
+    runs-on: macos-latest
     steps:
     - uses: actions/checkout@v1
     - name: Install Dependencies
