@@ -17,6 +17,7 @@ endif()
 
 include_directories("${PROJECT_SOURCE_DIR}/extern/imgui")	
 include_directories(${CMAKE_SOURCE_DIR}/extern/tidy/include)
+include_directories(${CMAKE_SOURCE_DIR}/extern/glew/include)
 
 file(GLOB SOURCES "*.cpp")	
 file(GLOB IMGUI_SOURCES "${PROJECT_SOURCE_DIR}/extern/imgui/*.cpp")

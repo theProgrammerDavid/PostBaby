@@ -1,3 +1,4 @@
+#define GLEW_STATIC
 #include "main.hpp"
 #include "util.hpp"
 bool checkOnline() {

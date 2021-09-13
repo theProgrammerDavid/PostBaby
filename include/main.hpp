@@ -1,10 +1,5 @@
-#include "config.hpp"
-#include "constants.hpp"
-#include "gui.hpp"
-#include "imgui.h"
-#include "imgui_impl_glfw.h"
-#include "imgui_impl_opengl3.h"
-#include "tab.hpp"
+#include <GL/glew.h>
+#include <GLFW/glfw3.h>
 #include <cpr/cpr.h>
 #include <filesystem>
 #include <fstream>
@@ -12,9 +7,14 @@
 #include <iostream>
 #include <stdio.h>
 
-#define GLEW_STATIC
-#include <GL/glew.h>
-#include <GLFW/glfw3.h>
+#include "config.hpp"
+#include "constants.hpp"
+#include "gui.hpp"
+#include "imgui.h"
+#include "imgui_impl_glfw.h"
+#include "imgui_impl_opengl3.h"
+#include "tab.hpp"
+
 
 void keyCallback(GLFWwindow *window, int key, int scancode, int action,
                  int mode);
