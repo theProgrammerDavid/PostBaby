@@ -48,7 +48,7 @@ jobs:
         mkdir build && cd build && cmake -DCMAKE_BUILD_TYPE=Release ..
     - name: Build Project
       run: |
-        cd build && make -j$(nproc) PostBaby_unity
+        cd build && make -j$(nproc)
     - name: Build Package
       run: |
         cd build && cpack -C Release
@@ -73,5 +73,5 @@ jobs:
     - name: Build Project
       run: |
         cd build
-        make -j$(nproc) PostBaby_unity
+        make -j$(nproc)
 
