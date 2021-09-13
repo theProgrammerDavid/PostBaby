@@ -34,7 +34,6 @@ target_link_libraries(${PROJECT_NAME}
   PUBLIC
   ${OPENGL_LIBRARIES}
   PRIVATE
-  glad
   nlohmann_json::nlohmann_json
   yaml-cpp
   tidy-static

@@ -1,7 +1,5 @@
 cmake_minimum_required(VERSION 3.14 FATAL_ERROR)
-# Multi-Language Vulkan/GL/GLES/EGL/GLX/WGL Loader-Generator based on
-# the official specs. http://glad.dav1d.de/
-#https://github.com/Dav1dde/glad/issues/174
+
 include(FetchContent)
 
 set(YAML_CPP_BUILD_TESTS OFF CACHE BOOL "disable yaml tests")
@@ -17,23 +15,6 @@ if(WIN32)
 set(CPR_BUILD_TESTS_SSL OFF)
 set(CPR_BUILD_TESTS OFF) #testing. if enabled, needs PER
 set(CPR_FORCE_WINSSL_BACKEND ON)
-endif()
-
-FetchContent_Declare(
-  extern_glad
-
-  GIT_REPOSITORY https://github.com/Dav1dde/glad.git
-  GIT_TAG        v0.1.27)
-
-FetchContent_GetProperties(extern_glad)
-if(NOT extern_glad_POPULATED)
-  FetchContent_Populate(extern_glad)
-
-  set(GLAD_INSTALL ON)
-  add_subdirectory(
-    ${extern_glad_SOURCE_DIR}
-    ${extern_glad_BINARY_DIR}
-    EXCLUDE_FROM_ALL)
 endif()
 
 FetchContent_Declare(glfw GIT_REPOSITORY https://github.com/glfw/glfw.git GIT_TAG 0b9e48fa3df9c184ff1abfb2452fd1a4b696ecd8) 
