@@ -3,7 +3,6 @@
 #include <cpr/cpr.h>
 #include <filesystem>
 #include <fstream>
-#include <future>
 #include <iostream>
 #include <stdio.h>
 

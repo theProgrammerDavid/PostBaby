@@ -32,6 +32,7 @@ git clone https://github.com/theProgrammerDavid/PostBaby.git
 ### Building
 
 - Create a ``build`` folder and `cd` into that, and run ``cmake -DCMAKE_BUILD_TYPE=Release ..`` for a Release build with the build system of choice.
+- The `DCURL_CA_BUNDLE` flag is passed as a [temp fix](https://github.com/libcpr/cpr/issues/445) on some Linux systems
 - Configuring CMake might take a while initially as it is downloading dependencies
 - Once configured, build it using the selected build system. On *nix systems you can use ``
 make -j$(nproc)
@@ -54,7 +55,7 @@ git clone https://github.com/theProgrammerDavid/PostBaby.git && \
 cd PostBaby && \
 mkdir build && \
 cd build && \
-cmake -DCMAKE_BUILD_TYPE=Release .. && \
+cmake -DCMAKE_BUILD_TYPE=Release -DCURL_CA_BUNDLE="./cacert.pem" .. && \
 make -j$(nproc) && \
 sudo make install
 ```

@@ -45,7 +45,7 @@ jobs:
         sudo apt install -y build-essential libssl-dev cmake libx11-dev xorg-dev libglu1-mesa-dev 
     - name: Configure CMake
       run: |
-        mkdir build && cd build && cmake -DCMAKE_BUILD_TYPE=Release ..
+        mkdir build && cd build && cmake -DCURL_CA_BUNDLE="./cacert.pem" -DCMAKE_BUILD_TYPE=Release ..
     - name: Build Project
       run: |
         cd build && make -j$(nproc)

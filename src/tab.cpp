@@ -88,7 +88,7 @@ void Tab::constructRequest() {
 void Tab::sendRequest() {
   this->constructRequest();
   Logger *logger = Logger::getInstance();
-  logger->info("sending request to ");
+  logger->info("sending request to ", {url.c_str()});
   int method;
   switch (this->currentHttpMethod) {
   case 0:
@@ -139,7 +139,7 @@ void Tab::sendRequest() {
 
     break;
   };
-  logger->info("received response");
+  logger->info("received response from", {url.c_str()});
 
   constants->db->insertUrl(this->url, method);
 

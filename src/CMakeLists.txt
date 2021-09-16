@@ -61,12 +61,14 @@ add_custom_command(
   COMMAND
     ${CMAKE_COMMAND} -E copy_if_different
     ${PROJECT_SOURCE_DIR}/assets/JetBrainsMono-Medium.ttf
-    ${PROJECT_SOURCE_DIR}/assets/ca.cer ${PROJECT_SOURCE_DIR}/assets/client.cer
-    ${PROJECT_SOURCE_DIR}/assets/client.key $<TARGET_FILE_DIR:${PROJECT_NAME}>)
+    ${PROJECT_SOURCE_DIR}/assets/ca.cer 
+    ${PROJECT_SOURCE_DIR}/assets/client.cer
+    ${PROJECT_SOURCE_DIR}/assets/client.key 
+    ${PROJECT_SOURCE_DIR}/assets/cacert.pem
+    $<TARGET_FILE_DIR:${PROJECT_NAME}>)
 
 # add_custom_command( TARGET ${PROJECT_NAME} POST_BUILD COMMAND
 # $<$<CONFIG:release>:${CMAKE_STRIP} ${PROJECT_NAME}>)
-message($<$<CONFIG:release>:${CMAKE_STRIP} ${PROJECT_NAME}>)
 
 if(UNIX)
   add_custom_command(
@@ -89,6 +91,7 @@ else()
           ${PROJECT_SOURCE_DIR}/assets/PostBaby.png
           ${PROJECT_SOURCE_DIR}/assets/ca.cer
           ${PROJECT_SOURCE_DIR}/assets/client.cer
+          ${PROJECT_SOURCE_DIR}/assets/cacert.pem
           ${PROJECT_SOURCE_DIR}/assets/client.key
     DESTINATION bin)
   # https://stackoverflow.com/questions/51698076/why-cpack-generates-an-empty-package

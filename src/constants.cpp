@@ -68,11 +68,11 @@ Constants::Constants() {
 
   // check if dir exists
   if (!dirExists(this->workingDir)) {
-    logger->info("Working dir does not exist. Creating\n");
+    logger->info("Working dir does not exist. Creating");
     std::filesystem::create_directory(this->workingDir);
-    logger->info("Working dir created successfully\n");
+    logger->info("Working dir created successfully");
   }
-  logger->info("Working dir already exists\n");
+  logger->info("Working dir already exists");
   this->db = new Database(this->dbFilePath);
 
   this->defaultValues();
@@ -122,7 +122,7 @@ Constants::Constants() {
       this->configError = false;
     } catch (const YAML::Exception &e) {
       this->configError = true;
-      logger->error("Error in YAML File\n");
+      logger->error("Error in YAML File");
       logger->error(e.msg.c_str());
     }
   }
@@ -170,7 +170,7 @@ void Constants::createConfigFile() {
   fout
       << "MAX_URL_SIZE: 256\nHTML_INDENT : 0\nMOVEABLE_WINDOW : 1\nJSON_INDENT "
          ": 1\nFONT_SIZE : 18.0\nWINDOW_HEIGHT : 720\nWINDOW_WIDTH : "
-         "1280\nCURRENT_THEME : 0\nREQUEST_TIMEOUT : 5000 ";
+         "1280\nCURRENT_THEME : 0\nREQUEST_TIMEOUT : 15000 ";
   fout << "\nBACKGROUND : [ 0.45, 0.55, 0.60, 1.00 ]";
   fout.close();
 }

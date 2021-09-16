@@ -5,11 +5,44 @@ void Logger::warn(const char *message) { this->logger->warn(message); }
 void Logger::info(const char *message) { this->logger->info(message); }
 void Logger::error(const char *message) { this->logger->error(message); }
 
+void Logger::info(const char *message,
+                  std::initializer_list<const char *> list) {
+  std::string msg = message;
+  for (auto i : list) {
+    msg.append(i);
+  }
+  this->logger->info(msg);
+}
+void Logger::warn(const char *message,
+                  std::initializer_list<const char *> list) {
+  std::string msg = message;
+  for (auto i : list) {
+    msg.append(i);
+  }
+  this->logger->info(msg);
+}
+void Logger::error(const char *message,
+                   std::initializer_list<const char *> list) {
+  std::string msg = message;
+  for (auto i : list) {
+    msg.append(i);
+  }
+  this->logger->info(msg);
+}
+
+void Logger::critical(const char *message,
+                      std::initializer_list<const char *> list) {
+  std::string msg = message;
+  for (auto i : list) {
+    msg.append(i);
+  }
+  this->logger->info(msg);
+}
 Logger::Logger() {
 #if _WIN32
-   logger =
-      spdlog::basic_logger_mt("PostBabyLogger",
-      std::string(getenv("AppData") + "\\PostBaby\\PostBaby.log") );
+  logger = spdlog::basic_logger_mt(
+      "PostBabyLogger",
+      std::string(getenv("AppData") + "\\PostBaby\\PostBaby.log"));
 #else
   logger = spdlog::basic_logger_mt("PostBabyLogger",
                                    std::string(getenv("HOME")) +
