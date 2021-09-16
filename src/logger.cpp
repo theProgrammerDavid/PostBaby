@@ -9,7 +9,7 @@ Logger::Logger() {
 #if _WIN32
    logger =
       spdlog::basic_logger_mt("PostBabyLogger",
-      std::string(getenv("AppData")) + "\\PostBaby\\PostBaby.log") );
+      std::string(getenv("AppData") + "\\PostBaby\\PostBaby.log") );
 #else
   logger = spdlog::basic_logger_mt("PostBabyLogger",
                                    std::string(getenv("HOME")) +
