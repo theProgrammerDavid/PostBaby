@@ -4,8 +4,17 @@
 #include "main.hpp"
 #include "util.hpp"
 bool checkOnline() {
-  Response r = Get(Url{"http://icanhazip.com"}, Timeout{2000});
-  return r.text.length() > 0;
+  Logger *logger = Logger::getInstance();
+
+  Response r = Get(Url{"http://icanhazip.com"}, Timeout{5000});
+
+  const bool isOnline = r.text.length() > 0;
+  if (isOnline)
+    logger->info("Internet connected");
+  else
+    logger->warn("Internet not connected");
+
+  return isOnline;
 }
 
 void keyCallback(GLFWwindow *window, int key, int scancode, int action,
@@ -31,8 +40,8 @@ int main(int, char **) {
   std::ios::sync_with_stdio(false);
   std::cout.tie(0);
   std::cin.tie(0);
-
-  std::future<void> initFuture = std::async(std::launch::async, PostBabyInit);
+  std::thread t(PostBabyInit);
+  t.detach();
 
 #if _WIN32
   ShowWindow(GetConsoleWindow(), SW_HIDE);
@@ -47,7 +56,6 @@ int main(int, char **) {
   glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
   // glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
   // glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
-  initFuture.get();
 
 #ifdef __APPLE__
   // GL 3.2 + GLSL 150
