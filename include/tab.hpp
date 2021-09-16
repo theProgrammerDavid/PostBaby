@@ -2,6 +2,7 @@
 #include "constants.hpp"
 #include "imgui.h"
 #include "util.hpp"
+#include "logger.hpp"
 #include <cpr/cpr.h>
 #include <cpr/cprtypes.h>
 #include <cpr/ssl_options.h>

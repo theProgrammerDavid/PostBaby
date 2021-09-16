@@ -28,7 +28,9 @@ void glfw_error_callback(int error, const char *description) {
   fprintf(stderr, "Glfw Error %d: %s\n", error, description);
 }
 void Constants::setOnlineStatus(bool status) { this->isOnline = status; }
+
 Constants::Constants() {
+  Logger *logger = Logger::getInstance();
   this->windowFlags = ImGuiWindowFlags_NoTitleBar;
   this->tableFlags = ImGuiTableFlags_RowBg | ImGuiTableFlags_ScrollX |
                      ImGuiTableFlags_ScrollY | ImGuiTableFlags_Borders |
@@ -36,14 +38,10 @@ Constants::Constants() {
 #ifdef WIN32
   this->sslOpts = Ssl(ssl::TLSv1_2{});
 #else
-  this->sslOpts =
-      Ssl(ssl::CaPath{absolutePath() + "/ca.cer"},
-          ssl::CertFile{absolutePath() + "/client.cer"},
-          ssl::KeyFile{absolutePath() + "/client.key"}, ssl::VerifyPeer{false},
-          ssl::VerifyHost{false}, ssl::VerifyStatus{false});
+  this->sslOpts = Ssl(ssl::CaPath{"./ca.cer"}, ssl::CertFile{"./client.cer"},
+                      ssl::KeyFile{"./client.key"}, ssl::VerifyPeer{false},
+                      ssl::VerifyHost{false}, ssl::VerifyStatus{false});
 #endif
-
-  std::cout << "absolute path: " << absolutePath() << "\n";
 
 #if _WIN32
   this->workingDir = getenv("AppData");
@@ -51,27 +49,30 @@ Constants::Constants() {
   this->configFilePath = this->workingDir + "\\PostBaby.yml";
   this->iniFilePath = this->workingDir + "\\imgui.ini";
   this->dbFilePath = this->workingDir + "\\PostBaby.db3";
+  this->logFilePath = this->workingDir + "\\PostBaby.log";
 #elif __APPLE__
   this->workingDir = getenv("HOME");
   this->workingDir += "/.config/PostBaby";
   this->configFilePath = this->workingDir + "/PostBaby.yml";
   this->iniFilePath = this->workingDir + "/imgui.ini";
   this->dbFilePath = this->workingDir + "/PostBaby.db3";
+  this->logFilePath = this->workingDir + "/PostBaby.log";
 #elif __linux__
   this->workingDir = getenv("HOME");
   this->workingDir += "/.config/PostBaby";
   this->configFilePath = this->workingDir + "/PostBaby.yml";
   this->iniFilePath = this->workingDir + "/imgui.ini";
   this->dbFilePath = this->workingDir + "/PostBaby.db3";
+  this->logFilePath = this->workingDir + "/PostBaby.log";
 #endif
 
   // check if dir exists
   if (!dirExists(this->workingDir)) {
-    std::cout << "dir does not exist. Creating\n";
+    logger->info("Working dir does not exist. Creating\n");
     std::filesystem::create_directory(this->workingDir);
-    std::cout << "dir created\n";
+    logger->info("Working dir created successfully\n");
   }
-
+  logger->info("Working dir already exists\n");
   this->db = new Database(this->dbFilePath);
 
   this->defaultValues();
@@ -119,10 +120,10 @@ Constants::Constants() {
         this->jsonIndent = config["JSON_INDENT"].as<int>();
       }
       this->configError = false;
-    } catch (YAML::Exception e) {
-      std::cerr << "Error in yaml file";
+    } catch (const YAML::Exception &e) {
       this->configError = true;
-      std::cout << this->configError;
+      logger->error("Error in YAML File\n");
+      logger->error(e.msg.c_str());
     }
   }
 }
@@ -138,6 +139,8 @@ const char *Constants::getConfigFilePath() {
   return this->configFilePath.c_str();
 }
 const char *Constants::getIniFilePath() { return this->iniFilePath.c_str(); }
+
+const char *Constants::getLogFilePath() { return this->logFilePath.c_str(); }
 
 ImGuiTableFlags Constants::getTableFlags() { return this->tableFlags; }
 

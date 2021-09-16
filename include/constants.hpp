@@ -1,4 +1,5 @@
 #pragma once
+#include "logger.hpp"
 #include "config.hpp"
 #include "database.hpp"
 #include "imgui.h"
@@ -22,6 +23,7 @@ private:
   std::string configFilePath;
   std::string iniFilePath;
   std::string dbFilePath;
+  std::string logFilePath;
   ImGuiWindowFlags windowFlags;
   ImGuiTableFlags tableFlags;
   YAML::Node config;
@@ -34,9 +36,12 @@ public:
   Database *db;
   void writeConfig();
   void updateWindowFlags();
+
   const char *getWorkingDir();
   const char *getConfigFilePath();
   const char *getIniFilePath();
+  const char *getLogFilePath();
+
   void defaultValues();
   void createConfigFile();
   bool configFileExists();

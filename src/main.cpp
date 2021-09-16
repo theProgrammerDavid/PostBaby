@@ -1,4 +1,6 @@
+#ifndef GLEW_STATIC
 #define GLEW_STATIC
+#endif
 #include "main.hpp"
 #include "util.hpp"
 bool checkOnline() {
@@ -95,7 +97,6 @@ int main(int, char **) {
     return 1;
   }
 
-
   IMGUI_CHECKVERSION();
   ImGui::CreateContext();
   ImGuiIO &io = ImGui::GetIO();
@@ -116,7 +117,6 @@ int main(int, char **) {
 
   GUI gui;
 
-  
   while (!glfwWindowShouldClose(window)) {
     glfwPollEvents();
 

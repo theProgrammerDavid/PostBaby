@@ -24,6 +24,7 @@ void Tab::setBodyType(const int bodyType) { this->currentBodyType = bodyType; }
 const char *Tab::getResponse() { return this->formattedBody.c_str(); }
 
 void Tab::constructRequest() {
+  Logger *logger = Logger::getInstance();
   this->_params = Parameters{};
   this->payload = Payload{};
   this->_headers = Header{};
@@ -40,9 +41,12 @@ void Tab::constructRequest() {
   }
   switch (this->currentHttpMethod) {
   case 0: // GET REQUEST
+    logger->info("constructing GET request");
 
     break;
   case 1: // POST REQUEST
+    logger->info("constructing POST request");
+
     for (auto i : this->formData) {
       if (i.enable)
         this->payload.Add({i.key, i.value});
@@ -54,6 +58,8 @@ void Tab::constructRequest() {
     break;
 
   case 2: // PUT REQUEST
+    logger->info("constructing PUT request");
+
     for (auto i : this->formData) {
       if (i.enable)
         this->payload.Add({i.key, i.value});
@@ -61,6 +67,8 @@ void Tab::constructRequest() {
     break;
 
   case 3: // DELETE
+    logger->info("constructing DELETE request");
+
     for (auto i : this->formData) {
       if (i.enable)
         this->payload.Add({i.key, i.value});
@@ -68,6 +76,8 @@ void Tab::constructRequest() {
     break;
 
   case 4: // HEAD
+    logger->info("constructing HEAD request");
+
     break;
 
   case 5:
@@ -77,6 +87,8 @@ void Tab::constructRequest() {
 
 void Tab::sendRequest() {
   this->constructRequest();
+  Logger *logger = Logger::getInstance();
+  logger->info("sending request to ");
   int method;
   switch (this->currentHttpMethod) {
   case 0:
@@ -127,14 +139,20 @@ void Tab::sendRequest() {
 
     break;
   };
+  logger->info("received response");
+
   constants->db->insertUrl(this->url, method);
 
   if (constants->jsonIndent && res.header["content-type"].find(
                                    "application/json") != std::string::npos) {
+    logger->info("formatting JSON");
+
     auto j = json::parse(res.text.c_str());
     this->formattedBody = j.dump(4);
   } else if (constants->htmlIndent &&
              res.text.find("html") != std::string::npos) {
+    logger->info("formatting HTML");
+
     TidyBuffer output = {0};
     TidyBuffer errbuf = {0};
     int rc = -1;
