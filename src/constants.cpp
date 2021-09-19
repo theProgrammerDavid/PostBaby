@@ -147,13 +147,16 @@ const char *Constants::getLogFilePath() { return this->logFilePath.c_str(); }
 
 ImGuiTableFlags Constants::getTableFlags() { return this->tableFlags; }
 
+void Constants::setWindowDimension(const int width, const int height){
+  this->WINDOW_HEIGHT = height;
+  this->WINDOW_WIDTH = width;
+}
+
 void Constants::defaultValues() {
   this->MAX_URL_SIZE = 256;
   this->moveWindow = true;
   this->PATH_TO_FONT = absolutePath() + "/JetBrainsMono-Medium.ttf";
   this->FONT_SIZE = 18.0f;
-  this->WINDOW_HEIGHT = 720;
-  this->WINDOW_WIDTH = 1280;
   this->CURRENT_THEME = DARK;
   this->REQUEST_TIMEOUT = 5000;
   // this->isOnline = false;
@@ -172,8 +175,8 @@ void Constants::createConfigFile() {
   std::ofstream fout(this->configFilePath.c_str());
   fout
       << "MAX_URL_SIZE: 256\nHTML_INDENT : 0\nMOVEABLE_WINDOW : 1\nJSON_INDENT "
-         ": 1\nFONT_SIZE : 18.0\nWINDOW_HEIGHT : 720\nWINDOW_WIDTH : "
-         "1280\nCURRENT_THEME : 0\nREQUEST_TIMEOUT : 15000 ";
+         ": 1\nFONT_SIZE : 18.0\nWINDOW_HEIGHT : 716\nWINDOW_WIDTH : "
+         "1276\nCURRENT_THEME : 0\nREQUEST_TIMEOUT : 15000 ";
   fout << "\nBACKGROUND : [ 0.45, 0.55, 0.60, 1.00 ]";
   fout.close();
 }

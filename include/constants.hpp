@@ -46,6 +46,13 @@ public:
   void createConfigFile();
   bool configFileExists();
   void setOnlineStatus(bool status);
+
+  /**
+ * @param width Width of the application window after resize
+ * @param height Height of the application window after resize
+ * */
+  void setWindowDimension(const int width, const int height);
+
   Constants();
   void init();
   enum { DARK, LIGHT, CLASSIC };
@@ -54,8 +61,8 @@ public:
   int MAX_URL_SIZE;
   SslOptions sslOpts;
   int REQUEST_TIMEOUT;
-  int WINDOW_WIDTH;
-  int WINDOW_HEIGHT;
+  int WINDOW_WIDTH=1274;
+  int WINDOW_HEIGHT=717;
   int CURRENT_THEME;
   float FONT_SIZE;
   bool configError;

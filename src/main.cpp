@@ -23,8 +23,12 @@ void keyCallback(GLFWwindow *window, int key, int scancode, int action,
     glfwSetWindowShouldClose(window, GL_TRUE);
 }
 
+void framebuffer_size_callback(GLFWwindow* window, int width, int height)
+{
+  glViewport(0, 0, width, height);
+}
+
 void PostBabyInit() {
-  constants->setOnlineStatus(checkOnline());
   constants->init();
   if (!constants->configFileExists())
     constants->createConfigFile();
@@ -36,17 +40,17 @@ void PostBabyInit() {
   }
 }
 
-int main(int, char **) {
-  std::ios::sync_with_stdio(false);
-  std::cout.tie(0);
-  std::cin.tie(0);
-  std::thread t(PostBabyInit);
-  t.detach();
+int main(int, char **) 
+{
+  std::thread onlineCheck([&]{ constants->setOnlineStatus(checkOnline());});
+  onlineCheck.detach();
 
+  std::thread initThread(PostBabyInit);
 #if _WIN32
   ShowWindow(GetConsoleWindow(), SW_HIDE);
 #endif
 
+  const char *glsl_version = "#version 150";
   glfwSetErrorCallback(glfw_error_callback);
   if (!glfwInit())
     return 1;
@@ -71,7 +75,6 @@ int main(int, char **) {
   if (xscale > 1 || yscale > 1) {
     constants->highDPIscaleFactor = xscale;
     glfwWindowHint(GLFW_SCALE_TO_MONITOR, GLFW_TRUE);
-    std::cout << xscale << " " << yscale << "\n";
   }
 
 #else
@@ -83,7 +86,8 @@ int main(int, char **) {
     glfwWindowHint(GLFW_SCALE_TO_MONITOR, GLFW_TRUE);
   }
 #endif
-  const char *glsl_version = "#version 150";
+  initThread.join();
+
   GLFWwindow *window =
       glfwCreateWindow(constants->WINDOW_WIDTH, constants->WINDOW_HEIGHT,
                        WINDOW_TITLE, NULL, NULL);
@@ -92,7 +96,6 @@ int main(int, char **) {
   glfwMakeContextCurrent(window);
   glfwSwapInterval(1); // Enable vsync
 
-  // Set the required callback functions
   glfwSetKeyCallback(window, keyCallback);
 
   // Set this to true so GLEW knows to use a modern approach to retrieving
@@ -109,7 +112,6 @@ int main(int, char **) {
   ImGui::CreateContext();
   ImGuiIO &io = ImGui::GetIO();
   io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
-
   constants->setTheme();
 
   ImGui_ImplGlfw_InitForOpenGL(window, true);
@@ -123,7 +125,12 @@ int main(int, char **) {
       constants->PATH_TO_FONT.c_str(),
       (constants->FONT_SIZE) * constants->highDPIscaleFactor, NULL, NULL);
 
+  glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
+  glViewport(0,0,constants->WINDOW_WIDTH, constants->WINDOW_HEIGHT);
+  glfwSetWindowSize(window, constants->WINDOW_WIDTH, constants->WINDOW_HEIGHT);
+  
   GUI gui;
+  int display_w, display_h;
 
   while (!glfwWindowShouldClose(window)) {
     glfwPollEvents();
@@ -136,7 +143,6 @@ int main(int, char **) {
 
     ImGui::Render();
 
-    int display_w, display_h;
     glfwGetFramebufferSize(window, &display_w, &display_h);
     glViewport(0, 0, display_w, display_h);
     glClearColor(constants->clear_color.x, constants->clear_color.y,
@@ -153,5 +159,9 @@ int main(int, char **) {
 
   glfwDestroyWindow(window);
   glfwTerminate();
+
+  constants->setWindowDimension(display_w, display_h);
+  constants->writeConfig();
+
   return 0;
 }

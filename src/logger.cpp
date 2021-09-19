@@ -39,6 +39,7 @@ void Logger::critical(const char *message,
   this->logger->info(msg);
 }
 Logger::Logger() {
+  spdlog::flush_every(std::chrono::seconds(3));
 #if _WIN32
   logger = spdlog::basic_logger_mt(
       "PostBabyLogger",
