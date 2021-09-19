@@ -30,7 +30,6 @@ void glfw_error_callback(int error, const char *description) {
 void Constants::setOnlineStatus(bool status) { this->isOnline = status; }
 
 Constants::Constants() {
-  Logger *logger = Logger::getInstance();
   this->windowFlags = ImGuiWindowFlags_NoTitleBar;
   this->tableFlags = ImGuiTableFlags_RowBg | ImGuiTableFlags_ScrollX |
                      ImGuiTableFlags_ScrollY | ImGuiTableFlags_Borders |
@@ -65,7 +64,11 @@ Constants::Constants() {
   this->dbFilePath = this->workingDir + "/PostBaby.db3";
   this->logFilePath = this->workingDir + "/PostBaby.log";
 #endif
+}
 
+void Constants::init(){
+
+  Logger *logger = Logger::getInstance();
   // check if dir exists
   if (!dirExists(this->workingDir)) {
     logger->info("Working dir does not exist. Creating");

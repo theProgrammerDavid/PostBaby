@@ -47,6 +47,7 @@ public:
   bool configFileExists();
   void setOnlineStatus(bool status);
   Constants();
+  void init();
   enum { DARK, LIGHT, CLASSIC };
 
   void setTheme();

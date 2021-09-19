@@ -25,7 +25,7 @@ void keyCallback(GLFWwindow *window, int key, int scancode, int action,
 
 void PostBabyInit() {
   constants->setOnlineStatus(checkOnline());
-
+  constants->init();
   if (!constants->configFileExists())
     constants->createConfigFile();
 
