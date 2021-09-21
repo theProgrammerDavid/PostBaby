@@ -10,9 +10,31 @@
 #include <unistd.h>
 #endif
 
+/**
+ * @return location of application
+ **/
 std::string absolutePath();
 const char *formattedTime();
 
+/**
+ * @param fileName checks if file exists
+ * */
 bool fileExists(const std::string &fileName);
+
+/**
+ * @param dirName_in checks if directory exists
+ * */
 bool dirExists(const std::string &dirName_in);
-const char* getHttpMethod(const int method);
+
+/**
+ * @param method type of http method 
+ * 0 - GET
+ * 1 - POST
+ * 2 - PUT
+ * 3 - DELETE
+ * 4 - HEAD
+ * 5 - OPTIONS
+ * 
+ * @return string representation of HTTP method
+ * */
+const char *getHttpMethod(const int method);

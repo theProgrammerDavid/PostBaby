@@ -92,6 +92,7 @@ void Tab::sendRequest() {
   int method;
   switch (this->currentHttpMethod) {
   case 0:
+  // GET REQUEST
     method = 0;
     res =
         cpr::Get(Url{this->url.c_str()}, _params, constants->sslOpts, Verbose{},

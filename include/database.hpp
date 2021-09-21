@@ -13,8 +13,21 @@
 #define HISTORY_SELECT_QUERY "SELECT * FROM HISTORY"
 class Database {
 public:
+
+  /**
+   * @param dbPath path of the db file
+   * */
   Database(const std::string &dbPath);
+  
+  /**
+   * @param url HTTP URL of request
+   * @param method TYPE of HTTP request
+   * */
   void insertUrl(const std::string &url, const int method);
+
+  /**
+   * @param hist History object to retrieve from db
+   * */
   void getHistory(History *hist);
 
 private:
