@@ -435,7 +435,7 @@ void GUI::render() {
   }
 }
 void GUI::workspaceArea() {
-  if (ImGui::BeginTabBar("TabItem")) {
+  if (ImGui::BeginTabBar("TabItem", ImGuiTabBarFlags_TabListPopupButton)) {
     if (ImGui::TabItemButton("+", ImGuiTabItemFlags_Trailing |
                                       ImGuiTabItemFlags_NoTooltip)) {
       Tab t(tabs.size() + 1);
