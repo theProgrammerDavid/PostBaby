@@ -20,10 +20,10 @@ GUI::~GUI(){
 void GUI::responseArea() {
   if (tabs[active_tab].getStatusCode() > 0) {
     ImGui::Text("Code:%d", tabs[active_tab].getStatusCode());
+    ImGui::SameLine();
   }
 
   if (tabs[active_tab].getTimeElapsed() > 0) {
-    ImGui::SameLine();
     ImGui::Text("Time: %f s", tabs[active_tab].getTimeElapsed());
   }
 
@@ -479,8 +479,13 @@ void GUI::workspaceArea() {
         ImGui::SameLine();
         if (ImGui::Button("Send")) {
           std::thread t([&] {
-            tabs[active_tab].updateTitle();
+           try{
+              tabs[active_tab].updateTitle();
             tabs[active_tab].sendRequest();
+           }
+           catch(const std::exception& e){
+             std::cout<<"error"<<std::endl;
+           }
           });
           t.detach();
         }

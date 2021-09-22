@@ -6,6 +6,7 @@
 #include <cpr/cpr.h>
 #include <cpr/cprtypes.h>
 #include <cpr/ssl_options.h>
+#include <cpr/error.h>
 #include <errno.h>
 #include <future>
 #include <iostream>

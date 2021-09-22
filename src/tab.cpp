@@ -144,6 +144,12 @@ void Tab::sendRequest() {
 
   constants->db->insertUrl(this->url, method);
 
+  if(res.error){
+    this->formattedBody = res.error.message;
+    this->statusCode = 0;
+    return;
+  }
+
   if (constants->jsonIndent && res.header["content-type"].find(
                                    "application/json") != std::string::npos) {
     logger->info("formatting JSON");
