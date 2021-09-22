@@ -6,20 +6,50 @@ void Database::insertUrl(const std::string &url, const int method) {
     SQLite::bind(query, url, method);
     query.exec();
   } catch (const std::exception &e) {
+    Logger *logger = Logger::getInstance();
+    logger->error("Unable to insert history from db in function insertUrl", {url.c_str(), e.what()});
     throw e;
   }
 }
 
-void Database::getHistory(History *hist) {
+void Database::getHistory(std::vector<request> &hist) {
+  hist.clear();
+  // hist.reserve(this->getNumRows());
   try {
-
     SQLite::Statement query(db, HISTORY_SELECT_QUERY);
     while (query.executeStep()) {
-      hist->push_back(makeHistory(query.getColumn(0), query.getColumn(1),
-                                  query.getColumn(2)));
+      hist.push_back({query.getColumn(0), query.getColumn(1),
+                                  query.getColumn(2)});
     }
   } catch (const std::exception &e) {
+    Logger *logger = Logger::getInstance();
+    logger->error("Unable to populate history ", {e.what()});
     throw e;
+  }
+}
+
+void Database::deleteRow(const int row){
+  try{
+    SQLite::Statement query(db, HISTORY_DELETE_QUERY);
+    SQLite::bind(query, row);
+    query.exec();
+  }
+  catch(const std::exception& e){
+    Logger *logger = Logger::getInstance();
+    logger->error("Unable to delete row in db ", {e.what()});
+  }
+}
+
+int Database::getNumRows(){
+  try{
+    SQLite::Statement query(db, HISTORY_SIZE_QUERY);
+    query.executeStep();
+    return query.getColumn(0);
+  }
+  catch(const std::exception& e){
+    Logger *logger = Logger::getInstance();
+    logger->error("Unable to get number of rows in history ", {e.what()});
+    return -1;
   }
 }
 
@@ -31,7 +61,7 @@ Database::Database(const std::string &dbPath)
       db.exec(HISTORY_CREATE_QUERY);
     }
   } catch (const std::exception &e) {
-    std::cout << "Error occured in Database Constructor\n"
-              << e.what() << std::endl;
+    Logger *logger = Logger::getInstance();
+    logger->error("Unable to get number of rows in history ", {e.what()});
   }
 }

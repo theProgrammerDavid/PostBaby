@@ -33,7 +33,8 @@ private:
 public:
   ImGuiWindowFlags getWindowFlags();
   ImGuiTableFlags getTableFlags();
-  Database *db;
+  // Database *db;
+  std::unique_ptr<Database> db;
   void writeConfig();
   void updateWindowFlags();
 
@@ -54,6 +55,7 @@ public:
   void setWindowDimension(const int width, const int height);
 
   Constants();
+  ~Constants();
   void init();
   enum { DARK, LIGHT, CLASSIC };
 

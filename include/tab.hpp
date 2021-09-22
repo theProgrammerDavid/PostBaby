@@ -60,7 +60,7 @@ public:
   //  networking stuff
   //
   void sendRequest();
-  void loadTabFromHistory(const _history &h);
+  void loadTabFromHistory(const request &h);
   void updateTitle();
   int getBodyType();
   int getStatusCode();

@@ -5,6 +5,7 @@ GUI::GUI() {
   // ImGuiTableFlags_BordersV | ImGuiTableFlags_Resizable |
   // ImGuiTableFlags_ScrollY | ImGuiTableFlags_ScrollX; windowFlags =
   // ImGuiWindowFlags_NoTitleBar;
+  constants->db->getHistory(history);
   active_tab = 0;
   active_response = "";
   Tab t(tabs.size() + 1);
@@ -12,6 +13,10 @@ GUI::GUI() {
   Tab t2(tabs.size() + 1);
   tabs.push_back(t2);
 }
+
+GUI::~GUI(){
+}
+
 void GUI::responseArea() {
   if (tabs[active_tab].getStatusCode() > 0) {
     ImGui::Text("Code:%d", tabs[active_tab].getStatusCode());
@@ -108,6 +113,7 @@ void GUI::workspaceBar() {
   if (ImGui::Button("History")) {
     ImGui::OpenPopup("History");
   }
+  this->historyPopup();
   ImGui::SameLine();
   ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%.1fFPS",
                      ImGui::GetIO().Framerate);
@@ -123,18 +129,13 @@ void GUI::workspaceBar() {
   }
 }
 
-void GUI::settingsPopup() {
+void GUI::historyPopup(){
 
-  History hist;
-  constants->db->getHistory(&hist);
+  
 
   const float TEXT_BASE_HEIGHT = ImGui::GetTextLineHeightWithSpacing();
   ImVec2 WorkspaceTableSize = ImVec2(FLT_MAX, TEXT_BASE_HEIGHT * 8);
   centerModal();
-
-  if (hist.size() == 0) {
-    return;
-  }
 
   ImGui::SetNextWindowSize(ImVec2(ImGui::GetIO().DisplaySize.x * 0.5f,
                                   ImGui::GetIO().DisplaySize.y * 0.5f));
@@ -143,6 +144,11 @@ void GUI::settingsPopup() {
                              ImGuiWindowFlags_AlwaysAutoResize)) {
 
     ImGui::Text("Changes will be saved automatically");
+    ImGui::Text("Total: %d", history.size());
+
+    if(ImGui::Button("Reload")){
+      constants->db->getHistory(history);
+    }
     ImGui::Separator();
 
     ImGui::BeginTable("##HistoryTable", 3,
@@ -155,27 +161,35 @@ void GUI::settingsPopup() {
     ImGui::TableSetupColumn("URL");
 
     ImGui::TableHeadersRow();
-
-    for (size_t row = 0; row < hist.size(); row++) {
+    for (size_t row = 0; row < history.size(); row++) {
       ImGui::TableNextRow();
 
       ImGui::TableSetColumnIndex(0);
       ImGui::PushID(row);
-      ImGui::Text("%d", hist[row].id);
+      // ImGui::Text("%d", history[row].id);
+      ImGui::Text("%d", row+1);
       ImGui::SameLine();
       if (ImGui::Button("Load")) {
-        tabs[active_tab].loadTabFromHistory(hist[row]);
+        tabs[active_tab].loadTabFromHistory(history[row]);
+      }
+      ImGui::SameLine();
+      if(ImGui::Button("Del")){
+        std::thread delRow([&]{
+            history.erase(history.begin()+row);
+            constants->db->deleteRow(history[row].id);
+        });
+        delRow.detach();  
       }
       ImGui::PopID();
 
       ImGui::TableSetColumnIndex(1);
       ImGui::PushID(row);
-      ImGui::Text("%s", getHttpMethod(hist[row].method));
+      ImGui::Text("%s", getHttpMethod(history[row].method));
       ImGui::PopID();
 
       ImGui::TableSetColumnIndex(2);
       ImGui::PushID(row);
-      ImGui::Text("%s", hist[row].url.c_str());
+      ImGui::Text("%s", history[row].url.c_str());
 
       ImGui::PopID();
     }
@@ -185,8 +199,17 @@ void GUI::settingsPopup() {
       ImGui::CloseCurrentPopup();
     }
     ImGui::SetItemDefaultFocus();
+    
+    
     ImGui::EndPopup();
   }
+}
+
+void GUI::settingsPopup() {
+  const float TEXT_BASE_HEIGHT = ImGui::GetTextLineHeightWithSpacing();
+  ImVec2 WorkspaceTableSize = ImVec2(FLT_MAX, TEXT_BASE_HEIGHT * 8);
+  centerModal();
+
   if (ImGui::BeginPopupModal("Edit Preferences", NULL,
                              ImGuiWindowFlags_AlwaysAutoResize)) {
     ImGui::Text("Changes will be saved automatically");

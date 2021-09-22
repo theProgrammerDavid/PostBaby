@@ -10,7 +10,7 @@ KeyValuePair::KeyValuePair() {
 
 void KeyValuePair::setKey(const char *setKey) { this->key = setKey; }
 
-void Tab::loadTabFromHistory(const _history &h) {
+void Tab::loadTabFromHistory(const request &h) {
   this->url = h.url;
   this->currentHttpMethod = h.method;
 }

@@ -7,11 +7,12 @@
 #include <memory>
 #include <string>
 #include <vector>
-
+#include "types.hpp"
 class GUI {
 
 private:
   std::vector<Tab> tabs;
+  std::vector<request> history;
   int active_tab;
   std::string active_response;
 
@@ -27,11 +28,12 @@ private:
   void centerModal();
 
   void settingsPopup();
-
+  void historyPopup();
   void drawBody();
   void drawKeyValueDesc(std::vector<KeyValuePair> &vec);
 
 public:
   void render();
   GUI();
+  ~GUI();
 };

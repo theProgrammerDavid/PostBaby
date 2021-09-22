@@ -76,7 +76,8 @@ void Constants::init(){
     logger->info("Working dir created successfully");
   }
   logger->info("Working dir already exists");
-  this->db = new Database(this->dbFilePath);
+  // this->db = new Database(this->dbFilePath);
+  this->db = std::unique_ptr<Database>(new Database{this->dbFilePath});
 
   this->defaultValues();
   if (fileExists(this->configFilePath)) {
@@ -169,6 +170,10 @@ void Constants::defaultValues() {
 
 bool Constants::configFileExists() {
   return fileExists(this->configFilePath.c_str());
+}
+
+Constants::~Constants(){
+  
 }
 
 void Constants::createConfigFile() {
