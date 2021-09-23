@@ -91,6 +91,7 @@ On Linux and MacOS, the config files are stored in `$HOME/.config/PostBaby`
 | tidy-html5      | https://github.com/htacg/tidy-html5 |
 | Nlohmann JSON   | https://github.com/nlohmann/json |
 | SQLiteCPP       | https://github.com/SRombauts/SQLiteCpp |
+| spdlog          | https://github.com/gabime/spdlog |
 
 ### Resources
 
