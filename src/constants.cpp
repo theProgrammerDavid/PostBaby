@@ -36,6 +36,8 @@ Constants::Constants() {
                      ImGuiTableFlags_BordersV | ImGuiTableFlags_Resizable;
 #ifdef WIN32
   this->sslOpts = Ssl(ssl::TLSv1_2{});
+#elif __APPLE__
+  this->sslOpts = Ssl(ssl::TLSv1_2{});
 #else
   this->sslOpts = Ssl(ssl::CaPath{"./ca.cer"}, ssl::CertFile{"./client.cer"},
                       ssl::KeyFile{"./client.key"}, ssl::VerifyPeer{false},
