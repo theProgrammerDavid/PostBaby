@@ -3,6 +3,8 @@
 #endif
 #include "main.hpp"
 #include "util.hpp"
+#include "fonts.hpp"
+
 bool checkOnline() {
   Logger *logger = Logger::getInstance();
 
@@ -49,7 +51,8 @@ int main(int, char **)
 #if _WIN32
   ShowWindow(GetConsoleWindow(), SW_HIDE);
 #endif
-
+  fontManager fm;
+  fm.loadFonts();
   const char *glsl_version = "#version 150";
   glfwSetErrorCallback(glfw_error_callback);
   if (!glfwInit())
