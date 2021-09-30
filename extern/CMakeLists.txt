@@ -48,13 +48,16 @@ if(NOT glew_POPULATED)
   add_subdirectory(${CMAKE_SOURCE_DIR}/extern/glew/build/cmake)
 endif()
 
-# imgui FetchContent_Declare( imgui GIT_REPOSITORY
-# https://github.com/ocornut/imgui.git SOURCE_DIR
-# ${CMAKE_SOURCE_DIR}/extern/imgui GIT_TAG
-# 626e3e2b3bc1d3802ef177b497b00c5da98e93ee
-
-# ) FetchContent_GetProperties(imgui) if(NOT imgui_POPULATED)
-# FetchContent_Populate(imgui) endif()
+# imgui
+FetchContent_Declare(
+  imgui
+  GIT_REPOSITORY https://github.com/ocornut/imgui.git
+  
+  GIT_TAG 677fe33990ac02d925da3d5a929bbbb6f01800bd)
+FetchContent_GetProperties(imgui)
+if(NOT imgui_POPULATED)
+  FetchContent_Populate(imgui)
+endif()
 
 FetchContent_Declare(
   cpr
