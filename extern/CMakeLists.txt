@@ -25,9 +25,9 @@ set(JSON_BuildTests
     OFF
     CACHE INTERNAL "")
 
+set(CPR_BUILD_TESTS_SSL OFF)
+set(CPR_BUILD_TESTS OFF) # testing. if enabled, needs PER
 if(WIN32)
-  set(CPR_BUILD_TESTS_SSL OFF)
-  set(CPR_BUILD_TESTS OFF) # testing. if enabled, needs PER
   set(CPR_FORCE_WINSSL_BACKEND ON)
 endif()
 
@@ -52,7 +52,6 @@ endif()
 FetchContent_Declare(
   imgui
   GIT_REPOSITORY https://github.com/ocornut/imgui.git
-  
   GIT_TAG 677fe33990ac02d925da3d5a929bbbb6f01800bd)
 FetchContent_GetProperties(imgui)
 if(NOT imgui_POPULATED)
