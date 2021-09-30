@@ -39,7 +39,7 @@ FetchContent_MakeAvailable(glfw)
 
 # glew
 FetchContent_Declare(
-  GLEW URL https://sourceforge.net/projects/glew/files/glew/2.2.0/glew-2.2.0.zip
+  GLEW URL https://github.com/nigels-com/glew/releases/download/glew-2.2.0/glew-2.2.0.zip
            SOURCE_DIR ${CMAKE_SOURCE_DIR}/extern/glew)
 
 FetchContent_GetProperties(glew)
