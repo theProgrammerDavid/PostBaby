@@ -1,3 +1,5 @@
+include(FetchContent)
+
 find_package(OpenGL REQUIRED)
 if(UNIX)
   find_package(OpenSSL REQUIRED)
@@ -13,12 +15,24 @@ elseif(APPLE)
   set(ICON "${PROJECT_SOURCE_DIR}/assets/PostBaby.ico")
 endif()
 
-include_directories("${PROJECT_SOURCE_DIR}/extern/imgui")
+FetchContent_GetProperties(imgui)
+if(imgui_POPULATED)
+  include_directories(${imgui_SOURCE_DIR} ${imgui_SOURCE_DIR}/backends
+                      ${imgui_SOURCE_DIR}/misc/cpp)
+endif()
+
 include_directories(${CMAKE_SOURCE_DIR}/extern/tidy/include)
 include_directories(${CMAKE_SOURCE_DIR}/extern/glew/include)
 
 file(GLOB SOURCES "*.cpp")
-file(GLOB IMGUI_SOURCES "${PROJECT_SOURCE_DIR}/extern/imgui/*.cpp")
+file(
+  GLOB
+  IMGUI_SOURCES
+  "${imgui_SOURCE_DIR}/*.cpp"
+  "${imgui_SOURCE_DIR}/backends/imgui_impl_glfw.cpp"
+  "${imgui_SOURCE_DIR}/backends/imgui_impl_opengl3.cpp"
+  "${imgui_SOURCE_DIR}/misc/cpp/imgui_stdlib.cpp")
+file(GLOB IMGUI_BACKEND)
 
 # define executable target
 add_executable(${PROJECT_NAME} ${ICON} ${SOURCES} ${IMGUI_SOURCES}
@@ -61,11 +75,9 @@ add_custom_command(
   COMMAND
     ${CMAKE_COMMAND} -E copy_if_different
     ${PROJECT_SOURCE_DIR}/assets/JetBrainsMono-Medium.ttf
-    ${PROJECT_SOURCE_DIR}/assets/ca.cer 
-    ${PROJECT_SOURCE_DIR}/assets/client.cer
-    ${PROJECT_SOURCE_DIR}/assets/client.key 
-    ${PROJECT_SOURCE_DIR}/assets/cacert.pem
-    $<TARGET_FILE_DIR:${PROJECT_NAME}>)
+    ${PROJECT_SOURCE_DIR}/assets/ca.cer ${PROJECT_SOURCE_DIR}/assets/client.cer
+    ${PROJECT_SOURCE_DIR}/assets/client.key
+    ${PROJECT_SOURCE_DIR}/assets/cacert.pem $<TARGET_FILE_DIR:${PROJECT_NAME}>)
 
 # add_custom_command( TARGET ${PROJECT_NAME} POST_BUILD COMMAND
 # $<$<CONFIG:release>:${CMAKE_STRIP} ${PROJECT_NAME}>)
