@@ -85,8 +85,8 @@ void Constants::init(){
   if (fileExists(this->configFilePath)) {
     try {
       config = YAML::LoadFile(this->configFilePath.c_str());
-      if (config["PATH_TO_FONT"]) {
-        this->PATH_TO_FONT = config["PATH_TO_FONT"].as<std::string>();
+      if (config["FONT_PATH"]) {
+        this->PATH_TO_FONT = config["FONT_PATH"].as<std::string>();
       }
       // else
       // {
@@ -148,6 +148,8 @@ const char *Constants::getIniFilePath() { return this->iniFilePath.c_str(); }
 
 const char *Constants::getLogFilePath() { return this->logFilePath.c_str(); }
 
+const char *Constants::getFontPath(){ return this->PATH_TO_FONT.c_str();}
+
 ImGuiTableFlags Constants::getTableFlags() { return this->tableFlags; }
 
 void Constants::setWindowDimension(const int width, const int height){
@@ -158,7 +160,7 @@ void Constants::setWindowDimension(const int width, const int height){
 void Constants::defaultValues() {
   this->MAX_URL_SIZE = 256;
   this->moveWindow = true;
-  this->PATH_TO_FONT = absolutePath() + "/JetBrainsMono-Medium.ttf";
+  this->PATH_TO_FONT = "C:\\Windows\\Fonts\\verdanaz.ttf";
   this->FONT_SIZE = 18.0f;
   this->CURRENT_THEME = DARK;
   this->REQUEST_TIMEOUT = 5000;
@@ -174,6 +176,10 @@ bool Constants::configFileExists() {
   return fileExists(this->configFilePath.c_str());
 }
 
+void Constants::setFontPath(const std::string& pathToFont){
+  this->PATH_TO_FONT = pathToFont;
+}
+
 Constants::~Constants(){
   
 }
@@ -185,6 +191,7 @@ void Constants::createConfigFile() {
          ": 1\nFONT_SIZE : 18.0\nWINDOW_HEIGHT : 716\nWINDOW_WIDTH : "
          "1276\nCURRENT_THEME : 0\nREQUEST_TIMEOUT : 15000 ";
   fout << "\nBACKGROUND : [ 0.45, 0.55, 0.60, 1.00 ]";
+  fout << "\nFONT_PATH : "<<this->PATH_TO_FONT;
   fout.close();
 }
 
@@ -205,6 +212,7 @@ void Constants::writeConfig() {
   writeToFile(fout, "CURRENT_THEME", this->CURRENT_THEME);
   writeToFile(fout, "MOVEABLE_WINDOW", this->moveWindow);
   writeToFile(fout, "JSON_INDENT", this->jsonIndent);
+  writeToFile(fout, "FONT_PATH", this->PATH_TO_FONT);
   fout << "BACKGROUND : [ " << this->clear_color.x << " , "
        << this->clear_color.y << " , " << this->clear_color.z << " , "
        << this->clear_color.w << " ] ";

@@ -51,8 +51,9 @@ int main(int, char **)
 #if _WIN32
   ShowWindow(GetConsoleWindow(), SW_HIDE);
 #endif
-  fontManager fm;
-  fm.loadFonts();
+  std::unique_ptr<FontManager> fm{new FontManager()};
+  fm->loadFonts();
+  
   const char *glsl_version = "#version 150";
   glfwSetErrorCallback(glfw_error_callback);
   if (!glfwInit())
@@ -123,9 +124,11 @@ int main(int, char **)
   style.ScaleAllSizes(constants->highDPIscaleFactor);
 
   io.IniFilename = constants->getIniFilePath();
-
+  
+  fm->setSelectedFontFromPath(constants->getFontPath());
+  
   io.Fonts->AddFontFromFileTTF(
-      constants->PATH_TO_FONT.c_str(),
+      constants->getFontPath(),
       (constants->FONT_SIZE) * constants->highDPIscaleFactor, NULL, NULL);
 
   glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
@@ -133,6 +136,7 @@ int main(int, char **)
   glfwSetWindowSize(window, constants->WINDOW_WIDTH, constants->WINDOW_HEIGHT);
   
   GUI gui;
+  gui.setFont(std::move(fm));
   int display_w, display_h;
 
   while (!glfwWindowShouldClose(window)) {

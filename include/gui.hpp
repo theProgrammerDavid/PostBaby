@@ -8,6 +8,7 @@
 #include <string>
 #include <vector>
 #include "types.hpp"
+#include "fonts.hpp"
 class GUI {
 
 private:
@@ -15,6 +16,7 @@ private:
   std::vector<request> history;
   int active_tab;
   std::string active_response;
+  std::unique_ptr<FontManager> fontManager;
 
   ImGuiTableFlags workspaceTableFlags;
   ImGuiWindowFlags windowFlags;
@@ -34,6 +36,7 @@ private:
 
 public:
   void render();
+  void setFont(const std::unique_ptr<FontManager> );
   GUI();
   ~GUI();
 };

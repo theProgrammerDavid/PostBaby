@@ -205,6 +205,10 @@ void GUI::historyPopup(){
   }
 }
 
+void GUI::setFont(std::unique_ptr<FontManager> fontManager){
+  this->fontManager = std::move(fontManager);
+}
+
 void GUI::settingsPopup() {
   const float TEXT_BASE_HEIGHT = ImGui::GetTextLineHeightWithSpacing();
   ImVec2 WorkspaceTableSize = ImVec2(FLT_MAX, TEXT_BASE_HEIGHT * 8);
@@ -214,45 +218,71 @@ void GUI::settingsPopup() {
                              ImGuiWindowFlags_AlwaysAutoResize)) {
     ImGui::Text("Changes will be saved automatically");
     ImGui::Separator();
+    
+    
+    if(ImGui::TreeNode("Font")){
 
-    ImGui::InputInt("Window Width", &constants->WINDOW_WIDTH);
-    ImGui::InputInt("Window Height", &constants->WINDOW_HEIGHT);
+       if(ImGui::BeginListBox("Font")){
 
-    ImGui::InputFloat("Font Size", &constants->FONT_SIZE);
-    ImGui::SameLine();
-    HelpMarker("Changes to font size will take effect after restart");
+          for(const auto i:this->fontManager->fonts){
+            const bool isSelected = this->fontManager->selectedFont == i.first;
+
+            if(ImGui::Selectable(i.first.c_str(), isSelected)){
+              this->fontManager->selectedFont = i.first;
+            }
+
+            if(isSelected){
+              ImGui::SetItemDefaultFocus();
+            }
+          }
+        ImGui::EndListBox();
+      }
+    }
 
     ImGui::Separator();
+    if(ImGui::TreeNode("General")){      
+      ImGui::InputInt("Window Width", &constants->WINDOW_WIDTH);
+      ImGui::InputInt("Window Height", &constants->WINDOW_HEIGHT);
 
-    ImGui::InputInt("URL Max Size", &constants->MAX_URL_SIZE);
-    ImGui::InputInt("Request Timeout (ms)", &constants->REQUEST_TIMEOUT);
-    ImGui::Checkbox("Moveable Window", &constants->moveWindow);
-    ImGui::Checkbox("HTML Indent", &constants->htmlIndent);
-    ImGui::Checkbox("JSON Indent", &constants->jsonIndent);
+      ImGui::InputFloat("Font Size", &constants->FONT_SIZE);
+      ImGui::SameLine();
+      HelpMarker("Changes to font size will take effect after restart");
+
+      ImGui::Separator();
+
+      ImGui::InputInt("URL Max Size", &constants->MAX_URL_SIZE);
+      ImGui::InputInt("Request Timeout (ms)", &constants->REQUEST_TIMEOUT);
+      ImGui::Checkbox("Moveable Window", &constants->moveWindow);
+      ImGui::Checkbox("HTML Indent", &constants->htmlIndent);
+      ImGui::Checkbox("JSON Indent", &constants->jsonIndent);
+    }
 
     //  THEMES
     ImGui::Separator();
-    ImGui::Text("Theme");
-    if (ImGui::BeginCombo("Theme",
-                          constants->THEMES[constants->CURRENT_THEME])) {
-      for (int n = 0; n < IM_ARRAYSIZE(constants->THEMES); n++) {
-        const bool is_selected = (constants->CURRENT_THEME == n);
-        if (ImGui::Selectable(constants->THEMES[n], is_selected))
-          constants->CURRENT_THEME = n;
+    // ImGui::Text("Theme");
+    if(ImGui::TreeNode("Themes")){
+        if (ImGui::BeginCombo("Theme",
+                            constants->THEMES[constants->CURRENT_THEME])) {
+        for (int n = 0; n < IM_ARRAYSIZE(constants->THEMES); n++) {
+          const bool is_selected = (constants->CURRENT_THEME == n);
+          if (ImGui::Selectable(constants->THEMES[n], is_selected))
+            constants->CURRENT_THEME = n;
 
-        // Set the initial focus when opening the combo (scrolling + keyboard
-        // navigation focus)
-        if (is_selected)
-          ImGui::SetItemDefaultFocus();
+          // Set the initial focus when opening the combo (scrolling + keyboard
+          // navigation focus)
+          if (is_selected)
+            ImGui::SetItemDefaultFocus();
+        }
+        ImGui::EndCombo();
       }
-      ImGui::EndCombo();
+      ImGui::ColorEdit3("Background", (float *)&constants->clear_color);
     }
-    ImGui::ColorEdit3("Background", (float *)&constants->clear_color);
     // THEMES
     ImGui::Separator();
     if (ImGui::Button("OK", ImVec2(120, 0))) {
       constants->updateWindowFlags();
       constants->setTheme();
+      constants->setFontPath(fontManager->getPathToSelectedFont());
 
       // constants->clear_color = constants->TEMP_BG_COLOR;
       ImGui::CloseCurrentPopup();

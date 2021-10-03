@@ -7,30 +7,22 @@
 #include "util.hpp"
 namespace fs = std::filesystem;
 
-class fontManager
+class FontManager
 {
 public:
-    enum class operatingSystem
-    {
-        WINDOWS,
-        MACOS,
-        LINUX
-    };
-
+    std::string selectedFont;
     std::unordered_map<std::string, std::string> fonts;
     bool loadFonts();
-    fontManager();
+    FontManager();
+    static FontManager *getInstance();
+    void setSelectedFontFromPath(const std::string& font);
+    std::string getPathToSelectedFont();
 
 private:
+    static FontManager *instance;
     const std::vector<std::string> fontDirs = {
         "C:\\Windows\\Fonts",
-        "/usr/fonts"};
-
-#ifdef _WIN32
-    operatingSystem os = operatingSystem::WINDOWS;
-#elif __APPLE__
-    operatingSystem os = operatingSystem::APPLE;
-#else
-    operatingSystem os = operatingSystem::LINUX;
-#endif
+        "/usr/fonts",
+        "~/.local/share/fonts"
+        };
 };

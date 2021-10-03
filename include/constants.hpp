@@ -37,11 +37,13 @@ public:
   std::unique_ptr<Database> db;
   void writeConfig();
   void updateWindowFlags();
+  void setFontPath(const std::string& pathToFont);
 
   const char *getWorkingDir();
   const char *getConfigFilePath();
   const char *getIniFilePath();
   const char *getLogFilePath();
+  const char *getFontPath();
 
   void defaultValues();
   void createConfigFile();
