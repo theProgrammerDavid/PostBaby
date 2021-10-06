@@ -14,8 +14,7 @@ GUI::GUI() {
   tabs.push_back(t2);
 }
 
-GUI::~GUI(){
-}
+GUI::~GUI() {}
 
 void GUI::responseArea() {
   if (tabs[active_tab].getStatusCode() > 0) {
@@ -129,9 +128,7 @@ void GUI::workspaceBar() {
   }
 }
 
-void GUI::historyPopup(){
-
-  
+void GUI::historyPopup() {
 
   const float TEXT_BASE_HEIGHT = ImGui::GetTextLineHeightWithSpacing();
   ImVec2 WorkspaceTableSize = ImVec2(FLT_MAX, TEXT_BASE_HEIGHT * 8);
@@ -146,7 +143,7 @@ void GUI::historyPopup(){
     ImGui::Text("Changes will be saved automatically");
     ImGui::Text("Total: %d", history.size());
 
-    if(ImGui::Button("Reload")){
+    if (ImGui::Button("Reload")) {
       constants->db->getHistory(history);
     }
     ImGui::Separator();
@@ -167,18 +164,18 @@ void GUI::historyPopup(){
       ImGui::TableSetColumnIndex(0);
       ImGui::PushID(row);
       // ImGui::Text("%d", history[row].id);
-      ImGui::Text("%d", row+1);
+      ImGui::Text("%d", row + 1);
       ImGui::SameLine();
       if (ImGui::Button("Load")) {
         tabs[active_tab].loadTabFromHistory(history[row]);
       }
       ImGui::SameLine();
-      if(ImGui::Button("Del")){
-        std::thread delRow([&]{
-            history.erase(history.begin()+row);
-            constants->db->deleteRow(history[row].id);
+      if (ImGui::Button("Del")) {
+        std::thread delRow([&] {
+          history.erase(history.begin() + row);
+          constants->db->deleteRow(history[row].id);
         });
-        delRow.detach();  
+        delRow.detach();
       }
       ImGui::PopID();
 
@@ -199,13 +196,12 @@ void GUI::historyPopup(){
       ImGui::CloseCurrentPopup();
     }
     ImGui::SetItemDefaultFocus();
-    
-    
+
     ImGui::EndPopup();
   }
 }
 
-void GUI::setFont(std::unique_ptr<FontManager> fontManager){
+void GUI::setFont(std::unique_ptr<FontManager> fontManager) {
   this->fontManager = std::move(fontManager);
 }
 
@@ -218,35 +214,38 @@ void GUI::settingsPopup() {
                              ImGuiWindowFlags_AlwaysAutoResize)) {
     ImGui::Text("Changes will be saved automatically");
     ImGui::Separator();
-    
-    
-    if(ImGui::TreeNode("Font")){
 
-       if(ImGui::BeginListBox("Font")){
+    if (ImGui::TreeNode("Font")) {
 
-          for(const auto i:this->fontManager->fonts){
+      ImGui::Text("Current Font: %s", this->fontManager->selectedFont.c_str());
+      ImGui::InputFloat("Font Size", &constants->FONT_SIZE);
+      ImGui::SameLine();
+      HelpMarker("Changes to font size will take effect after restart");
+
+      if (ImGui::BeginListBox("Font")) {
+
+        if (this->fontManager->fonts.size() > 0) {
+          for (const auto i : this->fontManager->fonts) {
             const bool isSelected = this->fontManager->selectedFont == i.first;
 
-            if(ImGui::Selectable(i.first.c_str(), isSelected)){
+            if (ImGui::Selectable(i.first.c_str(), isSelected)) {
               this->fontManager->selectedFont = i.first;
             }
 
-            if(isSelected){
+            if (isSelected) {
               ImGui::SetItemDefaultFocus();
             }
           }
+        }
         ImGui::EndListBox();
+        ImGui::TreePop();
       }
     }
 
     ImGui::Separator();
-    if(ImGui::TreeNode("General")){      
+    if (ImGui::TreeNode("General")) {
       ImGui::InputInt("Window Width", &constants->WINDOW_WIDTH);
       ImGui::InputInt("Window Height", &constants->WINDOW_HEIGHT);
-
-      ImGui::InputFloat("Font Size", &constants->FONT_SIZE);
-      ImGui::SameLine();
-      HelpMarker("Changes to font size will take effect after restart");
 
       ImGui::Separator();
 
@@ -255,13 +254,14 @@ void GUI::settingsPopup() {
       ImGui::Checkbox("Moveable Window", &constants->moveWindow);
       ImGui::Checkbox("HTML Indent", &constants->htmlIndent);
       ImGui::Checkbox("JSON Indent", &constants->jsonIndent);
+      ImGui::TreePop();
     }
 
     //  THEMES
     ImGui::Separator();
     // ImGui::Text("Theme");
-    if(ImGui::TreeNode("Themes")){
-        if (ImGui::BeginCombo("Theme",
+    if (ImGui::TreeNode("Themes")) {
+      if (ImGui::BeginCombo("Theme",
                             constants->THEMES[constants->CURRENT_THEME])) {
         for (int n = 0; n < IM_ARRAYSIZE(constants->THEMES); n++) {
           const bool is_selected = (constants->CURRENT_THEME == n);
@@ -276,6 +276,7 @@ void GUI::settingsPopup() {
         ImGui::EndCombo();
       }
       ImGui::ColorEdit3("Background", (float *)&constants->clear_color);
+      ImGui::TreePop();
     }
     // THEMES
     ImGui::Separator();
@@ -509,13 +510,12 @@ void GUI::workspaceArea() {
         ImGui::SameLine();
         if (ImGui::Button("Send")) {
           std::thread t([&] {
-           try{
+            try {
               tabs[active_tab].updateTitle();
-            tabs[active_tab].sendRequest();
-           }
-           catch(const std::exception& e){
-             std::cout<<"error"<<std::endl;
-           }
+              tabs[active_tab].sendRequest();
+            } catch (const std::exception &e) {
+              std::cout << "error" << std::endl;
+            }
           });
           t.detach();
         }

@@ -27,14 +27,20 @@ bool fileExists(const std::string &fileName);
 bool dirExists(const std::string &dirName_in);
 
 /**
- * @param method type of http method 
+ * @param method type of http method
  * 0 - GET
  * 1 - POST
  * 2 - PUT
  * 3 - DELETE
  * 4 - HEAD
  * 5 - OPTIONS
- * 
+ *
  * @return string representation of HTTP method
  * */
 const char *getHttpMethod(const int method);
+
+/**
+ * @param filePath absolute path to file
+ * @return const std::string
+ * */
+const std::string getFileNameFromPath(const std::string &filePath);

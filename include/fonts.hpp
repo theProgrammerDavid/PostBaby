@@ -22,7 +22,6 @@ private:
     static FontManager *instance;
     const std::vector<std::string> fontDirs = {
         "C:\\Windows\\Fonts",
-        "/usr/fonts",
-        "~/.local/share/fonts"
+        "/usr/share/fonts/TTF",
         };
 };

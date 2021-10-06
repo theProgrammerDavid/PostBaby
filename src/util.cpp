@@ -43,3 +43,14 @@ std::string absolutePath() {
 bool dirExists(const std::string &dirName_in) {
   return std::filesystem::exists(dirName_in);
 }
+
+const std::string getFileNameFromPath(const std::string &filePath) {
+
+#ifdef _WIN32
+  const std::string sepChar = "\\";
+#else
+  const std::string sepChar = "/";
+#endif
+
+  return filePath.substr(filePath.find_last_of(sepChar) + 1);
+}
