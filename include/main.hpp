@@ -13,7 +13,7 @@
 #include "imgui_impl_glfw.h"
 #include "imgui_impl_opengl3.h"
 #include "tab.hpp"
-
+#include "threadPool.hpp"
 
 void keyCallback(GLFWwindow *window, int key, int scancode, int action,
                  int mode);

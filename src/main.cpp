@@ -44,10 +44,14 @@ void PostBabyInit() {
 
 int main(int, char **) 
 {
-  std::thread onlineCheck([&]{ constants->setOnlineStatus(checkOnline());});
-  onlineCheck.detach();
+  // std::thread onlineCheck([&]{ constants->setOnlineStatus(checkOnline());});
+  // onlineCheck.detach();
 
-  std::thread initThread(PostBabyInit);
+  auto onlineCheck = pool.enqueue([&]{constants->setOnlineStatus(checkOnline());});
+
+  // std::thread initThread(PostBabyInit);
+  auto initThread = pool.enqueue([&]{PostBabyInit();});
+  
 #if _WIN32
   ShowWindow(GetConsoleWindow(), SW_HIDE);
 #endif
@@ -90,7 +94,7 @@ int main(int, char **)
     glfwWindowHint(GLFW_SCALE_TO_MONITOR, GLFW_TRUE);
   }
 #endif
-  initThread.join();
+  initThread.get();
 
   GLFWwindow *window =
       glfwCreateWindow(constants->WINDOW_WIDTH, constants->WINDOW_HEIGHT,
@@ -163,6 +167,8 @@ int main(int, char **)
   ImGui_ImplOpenGL3_Shutdown();
   ImGui_ImplGlfw_Shutdown();
   ImGui::DestroyContext();
+  
+  onlineCheck.get();
 
   glfwDestroyWindow(window);
   glfwTerminate();
