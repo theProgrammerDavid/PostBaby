@@ -9,6 +9,7 @@
 #include <vector>
 #include "types.hpp"
 #include "fonts.hpp"
+#include "threadPool.hpp"
 class GUI {
 
 private:

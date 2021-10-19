@@ -287,8 +287,7 @@ void GUI::settingsPopup() {
 
       // constants->clear_color = constants->TEMP_BG_COLOR;
       ImGui::CloseCurrentPopup();
-      std::thread t([&] { constants->writeConfig(); });
-      t.detach();
+      pool.enqueue([&]{constants->writeConfig();});
     }
     ImGui::SetItemDefaultFocus();
     ImGui::SameLine();
@@ -298,11 +297,8 @@ void GUI::settingsPopup() {
     }
     ImGui::SameLine();
     if (ImGui::Button("Reset")) {
-      std::thread t([&] {
-        constants->defaultValues();
-        constants->createConfigFile();
-      });
-      t.detach();
+      pool.enqueue([&]{constants->defaultValues();
+      constants->createConfigFile();});
     }
     ImGui::SameLine();
     HelpMarker("\"OK\" saves changes\n\"Cancel\" discards changes.\n\"Reset\" "
@@ -509,15 +505,10 @@ void GUI::workspaceArea() {
         ImGui::InputText("URL", &tabs[n].url);
         ImGui::SameLine();
         if (ImGui::Button("Send")) {
-          std::thread t([&] {
-            try {
-              tabs[active_tab].updateTitle();
-              tabs[active_tab].sendRequest();
-            } catch (const std::exception &e) {
-              std::cout << "error" << std::endl;
-            }
+          pool.enqueue([&]{
+            tabs[active_tab].updateTitle();
+            tabs[active_tab].sendRequest();
           });
-          t.detach();
         }
         ImGui::NewLine();
         this->tabConfig();
