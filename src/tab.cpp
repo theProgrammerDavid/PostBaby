@@ -154,13 +154,17 @@ void Tab::sendRequest() {
                                    "application/json") != std::string::npos) {
     logger->info("formatting JSON");
 
-    auto j = json::parse(res.text.c_str());
-    this->formattedBody = j.dump(4);
+    // auto j = json::parse(res.text.c_str());
+    auto parsedJsonFuture = pool.enqueue([&]{
+      auto parsedJson =  json::parse(res.text.c_str());
+      this->formattedBody = parsedJson.dump(4);
+      });
   } else if (constants->htmlIndent &&
              res.text.find("html") != std::string::npos) {
     logger->info("formatting HTML");
 
-    TidyBuffer output = {0};
+    pool.enqueue([&]{
+      TidyBuffer output = {0};
     TidyBuffer errbuf = {0};
     int rc = -1;
     Bool ok;
@@ -186,6 +190,7 @@ void Tab::sendRequest() {
     tidyBufFree(&output);
     tidyBufFree(&errbuf);
     tidyRelease(tdoc);
+    });
   } else {
     this->formattedBody = res.text.c_str();
   }
