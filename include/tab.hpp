@@ -17,6 +17,8 @@
 #include <tidy.h>
 #include <tidybuffio.h>
 #include <vector>
+#include "threadPool.hpp"
+
 using namespace cpr;
 using json = nlohmann::json;
 
