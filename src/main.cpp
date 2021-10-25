@@ -44,19 +44,14 @@ void PostBabyInit() {
 
 int main(int, char **) 
 {
-  // std::thread onlineCheck([&]{ constants->setOnlineStatus(checkOnline());});
-  // onlineCheck.detach();
-
   auto onlineCheck = pool.enqueue([&]{constants->setOnlineStatus(checkOnline());});
-
-  // std::thread initThread(PostBabyInit);
   auto initThread = pool.enqueue([&]{PostBabyInit();});
   
 #if _WIN32
   ShowWindow(GetConsoleWindow(), SW_HIDE);
 #endif
   std::unique_ptr<FontManager> fm{new FontManager()};
-  fm->loadFonts();
+  auto loadFonts = pool.enqueue([&]{fm->loadFonts();});
   
   const char *glsl_version = "#version 150";
   glfwSetErrorCallback(glfw_error_callback);
@@ -128,7 +123,8 @@ int main(int, char **)
   style.ScaleAllSizes(constants->highDPIscaleFactor);
 
   io.IniFilename = constants->getIniFilePath();
-  
+  loadFonts.get();
+
   fm->setSelectedFontFromPath(constants->getFontPath());
   
   io.Fonts->AddFontFromFileTTF(
