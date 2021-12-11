@@ -13,6 +13,7 @@ if(WIN32)
   set(ICON "${PROJECT_SOURCE_DIR}/assets/PostBaby.rc")
 elseif(APPLE)
   set(ICON "${PROJECT_SOURCE_DIR}/assets/PostBaby.ico")
+  set(APP_NAME ${PROJECT_NAME})
 endif()
 
 FetchContent_GetProperties(imgui)
@@ -35,8 +36,17 @@ file(
 file(GLOB IMGUI_BACKEND)
 
 # define executable target
-add_executable(${PROJECT_NAME} ${ICON} ${SOURCES} ${IMGUI_SOURCES}
-                               ${${PROJECT_NAME}_SOURCE_DIR}/assets/PostBaby.rc)
+if(APPLE)
+  add_executable(
+    ${PROJECT_NAME} MACOSX_BUNDLE
+    ${ICON} ${SOURCES} ${IMGUI_SOURCES}
+    ${${PROJECT_NAME}_SOURCE_DIR}/assets/PostBaby.rc)
+else()
+  add_executable(
+    ${PROJECT_NAME} ${ICON} ${SOURCES} ${IMGUI_SOURCES}
+                    ${${PROJECT_NAME}_SOURCE_DIR}/assets/PostBaby.rc)
+endif()
+
 target_include_directories(
   ${PROJECT_NAME}
   PUBLIC ${${PROJECT_NAME}_SOURCE_DIR}/include${CMAKE_CURRENT_BINARY_DIR})
@@ -57,7 +67,15 @@ target_link_libraries(
           ${CMAKE_DL_LIBS})
 
 if(UNIX)
-  install(TARGETS ${PROJECT_NAME} RUNTIME DESTINATION bin)
+
+  if(APPLE)
+    install(
+      TARGETS ${PROJECT_NAME}
+      BUNDLE DESTINATION . COMPONENT Runtime
+      RUNTIME DESTINATION bin COMPONENT Runtime)
+  else()
+    install(TARGETS ${PROJECT_NAME} RUNTIME DESTINATION bin)
+  endif()
   # https://stackoverflow.com/questions/51698076/why-cpack-generates-an-empty-package
   # RUNTIME DESTIONATION should be relative within the package
 endif()
@@ -176,8 +194,17 @@ elseif(WIN32)
   configure_file(${PROJECT_SOURCE_DIR}/assets/nsis/NSIS.definitions.nsh.in
                  ${CMAKE_CURRENT_BINARY_DIR}/assets/nsis/NSIS.definitions.nsh)
 
+elseif(APPLE)
+  set(APPS "\${CMAKE_INSTALL_PREFIX}/${APP_NAME}.app")
+  set(DIRS ${CMAKE_BINARY_DIR})
+  install(CODE "include(BundleUtilities)
+    fixup_bundle(\"${APPS}\" \"\" \"${DIRS}\")")
+
+  set(CPACK_GENERATOR "DRAGNDROP")
+  include(CPack)
 else()
   # UNIX
+
   install(FILES ${PROJECT_SOURCE_DIR}/assets/PostBaby.desktop
           DESTINATION /usr/share/applications)
   message("#### linux ####")
