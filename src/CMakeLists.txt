@@ -66,19 +66,17 @@ target_link_libraries(
           CURL::libcurl
           ${CMAKE_DL_LIBS})
 
-if(UNIX)
-
-  if(APPLE)
-    install(
-      TARGETS ${PROJECT_NAME}
-      BUNDLE DESTINATION . COMPONENT Runtime
-      RUNTIME DESTINATION bin COMPONENT Runtime)
-  else()
-    install(TARGETS ${PROJECT_NAME} RUNTIME DESTINATION bin)
-  endif()
+if(APPLE)
+  install(
+    TARGETS ${PROJECT_NAME}
+    BUNDLE DESTINATION . COMPONENT Runtime
+    RUNTIME DESTINATION bin COMPONENT Runtime)
+elseif(UNIX)
+  install(TARGETS ${PROJECT_NAME} RUNTIME DESTINATION bin)
   # https://stackoverflow.com/questions/51698076/why-cpack-generates-an-empty-package
   # RUNTIME DESTIONATION should be relative within the package
 endif()
+
 if(WIN32)
   install(
     TARGETS ${PROJECT_NAME}
@@ -87,6 +85,7 @@ if(WIN32)
     # https://cmake.org/pipermail/cmake/2013-May/054656.html
     RUNTIME DESTINATION bin)
 endif()
+
 add_custom_command(
   TARGET ${PROJECT_NAME}
   POST_BUILD
@@ -100,7 +99,12 @@ add_custom_command(
 # add_custom_command( TARGET ${PROJECT_NAME} POST_BUILD COMMAND
 # $<$<CONFIG:release>:${CMAKE_STRIP} ${PROJECT_NAME}>)
 
-if(UNIX)
+if(APPLE)
+add_custom_command(
+    TARGET ${PROJECT_NAME}
+    POST_BUILD
+    COMMAND ${CMAKE_STRIP} "${PROJECT_SOURCE_DIR}/build/src/${PROJECT_NAME}.app/Contents/MacOS/${PROJECT_NAME}")
+elseif(UNIX)
   add_custom_command(
     TARGET ${PROJECT_NAME}
     POST_BUILD
@@ -147,7 +151,7 @@ if(DEBIAN_FOUND)
   include(CPack)
 elseif(WIN32)
   message(
-    " ######################################using nsis for windows###########################"
+    "using nsis for windows"
   )
   include(InstallRequiredSystemLibraries)
   set(CPACK_PACKAGE_INSTALL_DIRECTORY "${PROJECT_NAME}")
