@@ -61,4 +61,8 @@ jobs:
       run: |
         cd build
         make -j$(nproc)
+    - name: Package Project
+      run: |
+        cd build
+        cpack -G DragNDrop
 

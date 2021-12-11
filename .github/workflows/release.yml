@@ -1,4 +1,4 @@
-name: build
+name: release
 on:
   push:
     tags:
@@ -74,4 +74,17 @@ jobs:
       run: |
         cd build
         make -j$(nproc)
+    - name: Package Project
+      run: |
+        cd build 
+        cpack -G DragNDrop
+    - name: Build Package
+      run: |
+        cd build && cpack -C Release
+    - name: Release
+      uses: softprops/action-gh-release@v1
+      with:
+          files: 'build/*.dmg'
+      env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
