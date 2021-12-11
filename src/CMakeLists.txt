@@ -100,12 +100,12 @@ add_custom_command(
 # add_custom_command( TARGET ${PROJECT_NAME} POST_BUILD COMMAND
 # $<$<CONFIG:release>:${CMAKE_STRIP} ${PROJECT_NAME}>)
 
-if(UNIX)
-  add_custom_command(
-    TARGET ${PROJECT_NAME}
-    POST_BUILD
-    COMMAND ${CMAKE_STRIP} ${PROJECT_SOURCE_DIR}/build/src/${PROJECT_NAME})
-endif()
+#if(UNIX)
+#  add_custom_command(
+#    TARGET ${PROJECT_NAME}
+#    POST_BUILD
+#    COMMAND ${CMAKE_STRIP} ${PROJECT_SOURCE_DIR}/build/src/${PROJECT_NAME}.app)
+#endif()
 
 if(WIN32)
   install(
