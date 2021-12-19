@@ -5,12 +5,12 @@ class Logger
 {
 public:
   /**
- * @param message message to log to info 
+ * @param message message to log to info
  * */
   void info(const char *message);
 
   /**
- * @param message message to log to info 
+ * @param message message to log to info
  * @param list additional C strings to log
  * */
   void info(const char *message, std::initializer_list<const char *> list);
@@ -21,7 +21,7 @@ public:
   void warn(const char *message);
 
   /**
- * @param message message to log to warn 
+ * @param message message to log to warn
  * @param list additional C strings to log
  * */
   void warn(const char *message, std::initializer_list<const char *> list);
@@ -32,18 +32,18 @@ public:
   void error(const char *message);
 
   /**
- * @param message message to log to error 
+ * @param message message to log to error
  * @param list additional C strings to log
  * */
   void error(const char *message, std::initializer_list<const char *> list);
 
   /**
- * @param message message to log to critical 
+ * @param message message to log to critical
  * */
   void critical(const char *message);
 
   /**
- * @param message message to log to critical 
+ * @param message message to log to critical
  * @param list additional C strings to log
  * */
   void critical(const char *message, std::initializer_list<const char *> list);

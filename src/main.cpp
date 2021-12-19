@@ -42,17 +42,17 @@ void PostBabyInit() {
   }
 }
 
-int main(int, char **) 
+int main(int, char **)
 {
   auto onlineCheck = pool.enqueue([&]{constants->setOnlineStatus(checkOnline());});
   auto initThread = pool.enqueue([&]{PostBabyInit();});
-  
+
 #if _WIN32
   ShowWindow(GetConsoleWindow(), SW_HIDE);
 #endif
   std::unique_ptr<FontManager> fm{new FontManager()};
   auto loadFonts = pool.enqueue([&]{fm->loadFonts();});
-  
+
   const char *glsl_version = "#version 150";
   glfwSetErrorCallback(glfw_error_callback);
   if (!glfwInit())
@@ -126,7 +126,7 @@ int main(int, char **)
   loadFonts.get();
 
   fm->setSelectedFontFromPath(constants->getFontPath());
-  
+
   io.Fonts->AddFontFromFileTTF(
       constants->getFontPath(),
       (constants->FONT_SIZE) * constants->highDPIscaleFactor, NULL, NULL);
@@ -134,7 +134,7 @@ int main(int, char **)
   glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
   glViewport(0,0,constants->WINDOW_WIDTH, constants->WINDOW_HEIGHT);
   glfwSetWindowSize(window, constants->WINDOW_WIDTH, constants->WINDOW_HEIGHT);
-  
+
   GUI gui;
   gui.setFont(std::move(fm));
   int display_w, display_h;
@@ -163,7 +163,7 @@ int main(int, char **)
   ImGui_ImplOpenGL3_Shutdown();
   ImGui_ImplGlfw_Shutdown();
   ImGui::DestroyContext();
-  
+
   onlineCheck.get();
 
   glfwDestroyWindow(window);

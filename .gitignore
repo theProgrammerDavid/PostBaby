@@ -12,3 +12,4 @@ _deps
 build/
 include/config.hpp
 .vscode
+*.cfg

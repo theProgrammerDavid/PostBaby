@@ -18,7 +18,7 @@ jobs:
         shell: cmd
         run: |
           mkdir build && cd build
-          cmake -DCMAKE_BUILD_TYPE=Release .. 
+          cmake -DCMAKE_BUILD_TYPE=Release ..
       - name: Build Project
         shell: cmd
         run: |
@@ -35,7 +35,7 @@ jobs:
     - name: Install Dependencies
       run: |
         sudo apt update -y
-        sudo apt install -y build-essential libssl-dev cmake libx11-dev xorg-dev libglu1-mesa-dev 
+        sudo apt install -y build-essential libssl-dev cmake libx11-dev xorg-dev libglu1-mesa-dev
     - name: Configure CMake
       run: |
         mkdir build && cd build && cmake -DCURL_CA_BUNDLE="./cacert.pem" -DCMAKE_BUILD_TYPE=Release ..
@@ -54,7 +54,7 @@ jobs:
         brew update
     - name: Configure CMake
       run: |
-        mkdir build && cd build 
+        mkdir build && cd build
         export PATH="/usr/local/opt/openssl/bin:$PATH"
         CXX=clang++ CC=clang cmake -DOPENSSL_ROOT_DIR=/usr/local/opt/openssl -DOPENSSL_LIBRARIES=/usr/local/opt/openssl/lib -DCMAKE_BUILD_TYPE=Release ..
     - name: Build Project
