@@ -1,5 +1,4 @@
-#define WIN32_LEAN_AND_MEAN
-#include <Windows.h>
+#include "platform_specific/windows.hpp"
 
 std::string POSTBABY_absolutePath() {
   wchar_t path[FILENAME_MAX] = {0};

@@ -10,5 +10,3 @@
 #include "platform_specific/linux.hpp"
 #define SEP_CHAR "/"
 #endif
-
-std::string POSTBABY_absolutePath();
