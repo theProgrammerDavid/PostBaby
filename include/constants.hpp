@@ -1,15 +1,17 @@
 #pragma once
-#include "logger.hpp"
-#include "config.hpp"
-#include "database.hpp"
-#include "imgui.h"
-#include "util.hpp"
 #include <cpr/cprtypes.h>
 #include <cpr/ssl_options.h>
+
 #include <fstream>
 #include <iostream>
 #include <memory>
 #include <thread>
+
+#include "config.hpp"
+#include "database.hpp"
+#include "imgui.h"
+#include "logger.hpp"
+#include "util.hpp"
 #ifdef _Win32
 #include <Windows.h>
 #endif
@@ -18,7 +20,7 @@ using namespace cpr;
 void glfw_error_callback(int error, const char *description);
 
 class Constants {
-private:
+ private:
   std::string workingDir;
   std::string configFilePath;
   std::string iniFilePath;
@@ -30,14 +32,14 @@ private:
   template <class T>
   void writeToFile(std::ofstream &fout, const char *key, const T &value);
 
-public:
+ public:
   ImGuiWindowFlags getWindowFlags();
   ImGuiTableFlags getTableFlags();
   // Database *db;
   std::unique_ptr<Database> db;
   void writeConfig();
   void updateWindowFlags();
-  void setFontPath(const std::string& pathToFont);
+  void setFontPath(const std::string &pathToFont);
 
   const char *getWorkingDir();
   const char *getConfigFilePath();
@@ -51,9 +53,9 @@ public:
   void setOnlineStatus(bool status);
 
   /**
- * @param width Width of the application window after resize
- * @param height Height of the application window after resize
- * */
+   * @param width Width of the application window after resize
+   * @param height Height of the application window after resize
+   * */
   void setWindowDimension(const int width, const int height);
 
   Constants();
@@ -65,8 +67,8 @@ public:
   int MAX_URL_SIZE;
   SslOptions sslOpts;
   int REQUEST_TIMEOUT;
-  int WINDOW_WIDTH=1274;
-  int WINDOW_HEIGHT=717;
+  int WINDOW_WIDTH = 1274;
+  int WINDOW_HEIGHT = 717;
   int CURRENT_THEME;
   float FONT_SIZE;
   bool configError;

@@ -23,8 +23,19 @@ endif()
 
 include_directories(${CMAKE_SOURCE_DIR}/extern/tidy/include)
 include_directories(${CMAKE_SOURCE_DIR}/extern/glew/include)
+include_directories(${CMAKE_SOURCE_DIR}/include/platform_specific)
 
 file(GLOB SOURCES "*.cpp")
+
+if(WIN32)
+  file(GLOB PLATFORM_SOURCES "platform_specific/windows.cpp")
+elseif(APPLE)
+  file(GLOB PLATFORM_SOURCES "platform_specific/apple.cpp")
+else()
+  message("using linux configs")
+  file(GLOB PLATFORM_SOURCES "platform_specific/linux.cpp")
+endif()
+
 file(
   GLOB
   IMGUI_SOURCES
@@ -35,8 +46,9 @@ file(
 file(GLOB IMGUI_BACKEND)
 
 # define executable target
-add_executable(${PROJECT_NAME} ${ICON} ${SOURCES} ${IMGUI_SOURCES}
-                               ${${PROJECT_NAME}_SOURCE_DIR}/assets/PostBaby.rc)
+add_executable(
+  ${PROJECT_NAME} ${ICON} ${SOURCES} ${IMGUI_SOURCES} ${PLATFORM_SOURCES}
+                  ${${PROJECT_NAME}_SOURCE_DIR}/assets/PostBaby.rc)
 target_include_directories(
   ${PROJECT_NAME}
   PUBLIC ${${PROJECT_NAME}_SOURCE_DIR}/include${CMAKE_CURRENT_BINARY_DIR})

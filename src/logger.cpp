@@ -41,13 +41,13 @@ void Logger::critical(const char *message,
 Logger::Logger() {
   spdlog::flush_every(std::chrono::seconds(3));
 #if _WIN32
+  logger =
+      spdlog::basic_logger_mt("PostBabyLogger", std::string(getenv("AppData")) +
+                                                    "\\PostBaby\\PostBaby.log");
+#else
   logger = spdlog::basic_logger_mt(
       "PostBabyLogger",
-      std::string(getenv("AppData")) + "\\PostBaby\\PostBaby.log");
-#else
-  logger = spdlog::basic_logger_mt("PostBabyLogger",
-                                   std::string(getenv("HOME")) +
-                                       "/.config/PostBaby/PostBaby.log");
+      std::string(getenv("HOME")) + "/.config/PostBaby/PostBaby.log");
 
 #endif
 }

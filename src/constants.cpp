@@ -1,6 +1,7 @@
 #include "constants.hpp"
 namespace YAML {
-template <> struct convert<ImVec4> {
+template <>
+struct convert<ImVec4> {
   static Node encode(const ImVec4 &rhs) {
     Node node;
     node.push_back(rhs.x);
@@ -22,7 +23,7 @@ template <> struct convert<ImVec4> {
     return true;
   }
 };
-} // namespace YAML
+}  // namespace YAML
 
 void glfw_error_callback(int error, const char *description) {
   fprintf(stderr, "Glfw Error %d: %s\n", error, description);
@@ -69,7 +70,6 @@ Constants::Constants() {
 }
 
 void Constants::init() {
-
   Logger *logger = Logger::getInstance();
   // check if dir exists
   if (!dirExists(this->workingDir)) {
@@ -161,13 +161,13 @@ void Constants::defaultValues() {
   this->MAX_URL_SIZE = 256;
   this->moveWindow = true;
   this->PATH_TO_FONT = "./JetBrainsMono-Medium.ttf";
-// #ifdef _WIN32
-//   this->PATH_TO_FONT = "C:\\Windows\\Fonts\\verdanaz.ttf";
-// #ifdef __APPLE__
+  // #ifdef _WIN32
+  //   this->PATH_TO_FONT = "C:\\Windows\\Fonts\\verdanaz.ttf";
+  // #ifdef __APPLE__
 
-// #else
-//   this->PATH_TO_FONT = "/usr/share/fonts/TTF";
-// #endif
+  // #else
+  //   this->PATH_TO_FONT = "/usr/share/fonts/TTF";
+  // #endif
   this->FONT_SIZE = 18.0f;
   this->CURRENT_THEME = DARK;
   this->REQUEST_TIMEOUT = 5000;

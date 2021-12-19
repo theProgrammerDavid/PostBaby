@@ -1,30 +1,32 @@
 #pragma once
-#include "constants.hpp"
-#include "imgui.h"
-#include "util.hpp"
-#include "logger.hpp"
 #include <cpr/cpr.h>
 #include <cpr/cprtypes.h>
-#include <cpr/ssl_options.h>
 #include <cpr/error.h>
+#include <cpr/ssl_options.h>
 #include <errno.h>
+#include <stdio.h>
+#include <tidy.h>
+#include <tidybuffio.h>
+
 #include <future>
 #include <iostream>
 #include <map>
 #include <nlohmann/json.hpp>
-#include <stdio.h>
 #include <string>
-#include <tidy.h>
-#include <tidybuffio.h>
 #include <vector>
+
+#include "constants.hpp"
+#include "imgui.h"
+#include "logger.hpp"
 #include "threadPool.hpp"
+#include "util.hpp"
 
 using namespace cpr;
 using json = nlohmann::json;
 
 class KeyValuePair {
-private:
-public:
+ private:
+ public:
   std::string value;
   std::string description;
   std::string key;
@@ -36,13 +38,12 @@ public:
   bool enable;
 };
 class Tab {
-
-private:
+ private:
   void constructRequest();
   int statusCode;
   float timeElapsed;
 
-public:
+ public:
   Parameters _params;
   Response res;
   Header _headers{};

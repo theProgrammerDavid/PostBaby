@@ -1,18 +1,18 @@
 #pragma once
-#include "constants.hpp"
-#include "imgui.h"
-#include "imgui_stdlib.h"
-#include "tab.hpp"
 #include <iostream>
 #include <memory>
 #include <string>
 #include <vector>
-#include "types.hpp"
-#include "fonts.hpp"
-#include "threadPool.hpp"
-class GUI {
 
-private:
+#include "constants.hpp"
+#include "fonts.hpp"
+#include "imgui.h"
+#include "imgui_stdlib.h"
+#include "tab.hpp"
+#include "threadPool.hpp"
+#include "types.hpp"
+class GUI {
+ private:
   std::vector<Tab> tabs;
   std::vector<request> history;
   int active_tab;
@@ -35,9 +35,9 @@ private:
   void drawBody();
   void drawKeyValueDesc(std::vector<KeyValuePair> &vec);
 
-public:
+ public:
   void render();
-  void setFont(const std::unique_ptr<FontManager> );
+  void setFont(const std::unique_ptr<FontManager>);
   GUI();
   ~GUI();
 };

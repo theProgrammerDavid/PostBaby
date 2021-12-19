@@ -12,7 +12,6 @@ void FontManager::setSelectedFontFromPath(const std::string &path) {
 bool FontManager::loadFonts() {
   for (auto _font : this->fontDirs) {
     if (dirExists(_font)) {
-
       // now we iterate through all the files in that dir
       for (const auto &entry : fs::directory_iterator(_font)) {
         const std::string filePath = entry.path().string();
