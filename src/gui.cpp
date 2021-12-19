@@ -44,7 +44,6 @@ void GUI::responseArea() {
       ImVec2 WorkspaceTableSize = ImVec2(-FLT_MIN, TEXT_BASE_HEIGHT * 10);
       if (ImGui::BeginTable("Response Headers", 2, constants->getTableFlags(),
                             WorkspaceTableSize)) {
-
         ImGui::TableSetupColumn("Key");
         ImGui::TableSetupColumn("Value");
 
@@ -76,7 +75,6 @@ void GUI::responseArea() {
 
       if (ImGui::BeginTable("Cookies", 2, constants->getTableFlags(),
                             WorkspaceTableSize)) {
-
         ImGui::TableSetupColumn("Key");
         ImGui::TableSetupColumn("Value");
 
@@ -129,7 +127,6 @@ void GUI::workspaceBar() {
 }
 
 void GUI::historyPopup() {
-
   const float TEXT_BASE_HEIGHT = ImGui::GetTextLineHeightWithSpacing();
   ImVec2 WorkspaceTableSize = ImVec2(FLT_MAX, TEXT_BASE_HEIGHT * 8);
   centerModal();
@@ -139,9 +136,8 @@ void GUI::historyPopup() {
 
   if (ImGui::BeginPopupModal("History", NULL,
                              ImGuiWindowFlags_AlwaysAutoResize)) {
-
     ImGui::Text("Changes will be saved automatically");
-    ImGui::Text("Total: %d", history.size());
+    ImGui::Text("Total: %lu", history.size());
 
     if (ImGui::Button("Reload")) {
       constants->db->getHistory(history);
@@ -164,7 +160,7 @@ void GUI::historyPopup() {
       ImGui::TableSetColumnIndex(0);
       ImGui::PushID(row);
       // ImGui::Text("%d", history[row].id);
-      ImGui::Text("%d", row + 1);
+      ImGui::Text("%lu", row + 1);
       ImGui::SameLine();
       if (ImGui::Button("Load")) {
         tabs[active_tab].loadTabFromHistory(history[row]);
@@ -216,14 +212,12 @@ void GUI::settingsPopup() {
     ImGui::Separator();
 
     if (ImGui::TreeNode("Font")) {
-
       ImGui::Text("Current Font: %s", this->fontManager->selectedFont.c_str());
       ImGui::InputFloat("Font Size", &constants->FONT_SIZE);
       ImGui::SameLine();
       HelpMarker("Changes to font size will take effect after restart");
 
       if (ImGui::BeginListBox("Font")) {
-
         if (this->fontManager->fonts.size() > 0) {
           for (const auto i : this->fontManager->fonts) {
             const bool isSelected = this->fontManager->selectedFont == i.first;
@@ -270,8 +264,7 @@ void GUI::settingsPopup() {
 
           // Set the initial focus when opening the combo (scrolling + keyboard
           // navigation focus)
-          if (is_selected)
-            ImGui::SetItemDefaultFocus();
+          if (is_selected) ImGui::SetItemDefaultFocus();
         }
         ImGui::EndCombo();
       }
@@ -287,7 +280,7 @@ void GUI::settingsPopup() {
 
       // constants->clear_color = constants->TEMP_BG_COLOR;
       ImGui::CloseCurrentPopup();
-      pool.enqueue([&]{constants->writeConfig();});
+      pool.enqueue([&] { constants->writeConfig(); });
     }
     ImGui::SetItemDefaultFocus();
     ImGui::SameLine();
@@ -297,12 +290,15 @@ void GUI::settingsPopup() {
     }
     ImGui::SameLine();
     if (ImGui::Button("Reset")) {
-      pool.enqueue([&]{constants->defaultValues();
-      constants->createConfigFile();});
+      pool.enqueue([&] {
+        constants->defaultValues();
+        constants->createConfigFile();
+      });
     }
     ImGui::SameLine();
-    HelpMarker("\"OK\" saves changes\n\"Cancel\" discards changes.\n\"Reset\" "
-               "resets config file to defaults");
+    HelpMarker(
+        "\"OK\" saves changes\n\"Cancel\" discards changes.\n\"Reset\" "
+        "resets config file to defaults");
     ImGui::EndPopup();
   }
 }
@@ -330,7 +326,6 @@ void GUI::drawKeyValueDesc(std::vector<KeyValuePair> &vec) {
 
   if (ImGui::BeginTable("##table1", 5, constants->getTableFlags(),
                         WorkspaceTableSize)) {
-
     ImGui::TableSetupColumn("Use", ImGuiTableColumnFlags_WidthFixed);
     ImGui::TableSetupColumn("Key");
     ImGui::TableSetupColumn("Value");
@@ -385,7 +380,6 @@ void GUI::drawKeyValueDesc(std::vector<KeyValuePair> &vec) {
 }
 
 void GUI::drawBody() {
-
   if (tabs[active_tab].getBodyType() == tabs[active_tab].BODY_NONE) {
     ImGui::Text("HTTP request does not have a Body");
   } else if (tabs[active_tab].getBodyType() ==
@@ -486,8 +480,8 @@ void GUI::render() {
 }
 void GUI::workspaceArea() {
   if (ImGui::BeginTabBar("TabItem", ImGuiTabBarFlags_TabListPopupButton)) {
-    if (ImGui::TabItemButton("+", ImGuiTabItemFlags_Trailing |
-                                      ImGuiTabItemFlags_NoTooltip)) {
+    if (ImGui::TabItemButton(
+            "+", ImGuiTabItemFlags_Trailing | ImGuiTabItemFlags_NoTooltip)) {
       Tab t(tabs.size() + 1);
       tabs.push_back(t);
     }
@@ -505,7 +499,7 @@ void GUI::workspaceArea() {
         ImGui::InputText("URL", &tabs[n].url);
         ImGui::SameLine();
         if (ImGui::Button("Send")) {
-          pool.enqueue([&]{
+          pool.enqueue([&] {
             tabs[active_tab].updateTitle();
             tabs[active_tab].sendRequest();
           });
