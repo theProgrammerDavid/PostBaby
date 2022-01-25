@@ -17,6 +17,11 @@
 #endif
 using namespace cpr;
 
+#if _WIN32
+#define DEFAULT_PATH "C:\\"
+#else
+#define DEFAULT_PATH "/tmp"
+#endif
 void glfw_error_callback(int error, const char *description);
 
 class Constants {

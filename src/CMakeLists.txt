@@ -21,6 +21,11 @@ if(imgui_POPULATED)
                       ${imgui_SOURCE_DIR}/misc/cpp)
 endif()
 
+FetchContent_GetProperties(pfd)
+if(pfd_POPULATED)
+include_directories(${pfd_SOURCE_DIR})
+endif()
+
 include_directories(${CMAKE_SOURCE_DIR}/extern/tidy/include)
 include_directories(${CMAKE_SOURCE_DIR}/extern/glew/include)
 include_directories(${CMAKE_SOURCE_DIR}/include/platform_specific)

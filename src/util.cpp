@@ -32,3 +32,15 @@ bool dirExists(const std::string &dirName_in) {
 const std::string getFileNameFromPath(const std::string &filePath) {
   return filePath.substr(filePath.find_last_of(SEP_CHAR) + 1);
 }
+
+bool hasEnding(std::string const &fullString, std::string const &ending)
+{
+  if (fullString.length() >= ending.length())
+  {
+    return (0 == fullString.compare(fullString.length() - ending.length(), ending.length(), ending));
+  }
+  else
+  {
+    return false;
+  }
+}

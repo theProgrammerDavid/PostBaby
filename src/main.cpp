@@ -41,7 +41,15 @@ void PostBabyInit() {
   }
 }
 
+
+
 int main(int, char **) {
+  if (!pfd::settings::available())
+  {
+    std::cout << "Portable File Dialogs are not available on this platform.\n";
+    return 1;
+  }
+
   auto onlineCheck =
       pool.enqueue([&] { constants->setOnlineStatus(checkOnline()); });
   auto initThread = pool.enqueue([&] { PostBabyInit(); });
@@ -49,8 +57,8 @@ int main(int, char **) {
 #if _WIN32
   ShowWindow(GetConsoleWindow(), SW_HIDE);
 #endif
-  std::unique_ptr<FontManager> fm{new FontManager()};
-  auto loadFonts = pool.enqueue([&] { fm->loadFonts(); });
+  // std::unique_ptr<FontManager> fm{new FontManager()};
+  // auto loadFonts = pool.enqueue([&] { fm->loadFonts(); });
 
   const char *glsl_version = "#version 150";
   glfwSetErrorCallback(glfw_error_callback);
@@ -120,9 +128,13 @@ int main(int, char **) {
   style.ScaleAllSizes(constants->highDPIscaleFactor);
 
   io.IniFilename = constants->getIniFilePath();
-  loadFonts.get();
 
-  fm->setSelectedFontFromPath(constants->getFontPath());
+  io.Fonts->AddFontFromFileTTF(
+      constants->PATH_TO_FONT.c_str(),
+      (constants->FONT_SIZE) * constants->highDPIscaleFactor, NULL, NULL);
+  // loadFonts.get();
+
+  // fm->setSelectedFontFromPath(constants->getFontPath());
 
   io.Fonts->AddFontFromFileTTF(
       constants->getFontPath(),
@@ -133,7 +145,7 @@ int main(int, char **) {
   glfwSetWindowSize(window, constants->WINDOW_WIDTH, constants->WINDOW_HEIGHT);
 
   GUI gui;
-  gui.setFont(std::move(fm));
+  // gui.setFont(std::move(fm));
   int display_w, display_h;
 
   while (!glfwWindowShouldClose(window)) {

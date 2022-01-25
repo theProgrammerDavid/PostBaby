@@ -11,13 +11,14 @@
 #include "tab.hpp"
 #include "threadPool.hpp"
 #include "types.hpp"
+#include "portable-file-dialogs.h"
 class GUI {
  private:
   std::vector<Tab> tabs;
   std::vector<request> history;
   int active_tab;
   std::string active_response;
-  std::unique_ptr<FontManager> fontManager;
+  // std::unique_ptr<FontManager> fontManager;
 
   ImGuiTableFlags workspaceTableFlags;
   ImGuiWindowFlags windowFlags;

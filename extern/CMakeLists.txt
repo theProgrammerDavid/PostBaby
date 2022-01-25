@@ -39,8 +39,10 @@ FetchContent_MakeAvailable(glfw)
 
 # glew
 FetchContent_Declare(
-  GLEW URL https://github.com/nigels-com/glew/releases/download/glew-2.2.0/glew-2.2.0.zip
-           SOURCE_DIR ${CMAKE_SOURCE_DIR}/extern/glew)
+  GLEW
+  URL https://github.com/nigels-com/glew/releases/download/glew-2.2.0/glew-2.2.0.zip
+      SOURCE_DIR
+      ${CMAKE_SOURCE_DIR}/extern/glew)
 
 FetchContent_GetProperties(glew)
 if(NOT glew_POPULATED)
@@ -124,4 +126,16 @@ FetchContent_GetProperties(json)
 if(NOT json_POPULATED)
   FetchContent_Populate(json)
   add_subdirectory(${json_SOURCE_DIR} ${json_BINARY_DIR} EXCLUDE_FROM_ALL)
+endif()
+
+# portable file dialogs (pfd)
+FetchContent_Declare(
+  pfd
+  GIT_REPOSITORY https://github.com/samhocevar/portable-file-dialogs.git
+  GIT_TAG dea8520de18af09eefdbc18aaf7c24409d18491b)
+
+FetchContent_GetProperties(pfd)
+if(NOT pfd_POPULATED)
+  FetchContent_Populate(pfd)
+  add_subdirectory(${pfd_SOURCE_DIR} ${pfd_BINARY_DIR} EXCLUDE_FROM_ALL)
 endif()

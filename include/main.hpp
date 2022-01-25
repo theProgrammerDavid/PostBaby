@@ -15,6 +15,7 @@
 #include "imgui_impl_opengl3.h"
 #include "tab.hpp"
 #include "threadPool.hpp"
+#include "portable-file-dialogs.h"
 
 void keyCallback(GLFWwindow *window, int key, int scancode, int action,
                  int mode);
