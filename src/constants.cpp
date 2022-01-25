@@ -31,6 +31,7 @@ void glfw_error_callback(int error, const char *description) {
 void Constants::setOnlineStatus(bool status) { this->isOnline = status; }
 
 Constants::Constants() {
+  this->verbose = false;
   this->windowFlags = ImGuiWindowFlags_NoTitleBar;
   this->tableFlags = ImGuiTableFlags_RowBg | ImGuiTableFlags_ScrollX |
                      ImGuiTableFlags_ScrollY | ImGuiTableFlags_Borders |
@@ -125,9 +126,14 @@ void Constants::init() {
       if (config["JSON_INDENT"]) {
         this->jsonIndent = config["JSON_INDENT"].as<int>();
       }
+      if (config["VERBOSE"]) {
+        this->verbose = config["VERBOSE"].as<int>();
+      }
       this->configError = false;
     } catch (const YAML::Exception &e) {
       this->configError = true;
+      pfd::message("Error", "Error while parsing PostBaby config file",
+                   pfd::choice::ok, pfd::icon::error);
       logger->error("Error in YAML File");
       logger->error(e.msg.c_str());
     }
@@ -161,6 +167,7 @@ void Constants::defaultValues() {
   this->MAX_URL_SIZE = 256;
   this->moveWindow = true;
   this->PATH_TO_FONT = "./JetBrainsMono-Medium.ttf";
+  this->verbose = false;
   // #ifdef _WIN32
   //   this->PATH_TO_FONT = "C:\\Windows\\Fonts\\verdanaz.ttf";
   // #ifdef __APPLE__
@@ -194,7 +201,7 @@ void Constants::createConfigFile() {
   fout
       << "MAX_URL_SIZE: 256\nHTML_INDENT : 0\nMOVEABLE_WINDOW : 1\nJSON_INDENT "
          ": 1\nFONT_SIZE : 18.0\nWINDOW_HEIGHT : 716\nWINDOW_WIDTH : "
-         "1276\nCURRENT_THEME : 0\nREQUEST_TIMEOUT : 15000 ";
+         "1276\nCURRENT_THEME : 0\nREQUEST_TIMEOUT : 15000\nVERBOSE : false";
   fout << "\nBACKGROUND : [ 0.45, 0.55, 0.60, 1.00 ]";
   fout << "\nFONT_PATH : " << this->PATH_TO_FONT;
   fout.close();
@@ -217,6 +224,7 @@ void Constants::writeConfig() {
   writeToFile(fout, "CURRENT_THEME", this->CURRENT_THEME);
   writeToFile(fout, "MOVEABLE_WINDOW", this->moveWindow);
   writeToFile(fout, "JSON_INDENT", this->jsonIndent);
+  writeToFile(fout, "VERBOSE", this->verbose);
   writeToFile(fout, "FONT_PATH", this->PATH_TO_FONT);
   fout << "BACKGROUND : [ " << this->clear_color.x << " , "
        << this->clear_color.y << " , " << this->clear_color.z << " , "

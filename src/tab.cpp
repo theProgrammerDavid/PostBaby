@@ -91,30 +91,31 @@ void Tab::sendRequest() {
       // GET REQUEST
       method = 0;
       res = cpr::Get(Url{this->url.c_str()}, _params, constants->sslOpts,
-                     Verbose{}, this->_headers,
-                     Timeout{constants->REQUEST_TIMEOUT});
+                     constants->verbose ? Verbose{} : Verbose{false},
+                     this->_headers, Timeout{constants->REQUEST_TIMEOUT});
       break;
     case 1:  // POST REQUEST
       method = 1;
       res = cpr::Post(Url{this->url.c_str()}, this->payload, constants->sslOpts,
-                      Verbose{}, _params, this->_headers,
-                      cpr::Body({this->rawBody.c_str()}),
+                      constants->verbose ? Verbose{} : Verbose{false}, _params,
+                      this->_headers, cpr::Body({this->rawBody.c_str()}),
                       Timeout{constants->REQUEST_TIMEOUT});
       break;
 
     case 2:
       method = 2;
       res = cpr::Put(Url{this->url.c_str()}, this->payload, constants->sslOpts,
-                     Verbose{}, _params, this->_headers,
-                     Timeout{constants->REQUEST_TIMEOUT});
+                     constants->verbose ? Verbose{} : Verbose{false}, _params,
+                     this->_headers, Timeout{constants->REQUEST_TIMEOUT});
       break;
 
     case 3:
       // DELETE
       method = 3;
-      res = cpr::Delete(Url{this->url.c_str()}, this->payload,
-                        constants->sslOpts, Verbose{}, _params, this->_headers,
-                        Timeout{constants->REQUEST_TIMEOUT});
+      res =
+          cpr::Delete(Url{this->url.c_str()}, this->payload, constants->sslOpts,
+                      constants->verbose ? Verbose{} : Verbose{false}, _params,
+                      this->_headers, Timeout{constants->REQUEST_TIMEOUT});
 
       break;
 
@@ -122,8 +123,8 @@ void Tab::sendRequest() {
       // HEAD
       method = 4;
       res = cpr::Head(Url{this->url.c_str()}, _params, constants->sslOpts,
-                      Verbose{}, this->_headers,
-                      Timeout{constants->REQUEST_TIMEOUT});
+                      constants->verbose ? Verbose{} : Verbose{false},
+                      this->_headers, Timeout{constants->REQUEST_TIMEOUT});
 
       break;
 
@@ -131,8 +132,8 @@ void Tab::sendRequest() {
       // OPTIONS
       method = 5;
       res = cpr::Options(Url{this->url.c_str()}, _params, constants->sslOpts,
-                         Verbose{}, this->_headers,
-                         Timeout{constants->REQUEST_TIMEOUT});
+                         constants->verbose ? Verbose{} : Verbose{false},
+                         this->_headers, Timeout{constants->REQUEST_TIMEOUT});
 
       break;
   };

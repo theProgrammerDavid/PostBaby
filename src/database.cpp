@@ -9,6 +9,7 @@ void Database::insertUrl(const std::string &url, const int method) {
     Logger *logger = Logger::getInstance();
     logger->error("Unable to insert history from db in function insertUrl",
                   {url.c_str(), e.what()});
+    pfd::message("Database Error", e.what(), pfd::choice::ok, pfd::icon::error);
     throw e;
   }
 }
@@ -25,6 +26,7 @@ void Database::getHistory(std::vector<request> &hist) {
   } catch (const std::exception &e) {
     Logger *logger = Logger::getInstance();
     logger->error("Unable to populate history ", {e.what()});
+    pfd::message("Database Error", e.what(), pfd::choice::ok, pfd::icon::error);
     throw e;
   }
 }
@@ -37,6 +39,7 @@ void Database::deleteRow(const int row) {
   } catch (const std::exception &e) {
     Logger *logger = Logger::getInstance();
     logger->error("Unable to delete row in db ", {e.what()});
+    pfd::message("Database Error", e.what(), pfd::choice::ok, pfd::icon::error);
   }
 }
 
@@ -48,6 +51,7 @@ int Database::getNumRows() {
   } catch (const std::exception &e) {
     Logger *logger = Logger::getInstance();
     logger->error("Unable to get number of rows in history ", {e.what()});
+    pfd::message("Database Error", e.what(), pfd::choice::ok, pfd::icon::error);
     return -1;
   }
 }
@@ -62,5 +66,6 @@ Database::Database(const std::string &dbPath)
   } catch (const std::exception &e) {
     Logger *logger = Logger::getInstance();
     logger->error("Unable to get number of rows in history ", {e.what()});
+    pfd::message("Database Error", e.what(), pfd::choice::ok, pfd::icon::error);
   }
 }

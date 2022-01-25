@@ -8,6 +8,7 @@
 #include <string>
 
 #include "logger.hpp"
+#include "portable-file-dialogs.h"
 #include "types.hpp"
 
 #define HISTORY_CREATE_QUERY \

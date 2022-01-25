@@ -11,7 +11,9 @@
 #include "database.hpp"
 #include "imgui.h"
 #include "logger.hpp"
+#include "portable-file-dialogs.h"
 #include "util.hpp"
+
 #ifdef _Win32
 #include <Windows.h>
 #endif
@@ -81,6 +83,7 @@ class Constants {
   bool htmlIndent;
   bool jsonIndent;
   bool isOnline;
+  bool verbose;
   std::string PATH_TO_FONT;
   float highDPIscaleFactor;
 

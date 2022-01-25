@@ -1,7 +1,6 @@
 #include "gui.hpp"
 
-GUI::GUI()
-{
+GUI::GUI() {
   // workspaceTableFlags = ImGuiTableFlags_RowBg | ImGuiTableFlags_Borders |
   // ImGuiTableFlags_BordersV | ImGuiTableFlags_Resizable |
   // ImGuiTableFlags_ScrollY | ImGuiTableFlags_ScrollX; windowFlags =
@@ -17,23 +16,18 @@ GUI::GUI()
 
 GUI::~GUI() {}
 
-void GUI::responseArea()
-{
-  if (tabs[active_tab].getStatusCode() > 0)
-  {
+void GUI::responseArea() {
+  if (tabs[active_tab].getStatusCode() > 0) {
     ImGui::Text("Code:%d", tabs[active_tab].getStatusCode());
     ImGui::SameLine();
   }
 
-  if (tabs[active_tab].getTimeElapsed() > 0)
-  {
+  if (tabs[active_tab].getTimeElapsed() > 0) {
     ImGui::Text("Time: %f s", tabs[active_tab].getTimeElapsed());
   }
 
-  if (ImGui::BeginTabBar("ResponseBar"))
-  {
-    if (ImGui::BeginTabItem("Body"))
-    {
+  if (ImGui::BeginTabBar("ResponseBar")) {
+    if (ImGui::BeginTabItem("Body")) {
       ImGuiWindowFlags response_flags = ImGuiWindowFlags_HorizontalScrollbar;
       ImGui::BeginChild("ResponseBar",
                         ImVec2(ImGui::GetWindowContentRegionWidth(),
@@ -45,21 +39,18 @@ void GUI::responseArea()
       ImGui::EndChild();
       ImGui::EndTabItem();
     }
-    if (ImGui::BeginTabItem("Headers"))
-    {
+    if (ImGui::BeginTabItem("Headers")) {
       const float TEXT_BASE_HEIGHT = ImGui::GetTextLineHeightWithSpacing();
       ImVec2 WorkspaceTableSize = ImVec2(-FLT_MIN, TEXT_BASE_HEIGHT * 10);
       if (ImGui::BeginTable("Response Headers", 2, constants->getTableFlags(),
-                            WorkspaceTableSize))
-      {
+                            WorkspaceTableSize)) {
         ImGui::TableSetupColumn("Key");
         ImGui::TableSetupColumn("Value");
 
         ImGui::TableHeadersRow();
 
         int count = 0;
-        for (auto i : tabs[active_tab].res.header)
-        {
+        for (auto i : tabs[active_tab].res.header) {
           ImGui::TableNextRow();
 
           ImGui::TableSetColumnIndex(0);
@@ -78,21 +69,18 @@ void GUI::responseArea()
       }
       ImGui::EndTabItem();
     }
-    if (ImGui::BeginTabItem("Cookies"))
-    {
+    if (ImGui::BeginTabItem("Cookies")) {
       const float TEXT_BASE_HEIGHT = ImGui::GetTextLineHeightWithSpacing();
       ImVec2 WorkspaceTableSize = ImVec2(-FLT_MIN, TEXT_BASE_HEIGHT * 10);
 
       if (ImGui::BeginTable("Cookies", 2, constants->getTableFlags(),
-                            WorkspaceTableSize))
-      {
+                            WorkspaceTableSize)) {
         ImGui::TableSetupColumn("Key");
         ImGui::TableSetupColumn("Value");
 
         ImGui::TableHeadersRow();
 
-        for (auto i : tabs[active_tab].res.cookies)
-        {
+        for (auto i : tabs[active_tab].res.cookies) {
           ImGui::TableNextRow();
 
           ImGui::TableSetColumnIndex(0);
@@ -113,16 +101,13 @@ void GUI::responseArea()
   }
 }
 
-void GUI::workspaceBar()
-{
-  if (ImGui::Button("Preferences"))
-  {
+void GUI::workspaceBar() {
+  if (ImGui::Button("Preferences")) {
     ImGui::OpenPopup("Edit Preferences");
   }
   this->settingsPopup();
   ImGui::SameLine();
-  if (ImGui::Button("History"))
-  {
+  if (ImGui::Button("History")) {
     ImGui::OpenPopup("History");
   }
   this->historyPopup();
@@ -130,23 +115,18 @@ void GUI::workspaceBar()
   ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%.1fFPS",
                      ImGui::GetIO().Framerate);
   ImGui::SameLine();
-  if (constants->isOnline)
-  {
+  if (constants->isOnline) {
     ImGui::TextColored(ImVec4(0.0f, 1.0f, 0.0f, 1.0f), "Online");
-  }
-  else
-  {
+  } else {
     ImGui::TextColored(ImVec4(1.0f, 0.0f, 0.0f, 1.0f), "Offline");
   }
   ImGui::SameLine();
-  if (constants->configError)
-  {
+  if (constants->configError) {
     ImGui::TextColored(ImVec4(1.0f, 0.0f, 0.0f, 1.0f), "Config Error");
   }
 }
 
-void GUI::historyPopup()
-{
+void GUI::historyPopup() {
   const float TEXT_BASE_HEIGHT = ImGui::GetTextLineHeightWithSpacing();
   ImVec2 WorkspaceTableSize = ImVec2(FLT_MAX, TEXT_BASE_HEIGHT * 8);
   centerModal();
@@ -155,13 +135,11 @@ void GUI::historyPopup()
                                   ImGui::GetIO().DisplaySize.y * 0.5f));
 
   if (ImGui::BeginPopupModal("History", NULL,
-                             ImGuiWindowFlags_AlwaysAutoResize))
-  {
+                             ImGuiWindowFlags_AlwaysAutoResize)) {
     ImGui::Text("Changes will be saved automatically");
     ImGui::Text("Total: %lu", history.size());
 
-    if (ImGui::Button("Reload"))
-    {
+    if (ImGui::Button("Reload")) {
       constants->db->getHistory(history);
     }
     ImGui::Separator();
@@ -176,8 +154,7 @@ void GUI::historyPopup()
     ImGui::TableSetupColumn("URL");
 
     ImGui::TableHeadersRow();
-    for (size_t row = 0; row < history.size(); row++)
-    {
+    for (size_t row = 0; row < history.size(); row++) {
       ImGui::TableNextRow();
 
       ImGui::TableSetColumnIndex(0);
@@ -185,17 +162,15 @@ void GUI::historyPopup()
       // ImGui::Text("%d", history[row].id);
       ImGui::Text("%lu", row + 1);
       ImGui::SameLine();
-      if (ImGui::Button("Load"))
-      {
+      if (ImGui::Button("Load")) {
         tabs[active_tab].loadTabFromHistory(history[row]);
       }
       ImGui::SameLine();
-      if (ImGui::Button("Del"))
-      {
-        std::thread delRow([&]
-                           {
+      if (ImGui::Button("Del")) {
+        std::thread delRow([&] {
           history.erase(history.begin() + row);
-          constants->db->deleteRow(history[row].id); });
+          constants->db->deleteRow(history[row].id);
+        });
         delRow.detach();
       }
       ImGui::PopID();
@@ -213,8 +188,7 @@ void GUI::historyPopup()
     }
     ImGui::EndTable();
     ImGui::Separator();
-    if (ImGui::Button("Close"))
-    {
+    if (ImGui::Button("Close")) {
       ImGui::CloseCurrentPopup();
     }
     ImGui::SetItemDefaultFocus();
@@ -223,41 +197,35 @@ void GUI::historyPopup()
   }
 }
 
-void GUI::setFont(std::unique_ptr<FontManager> fontManager)
-{
+void GUI::setFont(std::unique_ptr<FontManager> fontManager) {
   // this->fontManager = std::move(fontManager);
 }
 
-void GUI::settingsPopup()
-{
+void GUI::settingsPopup() {
   const float TEXT_BASE_HEIGHT = ImGui::GetTextLineHeightWithSpacing();
   ImVec2 WorkspaceTableSize = ImVec2(FLT_MAX, TEXT_BASE_HEIGHT * 8);
   centerModal();
 
   if (ImGui::BeginPopupModal("Edit Preferences", NULL,
-                             ImGuiWindowFlags_AlwaysAutoResize))
-  {
+                             ImGuiWindowFlags_AlwaysAutoResize)) {
     ImGui::Text("Changes will be saved automatically");
     ImGui::Separator();
 
-    if (ImGui::TreeNode("Font"))
-    {
+    if (ImGui::TreeNode("Font")) {
       // ImGui::Text("Current Font: %s", constants->PATH_TO_FONT);
       ImGui::InputText("Current Font", &constants->PATH_TO_FONT);
-      if (ImGui::Button("Browse"))
-      {
-        auto chosenFile = pfd::open_file("Choose TTF font", DEFAULT_PATH,
-                                         {"TTF Files", "*.ttf"}, pfd::opt::none);
+      if (ImGui::Button("Browse")) {
+        auto chosenFile =
+            pfd::open_file("Choose TTF font", DEFAULT_PATH,
+                           {"TTF Files", "*.ttf"}, pfd::opt::none);
 
-        for (auto const &name : chosenFile.result())
-        {
-          if (hasEnding(name, ".ttf")){
+        for (auto const &name : chosenFile.result()) {
+          if (hasEnding(name, ".ttf")) {
             constants->PATH_TO_FONT = name;
           }
         }
       }
-      if (ImGui::Button("Reset"))
-      {
+      if (ImGui::Button("Reset")) {
         constants->PATH_TO_FONT = "./JetBrainsMono-Medium.ttf";
       }
       ImGui::InputFloat("Font Size", &constants->FONT_SIZE);
@@ -267,7 +235,8 @@ void GUI::settingsPopup()
       // if (ImGui::BeginListBox("Font")) {
       //   if (this->fontManager->fonts.size() > 0) {
       //     for (const auto i : this->fontManager->fonts) {
-      //       const bool isSelected = this->fontManager->selectedFont == i.first;
+      //       const bool isSelected = this->fontManager->selectedFont ==
+      //       i.first;
 
       //       if (ImGui::Selectable(i.first.c_str(), isSelected)) {
       //         this->fontManager->selectedFont = i.first;
@@ -284,8 +253,7 @@ void GUI::settingsPopup()
     }
 
     ImGui::Separator();
-    if (ImGui::TreeNode("General"))
-    {
+    if (ImGui::TreeNode("General")) {
       ImGui::InputInt("Window Width", &constants->WINDOW_WIDTH);
       ImGui::InputInt("Window Height", &constants->WINDOW_HEIGHT);
 
@@ -296,27 +264,29 @@ void GUI::settingsPopup()
       ImGui::Checkbox("Moveable Window", &constants->moveWindow);
       ImGui::Checkbox("HTML Indent", &constants->htmlIndent);
       ImGui::Checkbox("JSON Indent", &constants->jsonIndent);
+      ImGui::Checkbox("Verbose", &constants->verbose);
+      ImGui::SameLine();
+      HelpMarker(
+          "Enables Verbose output for network requests if launched via "
+          "terminal");
+
       ImGui::TreePop();
     }
 
     //  THEMES
     ImGui::Separator();
     // ImGui::Text("Theme");
-    if (ImGui::TreeNode("Themes"))
-    {
+    if (ImGui::TreeNode("Themes")) {
       if (ImGui::BeginCombo("Theme",
-                            constants->THEMES[constants->CURRENT_THEME]))
-      {
-        for (int n = 0; n < IM_ARRAYSIZE(constants->THEMES); n++)
-        {
+                            constants->THEMES[constants->CURRENT_THEME])) {
+        for (int n = 0; n < IM_ARRAYSIZE(constants->THEMES); n++) {
           const bool is_selected = (constants->CURRENT_THEME == n);
           if (ImGui::Selectable(constants->THEMES[n], is_selected))
             constants->CURRENT_THEME = n;
 
           // Set the initial focus when opening the combo (scrolling + keyboard
           // navigation focus)
-          if (is_selected)
-            ImGui::SetItemDefaultFocus();
+          if (is_selected) ImGui::SetItemDefaultFocus();
         }
         ImGui::EndCombo();
       }
@@ -325,31 +295,27 @@ void GUI::settingsPopup()
     }
     // THEMES
     ImGui::Separator();
-    if (ImGui::Button("OK", ImVec2(120, 0)))
-    {
+    if (ImGui::Button("OK", ImVec2(120, 0))) {
       constants->updateWindowFlags();
       constants->setTheme();
       // constants->setFontPath(fontManager->getPathToSelectedFont());
 
       // constants->clear_color = constants->TEMP_BG_COLOR;
       ImGui::CloseCurrentPopup();
-      pool.enqueue([&]
-                   { constants->writeConfig(); });
+      pool.enqueue([&] { constants->writeConfig(); });
     }
     ImGui::SetItemDefaultFocus();
     ImGui::SameLine();
-    if (ImGui::Button("Cancel", ImVec2(120, 0)))
-    {
+    if (ImGui::Button("Cancel", ImVec2(120, 0))) {
       constants->TEMP_BG_COLOR = constants->clear_color;
       ImGui::CloseCurrentPopup();
     }
     ImGui::SameLine();
-    if (ImGui::Button("Reset"))
-    {
-      pool.enqueue([&]
-                   {
+    if (ImGui::Button("Reset")) {
+      pool.enqueue([&] {
         constants->defaultValues();
-        constants->createConfigFile(); });
+        constants->createConfigFile();
+      });
     }
     ImGui::SameLine();
     HelpMarker(
@@ -359,18 +325,15 @@ void GUI::settingsPopup()
   }
 }
 
-void GUI::centerModal()
-{
+void GUI::centerModal() {
   ImVec2 center(ImGui::GetIO().DisplaySize.x * 0.5f,
                 ImGui::GetIO().DisplaySize.y * 0.5f);
   ImGui::SetNextWindowPos(center, ImGuiCond_Appearing, ImVec2(0.5f, 0.5f));
 }
 
-void GUI::HelpMarker(const char *desc)
-{
+void GUI::HelpMarker(const char *desc) {
   ImGui::TextDisabled("(?)");
-  if (ImGui::IsItemHovered())
-  {
+  if (ImGui::IsItemHovered()) {
     ImGui::BeginTooltip();
     ImGui::PushTextWrapPos(ImGui::GetFontSize() * 35.0f);
     ImGui::TextUnformatted(desc);
@@ -379,14 +342,12 @@ void GUI::HelpMarker(const char *desc)
   }
 }
 
-void GUI::drawKeyValueDesc(std::vector<KeyValuePair> &vec)
-{
+void GUI::drawKeyValueDesc(std::vector<KeyValuePair> &vec) {
   const float TEXT_BASE_HEIGHT = ImGui::GetTextLineHeightWithSpacing();
   ImVec2 WorkspaceTableSize = ImVec2(-FLT_MIN, TEXT_BASE_HEIGHT * 8);
 
   if (ImGui::BeginTable("##table1", 5, constants->getTableFlags(),
-                        WorkspaceTableSize))
-  {
+                        WorkspaceTableSize)) {
     ImGui::TableSetupColumn("Use", ImGuiTableColumnFlags_WidthFixed);
     ImGui::TableSetupColumn("Key");
     ImGui::TableSetupColumn("Value");
@@ -395,8 +356,7 @@ void GUI::drawKeyValueDesc(std::vector<KeyValuePair> &vec)
 
     ImGui::TableHeadersRow();
 
-    for (size_t row = 0; row < vec.size(); row++)
-    {
+    for (size_t row = 0; row < vec.size(); row++) {
       ImGui::TableNextRow();
       ImGui::TableSetColumnIndex(0);
       ImGui::PushID(row);
@@ -428,41 +388,31 @@ void GUI::drawKeyValueDesc(std::vector<KeyValuePair> &vec)
       ImGui::TableSetColumnIndex(4);
 
       ImGui::PushID(row);
-      if (ImGui::Button("X"))
-      {
+      if (ImGui::Button("X")) {
         vec.erase(vec.begin() + row);
       }
       ImGui::PopID();
     }
     ImGui::EndTable();
-    if (ImGui::Button("+"))
-    {
+    if (ImGui::Button("+")) {
       KeyValuePair kvp;
       vec.push_back(kvp);
     }
   }
 }
 
-void GUI::drawBody()
-{
-  if (tabs[active_tab].getBodyType() == tabs[active_tab].BODY_NONE)
-  {
+void GUI::drawBody() {
+  if (tabs[active_tab].getBodyType() == tabs[active_tab].BODY_NONE) {
     ImGui::Text("HTTP request does not have a Body");
-  }
-  else if (tabs[active_tab].getBodyType() ==
-           tabs[active_tab].BODY_URL_ENCODED)
-  {
+  } else if (tabs[active_tab].getBodyType() ==
+             tabs[active_tab].BODY_URL_ENCODED) {
     ImGui::Text("URL encoded");
     drawKeyValueDesc(tabs[active_tab].urlParams);
-  }
-  else if (tabs[active_tab].getBodyType() ==
-           tabs[active_tab].BODY_FORM_DATA)
-  {
+  } else if (tabs[active_tab].getBodyType() ==
+             tabs[active_tab].BODY_FORM_DATA) {
     ImGui::Text("Form Data");
     drawKeyValueDesc(tabs[active_tab].formData);
-  }
-  else if (tabs[active_tab].getBodyType() == tabs[active_tab].BODY_RAW)
-  {
+  } else if (tabs[active_tab].getBodyType() == tabs[active_tab].BODY_RAW) {
     ImGui::Text("Raw Body");
     ImGui::SameLine();
     HelpMarker("Ctrl+Enter for newline. Only JSON is supported for now");
@@ -470,77 +420,60 @@ void GUI::drawBody()
     ImGui::InputTextMultiline(" ", &tabs[active_tab].rawBody, ImVec2(1200, 200),
                               ImGuiInputTextFlags_AllowTabInput |
                                   ImGuiInputTextFlags_CtrlEnterForNewLine);
-  }
-  else if (tabs[active_tab].getBodyType() == tabs[active_tab].BODY_BINARY)
-  {
+  } else if (tabs[active_tab].getBodyType() == tabs[active_tab].BODY_BINARY) {
     ImGui::Text("WIP Binary Body");
-  }
-  else
-  {
+  } else {
     ImGui::Text("WIP GraphQl Body");
   }
 }
 
-void GUI::tabConfig()
-{
-  if (ImGui::BeginTabBar("TabItemConfig"))
-  {
-    if (ImGui::BeginTabItem("Params"))
-    {
+void GUI::tabConfig() {
+  if (ImGui::BeginTabBar("TabItemConfig")) {
+    if (ImGui::BeginTabItem("Params")) {
       // drawParams();
       drawKeyValueDesc(tabs[active_tab].queryParams);
       ImGui::EndTabItem();
     }
-    if (ImGui::BeginTabItem("Authorization"))
-    {
+    if (ImGui::BeginTabItem("Authorization")) {
       ImGui::Text("WIP Authorization");
 
       ImGui::EndTabItem();
     }
-    if (ImGui::BeginTabItem("Headers"))
-    {
+    if (ImGui::BeginTabItem("Headers")) {
       ImGui::Text("HTTP Headers");
       drawKeyValueDesc(tabs[active_tab].headers);
       ImGui::EndTabItem();
     }
-    if (ImGui::BeginTabItem("Body"))
-    {
+    if (ImGui::BeginTabItem("Body")) {
       ImGui::NewLine();
-      if (ImGui::Button("None"))
-      {
+      if (ImGui::Button("None")) {
         tabs[active_tab].currentBodyType = tabs[active_tab].BODY_NONE;
       }
       ImGui::SameLine();
 
-      if (ImGui::Button("Url Encoded"))
-      {
+      if (ImGui::Button("Url Encoded")) {
         tabs[active_tab].currentBodyType = tabs[active_tab].BODY_URL_ENCODED;
       }
       ImGui::SameLine();
-      if (ImGui::Button("Form Data"))
-      {
+      if (ImGui::Button("Form Data")) {
         tabs[active_tab].currentBodyType = tabs[active_tab].BODY_FORM_DATA;
       }
       ImGui::SameLine();
-      if (ImGui::Button("Raw"))
-      {
+      if (ImGui::Button("Raw")) {
         tabs[active_tab].currentBodyType = tabs[active_tab].BODY_RAW;
       }
       ImGui::SameLine();
-      if (ImGui::Button("Binary"))
-      {
+      if (ImGui::Button("Binary")) {
         tabs[active_tab].currentBodyType = tabs[active_tab].BODY_BINARY;
       }
       ImGui::SameLine();
-      if (ImGui::Button("GraphQl"))
-      {
+      if (ImGui::Button("GraphQl")) {
         tabs[active_tab].currentBodyType = tabs[active_tab].BODY_GRAPHQL;
       }
       ImGui::EndTabItem();
       drawBody();
     }
-    if (ImGui::BeginTabItem("Settings"))
-    {
+    if (ImGui::BeginTabItem("Settings")) {
       ImGui::Text("Settings go here");
       ImGui::EndTabItem();
     }
@@ -549,12 +482,10 @@ void GUI::tabConfig()
   }
 }
 
-void GUI::render()
-{
+void GUI::render() {
   ImGuiWindowFlags flags = constants->getWindowFlags();
 
-  if (ImGui::Begin("config", NULL, flags))
-  {
+  if (ImGui::Begin("config", NULL, flags)) {
     ImGui::BeginGroup();
     this->workspaceBar();
     ImGui::EndGroup();
@@ -562,30 +493,23 @@ void GUI::render()
     ImGui::NewLine();
     // Left Vertical
     ImGui::BeginGroup();
-    {
-      workspaceArea();
-    }
+    { workspaceArea(); }
 
     ImGui::EndGroup();
     responseArea();
     ImGui::End();
   }
 }
-void GUI::workspaceArea()
-{
-  if (ImGui::BeginTabBar("TabItem", ImGuiTabBarFlags_TabListPopupButton))
-  {
+void GUI::workspaceArea() {
+  if (ImGui::BeginTabBar("TabItem", ImGuiTabBarFlags_TabListPopupButton)) {
     if (ImGui::TabItemButton(
-            "+", ImGuiTabItemFlags_Trailing | ImGuiTabItemFlags_NoTooltip))
-    {
+            "+", ImGuiTabItemFlags_Trailing | ImGuiTabItemFlags_NoTooltip)) {
       Tab t(tabs.size() + 1);
       tabs.push_back(t);
     }
-    for (size_t n = 0; n < tabs.size(); n++)
-    {
+    for (size_t n = 0; n < tabs.size(); n++) {
       if (ImGui::BeginTabItem(tabs[n].title.c_str(), &tabs[n].isOpen,
-                              ImGuiTabItemFlags_None))
-      {
+                              ImGuiTabItemFlags_None)) {
         active_tab = n;
         this->active_response = tabs[active_tab].getResponse();
         ImGui::Text("Method");
@@ -596,20 +520,18 @@ void GUI::workspaceArea()
         ImGui::SameLine();
         ImGui::InputText("URL", &tabs[n].url);
         ImGui::SameLine();
-        if (ImGui::Button("Send"))
-        {
-          pool.enqueue([&]
-                       {
+        if (ImGui::Button("Send")) {
+          pool.enqueue([&] {
             tabs[active_tab].updateTitle();
-            tabs[active_tab].sendRequest(); });
+            tabs[active_tab].sendRequest();
+          });
         }
         ImGui::NewLine();
         this->tabConfig();
         ImGui::EndTabItem();
       }
 
-      if (!tabs[n].isOpen)
-      {
+      if (!tabs[n].isOpen) {
         tabs.erase(tabs.begin() + n);
       }
     }
