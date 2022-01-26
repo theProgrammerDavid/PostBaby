@@ -5,5 +5,5 @@ Type=Application
 Terminal=false
 Exec=/usr/local/bin/PostBaby
 Name=PostBaby
-Icon=/usr/local/bin/PostBaby.png
+Icon=/usr/local/bin/PostBabyNew.png
 Keywords=postbaby,PostBaby,request
