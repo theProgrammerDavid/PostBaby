@@ -2,11 +2,11 @@ fail_fast: false
 repos:
 
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v4.0.1  # Use the ref you want to point at
+    rev: v4.1.0  # Use the ref you want to point at
     hooks:
     - id: trailing-whitespace
   - repo: https://github.com/pocc/pre-commit-hooks
-    rev: master
+    rev: v1.3.5
     hooks:
       - id: clang-format
         args: [--style=Google, "-i"]
