@@ -7,7 +7,11 @@ C++ native app to test HTTP endpoints
 
 ## Demo
 
-![Demo](./assets/Postbaby-Demo-1.mp4)
+
+
+https://user-images.githubusercontent.com/35698009/211212641-11e67ac9-835f-44b9-8658-511394dd7ecd.mp4
+
+
 
 ### Dependencies
 - CMake
