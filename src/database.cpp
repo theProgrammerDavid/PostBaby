@@ -7,7 +7,9 @@ void Database::insertUrl(const std::string &url, const int method) {
     query.exec();
   } catch (const std::exception &e) {
     Logger *logger = Logger::getInstance();
-    logger->error("Unable to insert history from db in function insertUrl", {url.c_str(), e.what()});
+    logger->error("Unable to insert history from db in function insertUrl",
+                  {url.c_str(), e.what()});
+    pfd::message("Database Error", e.what(), pfd::choice::ok, pfd::icon::error);
     throw e;
   }
 }
@@ -18,37 +20,38 @@ void Database::getHistory(std::vector<request> &hist) {
   try {
     SQLite::Statement query(db, HISTORY_SELECT_QUERY);
     while (query.executeStep()) {
-      hist.push_back({query.getColumn(0), query.getColumn(1),
-                                  query.getColumn(2)});
+      hist.push_back(
+          {query.getColumn(0), query.getColumn(1), query.getColumn(2)});
     }
   } catch (const std::exception &e) {
     Logger *logger = Logger::getInstance();
     logger->error("Unable to populate history ", {e.what()});
+    pfd::message("Database Error", e.what(), pfd::choice::ok, pfd::icon::error);
     throw e;
   }
 }
 
-void Database::deleteRow(const int row){
-  try{
+void Database::deleteRow(const int row) {
+  try {
     SQLite::Statement query(db, HISTORY_DELETE_QUERY);
     SQLite::bind(query, row);
     query.exec();
-  }
-  catch(const std::exception& e){
+  } catch (const std::exception &e) {
     Logger *logger = Logger::getInstance();
     logger->error("Unable to delete row in db ", {e.what()});
+    pfd::message("Database Error", e.what(), pfd::choice::ok, pfd::icon::error);
   }
 }
 
-int Database::getNumRows(){
-  try{
+int Database::getNumRows() {
+  try {
     SQLite::Statement query(db, HISTORY_SIZE_QUERY);
     query.executeStep();
     return query.getColumn(0);
-  }
-  catch(const std::exception& e){
+  } catch (const std::exception &e) {
     Logger *logger = Logger::getInstance();
     logger->error("Unable to get number of rows in history ", {e.what()});
+    pfd::message("Database Error", e.what(), pfd::choice::ok, pfd::icon::error);
     return -1;
   }
 }
@@ -63,5 +66,6 @@ Database::Database(const std::string &dbPath)
   } catch (const std::exception &e) {
     Logger *logger = Logger::getInstance();
     logger->error("Unable to get number of rows in history ", {e.what()});
+    pfd::message("Database Error", e.what(), pfd::choice::ok, pfd::icon::error);
   }
 }

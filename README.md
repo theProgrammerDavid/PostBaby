@@ -1,22 +1,32 @@
 ![PostBaby](https://socialify.git.ci/theProgrammerDavid/PostBaby/image?description=1&issues=1&language=1&owner=1&stargazers=1&theme=Dark)
 
 [![build](https://github.com/theProgrammerDavid/PostBaby/actions/workflows/build.yml/badge.svg)](https://github.com/theProgrammerDavid/PostBaby/actions/workflows/build.yml)
-# PostBaby 
+# PostBaby
 
 C++ native app to test HTTP endpoints
+
+## Demo
+
+
+
+https://user-images.githubusercontent.com/35698009/211212641-11e67ac9-835f-44b9-8658-511394dd7ecd.mp4
+
+
+
 ### Dependencies
 - CMake
 - OpenGL (with supporting drivers)
 - CMake supported C++ Compiler
 - Python 3 (to generate GL bindings)
+- pip (for pre-commit)
 
-#### Debian/Ubuntu 
-You also need the dev libraries for `OpenSSL` installed. 
+#### Debian/Ubuntu
+You also need the dev libraries for `OpenSSL` installed.
 ```bash
 sudo apt-get install libx11-dev xorg-dev libglu1-mesa-dev libssl-dev
 ```
 #### Windows
-* Windows systems need the Visual Studio environment setup with the necessary files for C++ development. If required, you need to run 
+* Windows systems need the Visual Studio environment setup with the necessary files for C++ development. If required, you need to run
 ```powershell
 vcvarsall.bat x64
 ```
@@ -38,6 +48,18 @@ git clone https://github.com/theProgrammerDavid/PostBaby.git
 make -j$(nproc)
 ``
 - The built binary will be in `${PostBaby_ROOT}/build/src/PostBaby`
+
+### Development
+
+- We need the following packages installed
+``clang clang-format clang-tidy uncrustify cppcheck iwyu``
+
+- We also need to install `pre-commit` using pip
+```bash
+pip install pre-commit && pre-commit install
+```
+- Pre-commit hooks will run per commit
+
 ### Installing
 - #### Quick Install MacOS
 ```bash
@@ -93,7 +115,7 @@ On Linux and MacOS, the config files are stored in `$HOME/.config/PostBaby`
 | SQLiteCPP       | https://github.com/SRombauts/SQLiteCpp |
 | spdlog          | https://github.com/gabime/spdlog |
 
-### Resources
+## Resources
 
 - [CPack with CMake](https://gitlab.kitware.com/cmake/community/-/wikis/doc/cpack/Packaging-With-CPack)
 - [CMake CPack](https://embeddeduse.com/2020/03/21/creating-simple-installers-with-cpack/)

@@ -2,8 +2,9 @@
 #define GLEW_STATIC
 #endif
 #include "main.hpp"
-#include "util.hpp"
+
 #include "fonts.hpp"
+#include "util.hpp"
 
 bool checkOnline() {
   Logger *logger = Logger::getInstance();
@@ -25,15 +26,13 @@ void keyCallback(GLFWwindow *window, int key, int scancode, int action,
     glfwSetWindowShouldClose(window, GL_TRUE);
 }
 
-void framebuffer_size_callback(GLFWwindow* window, int width, int height)
-{
+void framebuffer_size_callback(GLFWwindow *window, int width, int height) {
   glViewport(0, 0, width, height);
 }
 
 void PostBabyInit() {
   constants->init();
-  if (!constants->configFileExists())
-    constants->createConfigFile();
+  if (!constants->configFileExists()) constants->createConfigFile();
 
   if (!fileExists(constants->getIniFilePath())) {
     std::ofstream iniFile(constants->getIniFilePath());
@@ -42,21 +41,28 @@ void PostBabyInit() {
   }
 }
 
-int main(int, char **) 
-{
-  auto onlineCheck = pool.enqueue([&]{constants->setOnlineStatus(checkOnline());});
-  auto initThread = pool.enqueue([&]{PostBabyInit();});
-  
+
+
+int main(int, char **) {
+  if (!pfd::settings::available())
+  {
+    std::cout << "Portable File Dialogs are not available on this platform.\n";
+    return 1;
+  }
+
+  auto onlineCheck =
+      pool.enqueue([&] { constants->setOnlineStatus(checkOnline()); });
+  auto initThread = pool.enqueue([&] { PostBabyInit(); });
+
 #if _WIN32
   ShowWindow(GetConsoleWindow(), SW_HIDE);
 #endif
-  std::unique_ptr<FontManager> fm{new FontManager()};
-  auto loadFonts = pool.enqueue([&]{fm->loadFonts();});
-  
+  // std::unique_ptr<FontManager> fm{new FontManager()};
+  // auto loadFonts = pool.enqueue([&] { fm->loadFonts(); });
+
   const char *glsl_version = "#version 150";
   glfwSetErrorCallback(glfw_error_callback);
-  if (!glfwInit())
-    return 1;
+  if (!glfwInit()) return 1;
 
   glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
   glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
@@ -68,8 +74,8 @@ int main(int, char **)
   // GL 3.2 + GLSL 150
   glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
   glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 2);
-  glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE); // 3.2+ only
-  glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE); // Required on Mac
+  glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);  // 3.2+ only
+  glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);  // Required on Mac
   glfwWindowHint(GLFW_COCOA_RETINA_FRAMEBUFFER, GLFW_FALSE);
 #elif _WIN32
   GLFWmonitor *monitor = glfwGetPrimaryMonitor();
@@ -94,10 +100,9 @@ int main(int, char **)
   GLFWwindow *window =
       glfwCreateWindow(constants->WINDOW_WIDTH, constants->WINDOW_HEIGHT,
                        WINDOW_TITLE, NULL, NULL);
-  if (window == NULL)
-    return 1;
+  if (window == NULL) return 1;
   glfwMakeContextCurrent(window);
-  glfwSwapInterval(1); // Enable vsync
+  glfwSwapInterval(1);  // Enable vsync
 
   glfwSetKeyCallback(window, keyCallback);
 
@@ -123,20 +128,24 @@ int main(int, char **)
   style.ScaleAllSizes(constants->highDPIscaleFactor);
 
   io.IniFilename = constants->getIniFilePath();
-  loadFonts.get();
 
-  fm->setSelectedFontFromPath(constants->getFontPath());
-  
+  io.Fonts->AddFontFromFileTTF(
+      constants->PATH_TO_FONT.c_str(),
+      (constants->FONT_SIZE) * constants->highDPIscaleFactor, NULL, NULL);
+  // loadFonts.get();
+
+  // fm->setSelectedFontFromPath(constants->getFontPath());
+
   io.Fonts->AddFontFromFileTTF(
       constants->getFontPath(),
       (constants->FONT_SIZE) * constants->highDPIscaleFactor, NULL, NULL);
 
   glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
-  glViewport(0,0,constants->WINDOW_WIDTH, constants->WINDOW_HEIGHT);
+  glViewport(0, 0, constants->WINDOW_WIDTH, constants->WINDOW_HEIGHT);
   glfwSetWindowSize(window, constants->WINDOW_WIDTH, constants->WINDOW_HEIGHT);
-  
+
   GUI gui;
-  gui.setFont(std::move(fm));
+  // gui.setFont(std::move(fm));
   int display_w, display_h;
 
   while (!glfwWindowShouldClose(window)) {
@@ -163,7 +172,7 @@ int main(int, char **)
   ImGui_ImplOpenGL3_Shutdown();
   ImGui_ImplGlfw_Shutdown();
   ImGui::DestroyContext();
-  
+
   onlineCheck.get();
 
   glfwDestroyWindow(window);

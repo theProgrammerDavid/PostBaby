@@ -1,12 +1,15 @@
 #pragma once
-#include "types.hpp"
 #include <SQLiteCpp/SQLiteCpp.h>
 #include <SQLiteCpp/VariadicBind.h>
+
 #include <cstdio>
 #include <cstdlib>
 #include <iostream>
 #include <string>
+
 #include "logger.hpp"
+#include "portable-file-dialogs.h"
+#include "types.hpp"
 
 #define HISTORY_CREATE_QUERY \
   "CREATE TABLE HISTORY(id INTEGER PRIMARY KEY, URL TEXT, METHOD INTEGER)"
@@ -14,9 +17,8 @@
 #define HISTORY_SELECT_QUERY "SELECT * FROM HISTORY"
 #define HISTORY_SIZE_QUERY "SELECT COUNT(*) FROM HISTORY"
 #define HISTORY_DELETE_QUERY "DELETE FROM HISTORY WHERE id=?"
-class Database
-{
-public:
+class Database {
+ public:
   /**
    * @param dbPath path of the db file
    * */
@@ -44,7 +46,7 @@ public:
    * */
   void deleteRow(const int row);
 
-private:
+ private:
   SQLite::Database db;
 
   bool historyExists;

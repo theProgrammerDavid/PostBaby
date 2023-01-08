@@ -1,23 +1,24 @@
 #pragma once
-#include "constants.hpp"
-#include "imgui.h"
-#include "imgui_stdlib.h"
-#include "tab.hpp"
 #include <iostream>
 #include <memory>
 #include <string>
 #include <vector>
-#include "types.hpp"
-#include "fonts.hpp"
-#include "threadPool.hpp"
-class GUI {
 
-private:
+#include "constants.hpp"
+#include "fonts.hpp"
+#include "imgui.h"
+#include "imgui_stdlib.h"
+#include "tab.hpp"
+#include "threadPool.hpp"
+#include "types.hpp"
+#include "portable-file-dialogs.h"
+class GUI {
+ private:
   std::vector<Tab> tabs;
   std::vector<request> history;
   int active_tab;
   std::string active_response;
-  std::unique_ptr<FontManager> fontManager;
+  // std::unique_ptr<FontManager> fontManager;
 
   ImGuiTableFlags workspaceTableFlags;
   ImGuiWindowFlags windowFlags;
@@ -35,9 +36,9 @@ private:
   void drawBody();
   void drawKeyValueDesc(std::vector<KeyValuePair> &vec);
 
-public:
+ public:
   void render();
-  void setFont(const std::unique_ptr<FontManager> );
+  void setFont(const std::unique_ptr<FontManager>);
   GUI();
   ~GUI();
 };
