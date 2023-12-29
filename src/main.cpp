@@ -5,6 +5,7 @@
 
 #include "fonts.hpp"
 #include "util.hpp"
+#include "platform_specific/windows.hpp"
 
 bool checkOnline() {
   Logger *logger = Logger::getInstance();
@@ -96,6 +97,8 @@ int main(int, char **) {
   }
 #endif
   initThread.get();
+
+  constants->setFontPath(absoluteFontPath());
 
   GLFWwindow *window =
       glfwCreateWindow(constants->WINDOW_WIDTH, constants->WINDOW_HEIGHT,

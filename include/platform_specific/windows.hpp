@@ -6,3 +6,5 @@
 #include <filesystem>
 
 std::string POSTBABY_absolutePath();
+
+const std::string absoluteFontPath();
