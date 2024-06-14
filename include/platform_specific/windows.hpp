@@ -7,4 +7,4 @@
 
 std::string POSTBABY_absolutePath();
 
-const std::string absoluteFontPath();
+const std::string absolutePath();

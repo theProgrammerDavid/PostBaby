@@ -57,6 +57,7 @@ class Constants {
   void defaultValues();
   void createConfigFile();
   bool configFileExists();
+  bool pdfAvailable;
   void setOnlineStatus(bool status);
 
   /**
