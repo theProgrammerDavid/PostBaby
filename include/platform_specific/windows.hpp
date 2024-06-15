@@ -7,4 +7,3 @@
 
 std::string POSTBABY_absolutePath();
 
-const std::string absolutePath();

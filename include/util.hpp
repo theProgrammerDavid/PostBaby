@@ -11,7 +11,7 @@
 /**
  * @return location of application
  **/
-std::string absolutePath();
+
 const char *formattedTime();
 
 /**
