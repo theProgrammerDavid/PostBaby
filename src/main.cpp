@@ -92,7 +92,7 @@ int main(int, char **) {
   }
 
 #else
-  constants->setFontPath(absolutePath() + "/JetBrainsMono-Medium.ttf");
+  constants->setFontPath(POSTBABY_absolutePath() + "/JetBrainsMono-Medium.ttf");
   GLFWmonitor *monitor = glfwGetPrimaryMonitor();
   float xscale, yscale;
   glfwGetMonitorContentScale(monitor, &xscale, &yscale);
