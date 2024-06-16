@@ -32,6 +32,7 @@ void Constants::setOnlineStatus(bool status) { this->isOnline = status; }
 
 Constants::Constants() {
   this->verbose = false;
+  this->pdfAvailable = true;
   this->windowFlags = ImGuiWindowFlags_NoTitleBar;
   this->tableFlags = ImGuiTableFlags_RowBg | ImGuiTableFlags_ScrollX |
                      ImGuiTableFlags_ScrollY | ImGuiTableFlags_Borders |
@@ -86,9 +87,9 @@ void Constants::init() {
   if (fileExists(this->configFilePath)) {
     try {
       config = YAML::LoadFile(this->configFilePath.c_str());
-      if (config["FONT_PATH"]) {
-        this->PATH_TO_FONT = config["FONT_PATH"].as<std::string>();
-      }
+      // if (config["FONT_PATH"]) {
+      //   this->PATH_TO_FONT = config["FONT_PATH"].as<std::string>();
+      // }
       // else
       // {
       //     this->PATH_TO_FONT = absolutePath() + "/JetBrainsMono-Medium.ttf";
@@ -132,8 +133,11 @@ void Constants::init() {
       this->configError = false;
     } catch (const YAML::Exception &e) {
       this->configError = true;
-      pfd::message("Error", "Error while parsing PostBaby config file",
-                   pfd::choice::ok, pfd::icon::error);
+      if (constants->pdfAvailable)
+      {
+        pfd::message("Error", "Error while parsing PostBaby config file",
+                     pfd::choice::ok, pfd::icon::error);
+      }
       logger->error("Error in YAML File");
       logger->error(e.msg.c_str());
     }
@@ -154,7 +158,9 @@ const char *Constants::getIniFilePath() { return this->iniFilePath.c_str(); }
 
 const char *Constants::getLogFilePath() { return this->logFilePath.c_str(); }
 
-const char *Constants::getFontPath() { return this->PATH_TO_FONT.c_str(); }
+const char *Constants::getFontPath() { 
+  return this->PATH_TO_FONT.c_str(); 
+  }
 
 ImGuiTableFlags Constants::getTableFlags() { return this->tableFlags; }
 

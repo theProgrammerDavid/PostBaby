@@ -214,17 +214,29 @@ void GUI::settingsPopup() {
     if (ImGui::TreeNode("Font")) {
       // ImGui::Text("Current Font: %s", constants->PATH_TO_FONT);
       ImGui::InputText("Current Font", &constants->PATH_TO_FONT);
-      if (ImGui::Button("Browse")) {
-        auto chosenFile =
-            pfd::open_file("Choose TTF font", DEFAULT_PATH,
-                           {"TTF Files", "*.ttf"}, pfd::opt::none);
 
-        for (auto const &name : chosenFile.result()) {
-          if (hasEnding(name, ".ttf")) {
-            constants->PATH_TO_FONT = name;
+      if (constants->pdfAvailable)
+      {
+        if (ImGui::Button("Browse"))
+        {
+          auto chosenFile =
+              pfd::open_file("Choose TTF font", DEFAULT_PATH,
+                             {"TTF Files", "*.ttf"}, pfd::opt::none);
+
+          for (auto const &name : chosenFile.result())
+          {
+            if (hasEnding(name, ".ttf"))
+            {
+              constants->PATH_TO_FONT = name;
+            }
           }
         }
       }
+      else
+      {
+        ImGui::Text("Linux DE not supported");
+      }
+
       if (ImGui::Button("Reset")) {
         constants->PATH_TO_FONT = "./JetBrainsMono-Medium.ttf";
       }

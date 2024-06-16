@@ -5,6 +5,7 @@
 
 #include "fonts.hpp"
 #include "util.hpp"
+#include "platform_specific.hpp"
 
 bool checkOnline() {
   Logger *logger = Logger::getInstance();
@@ -32,6 +33,12 @@ void framebuffer_size_callback(GLFWwindow *window, int width, int height) {
 
 void PostBabyInit() {
   constants->init();
+  if (!pfd::settings::available())
+  {
+    std::cout << "Portable File Dialogs are not available on this platform.\n";
+    constants->pdfAvailable = false;
+  }
+
   if (!constants->configFileExists()) constants->createConfigFile();
 
   if (!fileExists(constants->getIniFilePath())) {
@@ -44,11 +51,7 @@ void PostBabyInit() {
 
 
 int main(int, char **) {
-  if (!pfd::settings::available())
-  {
-    std::cout << "Portable File Dialogs are not available on this platform.\n";
-    return 1;
-  }
+  
 
   auto onlineCheck =
       pool.enqueue([&] { constants->setOnlineStatus(checkOnline()); });
@@ -78,6 +81,8 @@ int main(int, char **) {
   glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);  // Required on Mac
   glfwWindowHint(GLFW_COCOA_RETINA_FRAMEBUFFER, GLFW_FALSE);
 #elif _WIN32
+  constants->setFontPath(POSTBABY_absolutePath() + "\\JetBrainsMono-Medium.ttf");
+
   GLFWmonitor *monitor = glfwGetPrimaryMonitor();
   float xscale, yscale;
   glfwGetMonitorContentScale(monitor, &xscale, &yscale);
@@ -87,6 +92,7 @@ int main(int, char **) {
   }
 
 #else
+  constants->setFontPath(POSTBABY_absolutePath() + "/JetBrainsMono-Medium.ttf");
   GLFWmonitor *monitor = glfwGetPrimaryMonitor();
   float xscale, yscale;
   glfwGetMonitorContentScale(monitor, &xscale, &yscale);
@@ -96,6 +102,8 @@ int main(int, char **) {
   }
 #endif
   initThread.get();
+
+  // std::cout<<absolutePath()<<"\n";
 
   GLFWwindow *window =
       glfwCreateWindow(constants->WINDOW_WIDTH, constants->WINDOW_HEIGHT,
@@ -129,9 +137,9 @@ int main(int, char **) {
 
   io.IniFilename = constants->getIniFilePath();
 
-  io.Fonts->AddFontFromFileTTF(
-      constants->PATH_TO_FONT.c_str(),
-      (constants->FONT_SIZE) * constants->highDPIscaleFactor, NULL, NULL);
+  // io.Fonts->AddFontFromFileTTF(
+  //     constants->PATH_TO_FONT.c_str(),
+  //     (constants->FONT_SIZE) * constants->highDPIscaleFactor, NULL, NULL);
   // loadFonts.get();
 
   // fm->setSelectedFontFromPath(constants->getFontPath());
